@@ -1,0 +1,230 @@
+[gd_scene format=3 uid="uid://boyqbjvg1akgl"]
+
+[ext_resource type="Script" uid="uid://ppu16vjeqpkk" path="res://Scripts/door.gd" id="1_ln5n4"]
+[ext_resource type="AudioStream" uid="uid://dfryocoxndwkx" path="res://Sounds/door_metal.ogg" id="2_312lh"]
+[ext_resource type="Texture2D" uid="uid://bbbi5u62boqy" path="res://Texture/dust.png" id="2_jy6xr"]
+[ext_resource type="Material" uid="uid://b72p3va26ilb0" path="res://Material/Door.material" id="3_qyhhq"]
+[ext_resource type="Texture2D" uid="uid://jrq06upk0kod" path="res://Texture/white_plaster_02_diff_1k.jpg" id="4_1mefg"]
+[ext_resource type="Texture2D" uid="uid://be6mfppqox6vw" path="res://Texture/white_plaster_02_rough_1k.jpg" id="5_gwluj"]
+
+[sub_resource type="Animation" id="Animation_35ygx"]
+resource_name = "Door_Open"
+length = 0.3
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CSG_Door")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0.06666667, 1, 0, -3.5, 0, 0.3, 1, 0, 0, 0)
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer3D:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_i06ew"]
+resource_name = "Door_close"
+length = 0.3
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CSG_Door")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0.033333335, 1, 0, 0, 0, 0.3, 1, 0, -3.5, 0)
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GPUParticles3D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer3D:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_inlif"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CSG_Door")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GPUParticles3D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AudioStreamPlayer3D:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6gnwo"]
+_data = {
+&"Door_Open": SubResource("Animation_35ygx"),
+&"Door_close": SubResource("Animation_i06ew"),
+&"RESET": SubResource("Animation_inlif")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ek8rd"]
+albedo_color = Color(1, 1, 0, 1)
+albedo_texture = ExtResource("4_1mefg")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hmcie"]
+transparency = 1
+albedo_color = Color(0.2627451, 0.47843137, 0.64705884, 0.1882353)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c4sij"]
+albedo_texture = ExtResource("5_gwluj")
+grow_amount = 1.379
+
+[sub_resource type="BoxMesh" id="BoxMesh_7gyqm"]
+material = SubResource("StandardMaterial3D_c4sij")
+size = Vector3(0.2, 0.5, 2.01)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jngbx"]
+albedo_color = Color(0.625597, 0.625597, 0.625597, 1)
+albedo_texture = ExtResource("4_1mefg")
+
+[sub_resource type="BoxMesh" id="BoxMesh_c3sb1"]
+material = SubResource("StandardMaterial3D_jngbx")
+size = Vector3(0.21, 0.25, 0.25)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xwhh0"]
+emission_shape_offset = Vector3(1, 1, 1)
+emission_shape = 3
+emission_box_extents = Vector3(0.5, 0.25, 1.5)
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tbup1"]
+transparency = 1
+blend_mode = 1
+albedo_color = Color(1, 1, 1, 0.384314)
+albedo_texture = ExtResource("2_jy6xr")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_mxean"]
+material = SubResource("StandardMaterial3D_tbup1")
+size = Vector2(0.5, 0.5)
+
+[node name="Door" type="Node3D" unique_id=141221290]
+script = ExtResource("1_ln5n4")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=528950988]
+libraries/ = SubResource("AnimationLibrary_6gnwo")
+
+[node name="CSG_Door" type="CSGCombiner3D" parent="." unique_id=1766665713]
+
+[node name="Door_body" type="CSGBox3D" parent="CSG_Door" unique_id=9395893]
+size = Vector3(0.15, 3.5, 2)
+material = ExtResource("3_qyhhq")
+
+[node name="Window_frame" type="CSGBox3D" parent="CSG_Door" unique_id=1372188076]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.390098, 0)
+size = Vector3(0.2, 1.63666, 1.666)
+material = SubResource("StandardMaterial3D_ek8rd")
+
+[node name="Window_substract" type="CSGBox3D" parent="CSG_Door" unique_id=314978001]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.381, 0)
+operation = 2
+size = Vector3(0.3, 1.35, 1.35)
+
+[node name="Window_grass" type="CSGBox3D" parent="CSG_Door" unique_id=1012484481]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.381, 0)
+layers = 262145
+size = Vector3(0.11, 1.349, 1.349)
+material = SubResource("StandardMaterial3D_hmcie")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CSG_Door" unique_id=1357195855]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5730969, 0)
+mesh = SubResource("BoxMesh_7gyqm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CSG_Door/MeshInstance3D" unique_id=2034109695]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125497, -0.881219)
+mesh = SubResource("BoxMesh_c3sb1")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CSG_Door/MeshInstance3D" unique_id=1634560246]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125497, -0.366146)
+mesh = SubResource("BoxMesh_c3sb1")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="CSG_Door/MeshInstance3D" unique_id=1588659376]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125497, 0.133854)
+mesh = SubResource("BoxMesh_c3sb1")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="CSG_Door/MeshInstance3D" unique_id=864227198]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125497, 0.633854)
+mesh = SubResource("BoxMesh_c3sb1")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="CSG_Door/MeshInstance3D" unique_id=64731414]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.126964, 0.881517)
+mesh = SubResource("BoxMesh_c3sb1")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="CSG_Door/MeshInstance3D" unique_id=1829838061]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.126964, 0.381517)
+mesh = SubResource("BoxMesh_c3sb1")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="CSG_Door/MeshInstance3D" unique_id=882580736]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.126964, -0.118483)
+mesh = SubResource("BoxMesh_c3sb1")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="CSG_Door/MeshInstance3D" unique_id=1503195552]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.126964, -0.618483)
+mesh = SubResource("BoxMesh_c3sb1")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=2067082351]
+stream = ExtResource("2_312lh")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=788889174]
+transform = Transform3D(-0.998885, 0, -0.0472111, 0, 1, 0, 0.0472111, 0, -0.998885, 1.12, -5.953283, 0.9)
+emitting = false
+amount = 30
+lifetime = 0.53
+interp_to_end = 0.04
+one_shot = true
+explosiveness = 0.32
+randomness = 0.47
+process_material = SubResource("ParticleProcessMaterial_xwhh0")
+draw_pass_1 = SubResource("QuadMesh_mxean")

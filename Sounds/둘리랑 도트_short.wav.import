@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cq03x4u320wl0"
+path="res://.godot/imported/둘리랑 도트_short.wav-fe572a707e7a830f7a146f0f2c43a0c3.sample"
+
+[deps]
+
+source_file="res://Sounds/둘리랑 도트_short.wav"
+dest_files=["res://.godot/imported/둘리랑 도트_short.wav-fe572a707e7a830f7a146f0f2c43a0c3.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

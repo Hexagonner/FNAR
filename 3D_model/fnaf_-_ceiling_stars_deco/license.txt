@@ -1,0 +1,11 @@
+Model Information:
+* title:	FNaF - Ceiling Stars Deco
+* source:	https://sketchfab.com/3d-models/fnaf-ceiling-stars-deco-00c45ef9904e4a5c8c73bf2937f22cf1
+* author:	Glitch5970 (https://sketchfab.com/Glitch5970)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "FNaF - Ceiling Stars Deco" (https://sketchfab.com/3d-models/fnaf-ceiling-stars-deco-00c45ef9904e4a5c8c73bf2937f22cf1) by Glitch5970 (https://sketchfab.com/Glitch5970) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

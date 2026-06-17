@@ -1,0 +1,235 @@
+[gd_scene format=3 uid="uid://cw7ic73bcsoxu"]
+
+[ext_resource type="AudioStream" uid="uid://d17sudmxfkiwx" path="res://Sounds/Cam_off.ogg" id="1_aj806"]
+[ext_resource type="Texture2D" uid="uid://b1jvbqmal4bkn" path="res://Texture/rough_plasterbrick_05_rough_1k.jpg" id="1_nkrrd"]
+[ext_resource type="AudioStream" uid="uid://cpbk3hnfh6reu" path="res://Sounds/Cam_on.ogg" id="2_tyehy"]
+[ext_resource type="Texture2D" uid="uid://jrq06upk0kod" path="res://Texture/white_plaster_02_diff_1k.jpg" id="2_vtjif"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eis84"]
+albedo_color = Color(0.4117647, 0.2509804, 0.49019608, 1)
+albedo_texture = ExtResource("1_nkrrd")
+
+[sub_resource type="BoxMesh" id="BoxMesh_ippn0"]
+material = SubResource("StandardMaterial3D_eis84")
+size = Vector3(1, 0.1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ik01s"]
+shading_mode = 0
+albedo_color = Color(3.00817e-09, 0.048438, 0.0653635, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_s18ht"]
+material = SubResource("StandardMaterial3D_ik01s")
+size = Vector2(0.7, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kxi7x"]
+shading_mode = 0
+albedo_color = Color(0.2702219, 0.27022195, 0.27022177, 1)
+albedo_texture = ExtResource("1_nkrrd")
+
+[sub_resource type="QuadMesh" id="QuadMesh_d2hxq"]
+material = SubResource("StandardMaterial3D_kxi7x")
+size = Vector2(0.75, 0.55)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_34qqy"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+albedo_texture = ExtResource("2_vtjif")
+
+[sub_resource type="SphereMesh" id="SphereMesh_mjbe1"]
+material = SubResource("StandardMaterial3D_34qqy")
+radius = 0.05
+height = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qbvau"]
+shading_mode = 0
+albedo_color = Color(0.164065, 0.995933, 0, 1)
+albedo_texture = ExtResource("2_vtjif")
+
+[sub_resource type="SphereMesh" id="SphereMesh_mkyd7"]
+material = SubResource("StandardMaterial3D_qbvau")
+radius = 0.05
+height = 0.1
+
+[sub_resource type="Animation" id="Animation_olrtj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("monitor:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0.437199)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("monitor:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.5708, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_xpyhx"]
+resource_name = "put_back_down"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("monitor:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 4.29153e-06, -0.191683), Vector3(0, -0.431892, -0.323678)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("monitor:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1.5708, 0, 0), Vector3(-0.463333, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AudioStreamPlayer3D")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("1_aj806")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/3/use_blend = true
+
+[sub_resource type="Animation" id="Animation_rhe4l"]
+resource_name = "slam_into_face"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("monitor:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -0.431892, -0.323678), Vector3(0, 4.29153e-06, -0.191683)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("monitor:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.463333, 0, 0), Vector3(1.5708, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AudioStreamPlayer3D")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("2_tyehy")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/3/use_blend = true
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xkeog"]
+_data = {
+&"RESET": SubResource("Animation_olrtj"),
+&"put_back_down": SubResource("Animation_xpyhx"),
+&"slam_into_face": SubResource("Animation_rhe4l")
+}
+
+[node name="Monitor" type="Node3D" unique_id=1383801033]
+
+[node name="monitor" type="MeshInstance3D" parent="." unique_id=1611011571]
+transform = Transform3D(1, 0, 0, 0, -3.6199901e-06, -1, 0, 1, -3.6199901e-06, 0, 0, 0.437199)
+mesh = SubResource("BoxMesh_ippn0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="monitor" unique_id=2018285682]
+transform = Transform3D(1, 0, 0, 0, -2.98023e-08, 1, 0, -1, -2.98023e-08, 0, 0.054, -0.0525512)
+mesh = SubResource("QuadMesh_s18ht")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="monitor/MeshInstance3D" unique_id=1348508093]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.19209e-06, -0.00190434)
+mesh = SubResource("QuadMesh_d2hxq")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="monitor" unique_id=1404683765]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3877938, 0.012999982, -0.394)
+mesh = SubResource("SphereMesh_mjbe1")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="monitor" unique_id=1919327886]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.289, 0.013, -0.394)
+mesh = SubResource("SphereMesh_mkyd7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=840088559]
+libraries/ = SubResource("AnimationLibrary_xkeog")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1656217206]

@@ -1,0 +1,1042 @@
+[gd_scene format=3 uid="uid://bf25ug6haip0k"]
+
+[ext_resource type="Script" uid="uid://bfm1bhjwgn1td" path="res://Scripts/camera_manager.gd" id="1_stw4l"]
+[ext_resource type="Script" uid="uid://ceqh2k2mtlabh" path="res://Scripts/Cam_button.gd" id="2_f7e7f"]
+[ext_resource type="Theme" uid="uid://ct0ddfgrgrjrt" path="res://Theme/Cam_button.tres" id="2_rydae"]
+[ext_resource type="Shader" uid="uid://bbweac1x7dtes" path="res://Shader/CameraManager.gdshader" id="4_vegls"]
+[ext_resource type="FontFile" uid="uid://jgelr8unukd" path="res://Font/Galmuri11-Bold.ttf" id="5_5o2wp"]
+[ext_resource type="Texture2D" uid="uid://bs1tjcmvu7h7u" path="res://Sprites/cam_ui/map_1.png" id="5_kfcjr"]
+[ext_resource type="Shader" uid="uid://c6aoe7vyo6fwl" path="res://Shader/CRT_noise.gdshader" id="5_qxgn5"]
+[ext_resource type="FontFile" uid="uid://b64buxvqw4x0o" path="res://Font/Galmuri14.ttf" id="6_5fyyb"]
+[ext_resource type="Texture2D" uid="uid://0s4j31ug6na" path="res://Sprites/cam_ui/Record_dot.png" id="6_opi4t"]
+[ext_resource type="Texture2D" uid="uid://bhyamxnr4gq88" path="res://Sprites/cam_ui/map_2.png" id="6_txy3u"]
+[ext_resource type="AudioStream" uid="uid://ofqn0q6h2f4i" path="res://Sounds/cameraswitch.ogg" id="8_x2m83"]
+[ext_resource type="AudioStream" uid="uid://dhuwdfl4dndpf" path="res://Sounds/cameraidle.ogg" id="9_wn5at"]
+[ext_resource type="Shader" uid="uid://0f2uuekgfjm5" path="res://Shader/test11.gdshader" id="12_jj5mi"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_6et8d"]
+device = -1
+keycode = 49
+unicode = 49
+
+[sub_resource type="Shortcut" id="Shortcut_4ehff"]
+events = [SubResource("InputEventKey_6et8d")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_0icxc"]
+device = -1
+keycode = 50
+unicode = 50
+
+[sub_resource type="Shortcut" id="Shortcut_roxw6"]
+events = [SubResource("InputEventKey_0icxc")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_02olr"]
+device = -1
+keycode = 51
+unicode = 51
+
+[sub_resource type="Shortcut" id="Shortcut_x6vua"]
+events = [SubResource("InputEventKey_02olr")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_by27u"]
+device = -1
+keycode = 52
+unicode = 52
+
+[sub_resource type="Shortcut" id="Shortcut_j7qil"]
+events = [SubResource("InputEventKey_by27u")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_26ae4"]
+device = -1
+keycode = 53
+unicode = 53
+
+[sub_resource type="Shortcut" id="Shortcut_4tadg"]
+events = [SubResource("InputEventKey_26ae4")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_2ntg0"]
+keycode = 54
+
+[sub_resource type="Shortcut" id="Shortcut_0fkyp"]
+events = [SubResource("InputEventKey_2ntg0")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_vsuwu"]
+device = -1
+keycode = 55
+unicode = 55
+
+[sub_resource type="Shortcut" id="Shortcut_rvrba"]
+events = [SubResource("InputEventKey_vsuwu")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_dxi1n"]
+device = -1
+keycode = 56
+unicode = 56
+
+[sub_resource type="Shortcut" id="Shortcut_6708a"]
+events = [SubResource("InputEventKey_dxi1n")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_kxorx"]
+device = -1
+keycode = 57
+unicode = 57
+
+[sub_resource type="Shortcut" id="Shortcut_u5kxs"]
+events = [SubResource("InputEventKey_kxorx")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_0dmhg"]
+device = -1
+keycode = 48
+unicode = 48
+
+[sub_resource type="Shortcut" id="Shortcut_lhot3"]
+events = [SubResource("InputEventKey_0dmhg")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_3vkja"]
+device = -1
+keycode = 45
+unicode = 45
+
+[sub_resource type="Shortcut" id="Shortcut_rjgy6"]
+events = [SubResource("InputEventKey_3vkja")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_jj5mi"]
+device = -1
+keycode = 61
+unicode = 61
+
+[sub_resource type="Shortcut" id="Shortcut_tjlmj"]
+events = [SubResource("InputEventKey_jj5mi")]
+
+[sub_resource type="GDScript" id="GDScript_jj5mi"]
+resource_name = "Debug_cam"
+script/source = "extends \"res://Scripts/Cam_button.gd\"
+
+func _ready() -> void:
+	if not OS.is_debug_build():
+			self.visible = false
+"
+
+[sub_resource type="Animation" id="Animation_ygaoh"]
+resource_name = "button_blink"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.9, 1.9),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"blink_button"
+}, {
+"args": [],
+"method": &"blink_button"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ts87o"]
+_data = {
+&"button_blink": SubResource("Animation_ygaoh")
+}
+
+[sub_resource type="Animation" id="Animation_y1i88"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_kfcjr")]
+}
+
+[sub_resource type="Animation" id="Animation_ysc0d"]
+resource_name = "map"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("5_kfcjr"), ExtResource("6_txy3u")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u1nln"]
+_data = {
+&"RESET": SubResource("Animation_y1i88"),
+&"map": SubResource("Animation_ysc0d")
+}
+
+[sub_resource type="GDScript" id="GDScript_vxd7h"]
+resource_name = "play"
+script/source = "extends AnimationPlayer
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	play(\"map\")
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2rnsi"]
+shader = ExtResource("4_vegls")
+shader_parameter/amount = 20.0
+shader_parameter/uv_amount = 0.502
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_la1i8"]
+shader = ExtResource("5_qxgn5")
+shader_parameter/shake = 0.015
+shader_parameter/noiseQuality = 250.0
+shader_parameter/noiseIntensity = 0.001
+shader_parameter/offsetIntensity = 0.009999999747
+shader_parameter/colorOffsetIntensity = 0.30000001099011997
+
+[sub_resource type="Animation" id="Animation_y2vu2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("White_noise:material:shader_parameter/uv_amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.502]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("White_noise:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("White_noise:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.34706828, 0.34706834, 0.34706816, 0.9098039)]
+}
+
+[sub_resource type="Animation" id="Animation_1mpcy"]
+resource_name = "noise"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("White_noise:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.478431, 0.478431, 0.478431, 0.823529)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("White_noise:material:shader_parameter/uv_amount")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.4),
+"transitions": PackedFloat32Array(1, 0.0980729, 1),
+"update": 1,
+"values": [0.03, 0.03, 0.502]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("White_noise:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.8638137, 0.86381376, 0.8638137, 1), Color(0.34706828, 0.34706834, 0.34706816, 0.9098039)]
+}
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../../select_sound")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("8_x2m83")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/3/use_blend = true
+
+[sub_resource type="Animation" id="Animation_5aktn"]
+resource_name = "noise_no_sound"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("White_noise:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.478431, 0.478431, 0.478431, 0.823529)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("White_noise:material:shader_parameter/uv_amount")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.4),
+"transitions": PackedFloat32Array(1, 0.0980729, 1),
+"update": 1,
+"values": [0.03, 0.03, 0.502]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("White_noise:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.8638137, 0.86381376, 0.8638137, 1), Color(0.34706828, 0.34706834, 0.34706816, 0.9098039)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_840pm"]
+_data = {
+&"RESET": SubResource("Animation_y2vu2"),
+&"noise": SubResource("Animation_1mpcy"),
+&"noise_no_sound": SubResource("Animation_5aktn")
+}
+
+[sub_resource type="Animation" id="Animation_0xkkd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/BoxContainer/VBoxContainer/Record_red_dot:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_6ydcr"]
+resource_name = "Red_dot_blink"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/BoxContainer/VBoxContainer/Record_red_dot:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ar5cy"]
+_data = {
+&"RESET": SubResource("Animation_0xkkd"),
+&"Red_dot_blink": SubResource("Animation_6ydcr")
+}
+
+[sub_resource type="GDScript" id="GDScript_yo416"]
+script/source = "extends AnimationPlayer
+
+func _ready() -> void:
+	play(\"Red_dot_blink\")
+"
+
+[sub_resource type="Shader" id="Shader_jj5mi"]
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+// Full-screen post-process: reads the already-rendered frame. :contentReference[oaicite:1]{index=1}
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;
+
+// --- Color controls ---
+uniform float brightness : hint_range(0.0, 2.0) = 1.02;
+uniform float contrast   : hint_range(0.0, 2.0) = 1.08;
+uniform float saturation : hint_range(0.0, 2.0) = 1.10;
+uniform float gamma      : hint_range(0.2, 3.0) = 1.05;
+
+// --- CRT geometry / lens ---
+uniform float curvature     : hint_range(0.0, 0.40) = 0.14;
+uniform float corner_soften : hint_range(0.0, 0.20) = 0.06;
+uniform float vignette      : hint_range(0.0, 1.00) = 0.38;
+
+// --- Scanlines / phosphor ---
+uniform float scanline_strength : hint_range(0.0, 2.0) = 0.95;
+uniform float scanline_density  : hint_range(0.5, 3.0) = 1.15; // 1.0 = native-ish
+uniform float interlace_strength: hint_range(0.0, 1.0) = 0.20;
+
+// Shadow mask (RGB triads). Turn down if you hate the “screen door”.
+uniform float mask_strength : hint_range(0.0, 1.0) = 0.22;
+uniform float mask_scale    : hint_range(0.5, 4.0) = 1.0; // bigger = chunkier triads
+
+// --- VHS/VCR artifacts ---
+uniform float chroma_offset_px : hint_range(0.0, 6.0) = 1.6; // RGB split in pixels
+uniform float luma_smear_px    : hint_range(0.0, 8.0) = 2.2; // horizontal smear
+uniform float jitter_px        : hint_range(0.0, 8.0) = 1.8; // per-line horizontal jitter
+uniform float wobble_px        : hint_range(0.0, 10.0) = 1.5; // slow wave wobble
+
+uniform float tape_noise       : hint_range(0.0, 1.0) = 0.22; // grain + specks
+uniform float tape_lines       : hint_range(0.0, 1.0) = 0.35; // horizontal “tracking” lines
+
+uniform float roll_speed       : hint_range(0.0, 1.5) = 0.10; // vertical roll bar speed
+uniform float roll_strength    : hint_range(0.0, 0.6) = 0.15; // roll bar intensity
+
+// --- Bloom-ish glow (cheap) ---
+uniform float glow_strength  : hint_range(0.0, 2.0) = 0.25;
+uniform float glow_threshold : hint_range(0.0, 1.0) = 0.65;
+
+// TIME is a built-in global in CanvasItem shaders. :contentReference[oaicite:2]{index=2}
+float hash11(float n) {
+	return fract(sin(n) * 43758.5453123);
+}
+
+float hash12(vec2 p) {
+	return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+}
+
+vec2 crt_curve(vec2 uv, float k) {
+	// Barrel distortion style curve.
+	vec2 cc = uv * 2.0 - 1.0;
+	vec2 d  = cc * cc;
+	cc *= 1.0 + k * vec2(d.y, d.x);
+	return cc * 0.5 + 0.5;
+}
+
+float inside01(vec2 uv) {
+	// 1.0 if uv in [0..1], else 0.0
+	return step(0.0, uv.x) * step(uv.x, 1.0) * step(0.0, uv.y) * step(uv.y, 1.0);
+}
+
+vec3 apply_color_controls(vec3 c) {
+	// brightness
+	c *= brightness;
+
+	// contrast around 0.5
+	c = mix(vec3(0.5), c, contrast);
+
+	// saturation
+	float l = dot(c, vec3(0.2126, 0.7152, 0.0722));
+	c = mix(vec3(l), c, saturation);
+
+	// gamma-ish
+	c = pow(max(c, vec3(0.0)), vec3(1.0 / max(gamma, 0.0001)));
+	return c;
+}
+
+vec3 triad_mask(vec2 frag_xy) {
+	// Simple RGB triad mask across X.
+	float x = floor(frag_xy.x / max(mask_scale, 0.0001));
+	float m = mod(x, 3.0);
+	// Slightly tinted triads
+	if (m < 1.0) return vec3(1.10, 0.85, 0.85);
+	if (m < 2.0) return vec3(0.85, 1.10, 0.85);
+	return vec3(0.85, 0.85, 1.10);
+}
+
+vec3 sample_screen(vec2 uv) {
+	// Use textureLod at LOD 0 like the docs show. :contentReference[oaicite:3]{index=3}
+	return textureLod(screen_texture, uv, 0.0).rgb;
+}
+
+void fragment() {
+	vec2 px   = SCREEN_PIXEL_SIZE;
+	vec2 res  = 1.0 / px;
+	float t   = TIME;
+
+	// Start from screen UV
+	vec2 uv = SCREEN_UV;
+
+	// --- VHS line jitter (per scanline) ---
+	float y_line = floor(uv.y * res.y);
+	float jitter = (hash11(y_line + floor(t * 15.0) * 37.0) - 0.5) * 2.0;
+	uv.x += jitter * (jitter_px * px.x);
+
+	// Slow wobble
+	uv.x += sin(uv.y * 8.0 + t * 1.2) * (wobble_px * px.x);
+
+	// CRT curve
+	vec2 cuv = crt_curve(uv, curvature);
+	float in_bounds = inside01(cuv);
+
+	// Rounded corners (soft clip)
+vec2 d = abs(cuv - 0.5) * 2.0;      // 0 at center, ~1 at edges
+float edge = max(d.x, d.y);
+
+// 1 in center, fades to 0 near edges
+float corner_mask = 1.0 - smoothstep(1.0 - corner_soften, 1.0, edge);
+
+
+	// --- Chromatic aberration / VHS chroma shift ---
+	vec2 chroma = vec2(chroma_offset_px * px.x, 0.0);
+	float r = sample_screen(cuv + chroma).r;
+	float g = sample_screen(cuv).g;
+	float b = sample_screen(cuv - chroma).b;
+	vec3 col = vec3(r, g, b);
+
+	// --- Luma smear (horizontal) ---
+	float smear = luma_smear_px * px.x;
+	vec3 s1 = sample_screen(cuv + vec2(smear, 0.0));
+	vec3 s2 = sample_screen(cuv - vec2(smear, 0.0));
+	col = mix(col, (col + s1 + s2) / 3.0, 0.35);
+
+	// --- Scanlines ---
+	float scan = sin((cuv.y * res.y) * 3.14159 * scanline_density);
+	float scan_mul = 1.0 - scanline_strength * (0.5 - 0.5 * scan); // darker troughs
+	col *= scan_mul;
+
+	// --- Interlacing (alternate rows “flicker”) ---
+	float field = mod(floor(FRAGCOORD.y) + floor(t * 60.0), 2.0);
+	col *= 1.0 - interlace_strength * field * 0.10;
+
+	// --- Rolling tracking bar ---
+	float roll_y = fract(t * max(roll_speed, 0.0001));
+	float dist = abs(cuv.y - roll_y);
+	float bar = smoothstep(0.20, 0.0, dist); // wide soft bar
+	col += bar * roll_strength * vec3(0.12, 0.12, 0.12);
+
+	// --- Tape lines (random horizontal streaks) ---
+	float line_n = hash11(y_line * 0.7 + floor(t * 12.0) * 11.0);
+	float line = smoothstep(0.985, 1.0, line_n) * tape_lines;
+	col += line * vec3(0.18, 0.18, 0.18);
+
+	// --- Grain / specks ---
+	float n = hash12(FRAGCOORD.xy + vec2(t * 120.0, t * 90.0));
+	float grain = (n - 0.5) * 2.0;
+	col += grain * (tape_noise * 0.06);
+
+	// Occasional white specks
+	float speck = smoothstep(0.995, 1.0, hash12(FRAGCOORD.xy * 0.73 + t * 40.0));
+	col += speck * (tape_noise * 0.25);
+
+	// --- Cheap glow (cross blur on brights) ---
+	vec3 c0 = col;
+	vec3 cx1 = sample_screen(cuv + vec2(px.x, 0.0));
+	vec3 cx2 = sample_screen(cuv - vec2(px.x, 0.0));
+	vec3 cy1 = sample_screen(cuv + vec2(0.0, px.y));
+	vec3 cy2 = sample_screen(cuv - vec2(0.0, px.y));
+	vec3 blur = (c0 + cx1 + cx2 + cy1 + cy2) / 5.0;
+	float br = dot(blur, vec3(0.2126, 0.7152, 0.0722));
+	vec3 glow = max(blur - vec3(glow_threshold), vec3(0.0));
+	col += glow * glow_strength * (0.5 + 0.5 * br);
+
+	// --- Vignette ---
+	vec2 v = cuv - 0.5;
+	float vig = smoothstep(0.9, 0.2, dot(v, v) * 2.2);
+	col *= mix(1.0 - vignette, 1.0, vig);
+
+	// --- Shadow mask triads ---
+	vec3 mask = triad_mask(FRAGCOORD.xy);
+	col *= mix(vec3(1.0), mask, mask_strength);
+
+	// Color grading last
+	col = apply_color_controls(col);
+
+	// Apply bounds + rounded corners (outside = black)
+	col *= in_bounds * corner_mask;
+
+	COLOR = vec4(col, 1.0);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jj5mi"]
+shader = SubResource("Shader_jj5mi")
+shader_parameter/brightness = 1.70000008075
+shader_parameter/contrast = 1.08
+shader_parameter/saturation = 1.1
+shader_parameter/gamma = 1.05
+shader_parameter/curvature = 0.0
+shader_parameter/corner_soften = 0.0
+shader_parameter/vignette = 0.38
+shader_parameter/scanline_strength = 0.95
+shader_parameter/scanline_density = 1.15
+shader_parameter/interlace_strength = 0.2
+shader_parameter/mask_strength = 0.22
+shader_parameter/mask_scale = 1.0
+shader_parameter/chroma_offset_px = 1.6
+shader_parameter/luma_smear_px = 2.2
+shader_parameter/jitter_px = 1.8
+shader_parameter/wobble_px = 1.5
+shader_parameter/tape_noise = 0.22
+shader_parameter/tape_lines = 0.35
+shader_parameter/roll_speed = 0.1
+shader_parameter/roll_strength = 0.15
+shader_parameter/glow_strength = 0.25
+shader_parameter/glow_threshold = 0.65
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tjlmj"]
+shader = ExtResource("12_jj5mi")
+shader_parameter/brightness = 1.18400005624
+shader_parameter/contrast = 1.1
+shader_parameter/vignette_strength = 1.2
+shader_parameter/grain_strength = 0.04
+shader_parameter/noise_strength = 0.02
+shader_parameter/scanline_strength = 0.05
+shader_parameter/scanline_density = 100000.0
+shader_parameter/chroma_offset = 0.002
+shader_parameter/shake_strength = 0.0
+shader_parameter/glitch_strength = 0.02
+shader_parameter/glitch_speed = 8.0
+shader_parameter/flicker_strength = 0.0
+
+[node name="CameraManager" type="Node" unique_id=826170809 node_paths=PackedStringArray("cam_buttons_parent", "Cam_ui", "noise_ani", "map_label", "Warning_msg", "blink_ani", "white_noise", "selected_button")]
+script = ExtResource("1_stw4l")
+cam_buttons_parent = NodePath("CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton")
+Cam_ui = NodePath("CanvasLayer/CamUi")
+noise_ani = NodePath("CanvasLayer/CamUi/Noise_ani")
+map_label = NodePath("CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Name")
+Warning_msg = NodePath("CanvasLayer/CamUi/Warning_msg")
+blink_ani = NodePath("CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton/Button_blink")
+white_noise = NodePath("CanvasLayer/CamUi/White_noise")
+selected_button = NodePath("CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton/CAM0")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1470164439]
+layer = 2
+
+[node name="CamUi" type="Control" parent="CanvasLayer" unique_id=1703020139]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Warning_msg" type="HBoxContainer" parent="CanvasLayer/CamUi" unique_id=1844032312]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.0444444
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="alart" type="VBoxContainer" parent="CanvasLayer/CamUi/Warning_msg" unique_id=1529697868]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SoundOnly" type="Label" parent="CanvasLayer/CamUi/Warning_msg/alart" unique_id=1382261449]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 23
+theme_override_constants/shadow_outline_size = 10
+theme_override_fonts/font = ExtResource("6_5fyyb")
+theme_override_font_sizes/font_size = 70
+text = "-카메라 비활성화됨-
+사운드 전용"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Map" type="MarginContainer" parent="CanvasLayer/CamUi" unique_id=165787065]
+z_index = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 120
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/CamUi/Map" unique_id=684535240]
+layout_mode = 2
+mouse_filter = 2
+alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CamUi/Map/HBoxContainer" unique_id=241889217]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+alignment = 2
+
+[node name="Name" type="Label" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer" unique_id=1033452945]
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_constants/shadow_outline_size = 5
+theme_override_fonts/font = ExtResource("5_5o2wp")
+theme_override_font_sizes/font_size = 60
+text = "hello"
+
+[node name="Map" type="TextureRect" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer" unique_id=371472665]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_kfcjr")
+expand_mode = 5
+
+[node name="CamButton" type="Control" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map" unique_id=1037207001]
+anchors_preset = 0
+anchor_left = -1.7
+anchor_top = -0.909091
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource("2_rydae")
+metadata/_edit_use_anchors_ = true
+
+[node name="CAM1" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=1494565415]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.722751
+anchor_top = 0.918095
+anchor_right = 0.774834
+anchor_bottom = 0.973651
+focus_mode = 0
+shortcut = SubResource("Shortcut_4ehff")
+shortcut_in_tooltip = false
+text = "CAM1"
+script = ExtResource("2_f7e7f")
+metadata/_edit_use_anchors_ = true
+
+[node name="CAM2" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=883612325]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.725
+anchor_top = 0.822222
+anchor_right = 0.777084
+anchor_bottom = 0.877777
+focus_mode = 0
+shortcut = SubResource("Shortcut_roxw6")
+shortcut_in_tooltip = false
+text = "CAM2"
+script = ExtResource("2_f7e7f")
+metadata/_edit_use_anchors_ = true
+
+[node name="CAM3" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=518374762]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.825926
+anchor_top = 0.918095
+anchor_right = 0.878009
+anchor_bottom = 0.973651
+focus_mode = 0
+shortcut = SubResource("Shortcut_x6vua")
+shortcut_in_tooltip = false
+text = "CAM3"
+script = ExtResource("2_f7e7f")
+metadata/_edit_use_anchors_ = true
+
+[node name="CAM4" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=51829428]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.821693
+anchor_top = 0.821905
+anchor_right = 0.873776
+anchor_bottom = 0.87746
+focus_mode = 0
+shortcut = SubResource("Shortcut_j7qil")
+shortcut_in_tooltip = false
+text = "CAM4"
+script = ExtResource("2_f7e7f")
+metadata/_edit_use_anchors_ = true
+
+[node name="CAM5" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=619646649]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.666667
+anchor_top = 0.851852
+anchor_right = 0.718751
+anchor_bottom = 0.907408
+focus_mode = 0
+shortcut = SubResource("Shortcut_4tadg")
+shortcut_in_tooltip = false
+text = "CAM5
+"
+script = ExtResource("2_f7e7f")
+metadata/_edit_use_anchors_ = true
+
+[node name="CAM6" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=1953342652]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.666667
+anchor_top = 0.682857
+anchor_right = 0.718751
+anchor_bottom = 0.738413
+offset_bottom = -6.10352e-05
+focus_mode = 0
+shortcut = SubResource("Shortcut_0fkyp")
+shortcut_in_tooltip = false
+text = "CAM6"
+script = ExtResource("2_f7e7f")
+metadata/_edit_use_anchors_ = true
+
+[node name="CAM7" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=592216126]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.620833
+anchor_top = 0.562963
+anchor_right = 0.672917
+anchor_bottom = 0.618519
+focus_mode = 0
+shortcut = SubResource("Shortcut_rvrba")
+shortcut_in_tooltip = false
+text = "CAM7"
+script = ExtResource("2_f7e7f")
+metadata/_edit_use_anchors_ = true
+
+[node name="CAM8" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=872439632]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.695833
+anchor_top = 0.555556
+anchor_right = 0.747916
+anchor_bottom = 0.611112
+focus_mode = 0
+shortcut = SubResource("Shortcut_6708a")
+shortcut_in_tooltip = false
+text = "CAM8"
+script = ExtResource("2_f7e7f")
+metadata/_edit_use_anchors_ = true
+
+[node name="CAM9" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=1242407129]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.925
+anchor_top = 0.562963
+anchor_right = 0.977084
+anchor_bottom = 0.618518
+focus_mode = 0
+shortcut = SubResource("Shortcut_u5kxs")
+shortcut_in_tooltip = false
+text = "CAM9"
+script = ExtResource("2_f7e7f")
+metadata/_edit_use_anchors_ = true
+
+[node name="CAM0" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=446430521]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.729167
+anchor_top = 0.481481
+anchor_right = 0.781251
+anchor_bottom = 0.537036
+offset_bottom = 6.10352e-05
+focus_mode = 0
+shortcut = SubResource("Shortcut_lhot3")
+shortcut_in_tooltip = false
+text = "CAM0"
+script = ExtResource("2_f7e7f")
+metadata/_edit_use_anchors_ = true
+
+[node name="CAM-" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=2088549421]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.908333
+anchor_top = 0.762963
+anchor_right = 0.960416
+anchor_bottom = 0.818519
+focus_mode = 0
+shortcut = SubResource("Shortcut_rjgy6")
+shortcut_in_tooltip = false
+text = "CAM-"
+script = ExtResource("2_f7e7f")
+metadata/_edit_use_anchors_ = true
+
+[node name="CAM+" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=1305901909]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.93756616
+anchor_top = 1.0295238
+anchor_right = 0.98964924
+anchor_bottom = 1.0850798
+offset_right = -0.00012207031
+focus_mode = 0
+shortcut = SubResource("Shortcut_tjlmj")
+shortcut_in_tooltip = false
+text = "CAM+"
+script = SubResource("GDScript_jj5mi")
+metadata/_edit_use_anchors_ = true
+
+[node name="Button_blink" type="AnimationPlayer" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=1418718908]
+root_node = NodePath("../../../../../../../..")
+libraries/ = SubResource("AnimationLibrary_ts87o")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map" unique_id=1149400636]
+libraries/ = SubResource("AnimationLibrary_u1nln")
+script = SubResource("GDScript_vxd7h")
+
+[node name="White_noise" type="ColorRect" parent="CanvasLayer/CamUi" unique_id=694775260]
+z_index = -1
+material = SubResource("ShaderMaterial_2rnsi")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
+color = Color(0.34706828, 0.34706834, 0.34706816, 0.9098039)
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="CRT_noise" type="ColorRect" parent="CanvasLayer/CamUi" unique_id=1073266760]
+z_index = -2
+material = SubResource("ShaderMaterial_la1i8")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="Noise_ani" type="AnimationPlayer" parent="CanvasLayer/CamUi" unique_id=1525823553]
+libraries/ = SubResource("AnimationLibrary_840pm")
+
+[node name="Cam_line" type="MarginContainer" parent="CanvasLayer/CamUi" unique_id=995140801]
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="Cam_line" type="ReferenceRect" parent="CanvasLayer/CamUi/Cam_line" unique_id=435854154]
+layout_mode = 2
+mouse_filter = 2
+border_color = Color(1, 1, 1, 1)
+border_width = 2.8
+editor_only = false
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CamUi/Cam_line/Cam_line" unique_id=2017752903]
+layout_mode = 0
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 1905.0
+offset_bottom = 1065.0
+mouse_filter = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+metadata/_edit_lock_ = true
+
+[node name="BoxContainer" type="HBoxContainer" parent="CanvasLayer/CamUi/Cam_line/Cam_line/MarginContainer" unique_id=1901536458]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CamUi/Cam_line/Cam_line/MarginContainer/BoxContainer" unique_id=818891884]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Record_red_dot" type="TextureRect" parent="CanvasLayer/CamUi/Cam_line/Cam_line/MarginContainer/BoxContainer/VBoxContainer" unique_id=13995658]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_opi4t")
+
+[node name="Red_dot_blink" type="AnimationPlayer" parent="CanvasLayer/CamUi/Cam_line/Cam_line/MarginContainer/BoxContainer/VBoxContainer/Record_red_dot" unique_id=1697257717]
+root_node = NodePath("../../../../..")
+libraries/ = SubResource("AnimationLibrary_ar5cy")
+script = SubResource("GDScript_yo416")
+
+[node name="CRT_shader" type="ColorRect" parent="CanvasLayer/CamUi" unique_id=661551827]
+z_index = -2
+material = SubResource("ShaderMaterial_jj5mi")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="Glitch" type="ColorRect" parent="CanvasLayer/CamUi" unique_id=1812475538]
+visible = false
+z_index = -1
+material = SubResource("ShaderMaterial_tjlmj")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.30544624, 0.3054462, 0.3054462, 1)
+
+[node name="select_sound" type="AudioStreamPlayer" parent="." unique_id=221834899]
+volume_db = 3.0
+bus = &"UI"
+
+[node name="cam_start_sound" type="AudioStreamPlayer" parent="." unique_id=1105952652]
+stream = ExtResource("9_wn5at")
+bus = &"UI"

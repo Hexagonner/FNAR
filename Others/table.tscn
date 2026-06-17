@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://cpu3oh35x7bqa"]
+
+[ext_resource type="PackedScene" uid="uid://snqodshjeuy7" path="res://3D_model/new_party_hat__fnaf/scene.gltf" id="2_xf32e"]
+[ext_resource type="PackedScene" uid="uid://bckycr6ggnx8w" path="res://3D_model/fnaf_table_new/scene.gltf" id="3_luaoc"]
+[ext_resource type="ArrayOccluder3D" uid="uid://mi0c2a50ipq8" path="res://3D_model/table.occ" id="4_qt2kj"]
+[ext_resource type="PackedScene" uid="uid://ukk40iyamrdr" path="res://3D_model/cafe_chair/scene.gltf" id="4_xf32e"]
+
+[node name="Table" type="Node3D" unique_id=940878228]
+
+[node name="corn" type="Node3D" parent="." unique_id=991884645]
+
+[node name="Sketchfab_Scene" parent="corn" unique_id=2041931224 instance=ExtResource("2_xf32e")]
+transform = Transform3D(0.003, 0, 0, 0, 0.003, 0, 0, 0, 0.003, 0, 0.23522258, 0)
+
+[node name="Sketchfab_Scene2" parent="corn" unique_id=138861342 instance=ExtResource("2_xf32e")]
+transform = Transform3D(0.003, 0, 0, 0, 0.003, 0, 0, 0, 0.003, 0, 0.23522258, 1.2193224)
+
+[node name="Sketchfab_Scene3" parent="corn" unique_id=1047574880 instance=ExtResource("2_xf32e")]
+transform = Transform3D(0.003, 0, 0, 0, 0.003, 0, 0, 0, 0.003, 0, 0.23522258, -1.1825697)
+
+[node name="seat" type="Node3D" parent="." unique_id=1557483490]
+
+[node name="Sketchfab_Scene" parent="seat" unique_id=302008986 instance=ExtResource("4_xf32e")]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, -1.6587403, -1.104, 0.0268327)
+
+[node name="Sketchfab_Scene2" parent="seat" unique_id=1100214437 instance=ExtResource("4_xf32e")]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, -1.5949829, -1.104, 1.3008379)
+
+[node name="Sketchfab_Scene3" parent="seat" unique_id=2091887965 instance=ExtResource("4_xf32e")]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, -1.648355, -1.104, -1.1674759)
+
+[node name="Sketchfab_Scene4" parent="seat" unique_id=1589991557 instance=ExtResource("4_xf32e")]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 1.6489303, -1.104, -0.1284492)
+
+[node name="Sketchfab_Scene5" parent="seat" unique_id=1914032761 instance=ExtResource("4_xf32e")]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 1.6890824, -1.104, 1.2288169)
+
+[node name="Sketchfab_Scene6" parent="seat" unique_id=2110911228 instance=ExtResource("4_xf32e")]
+transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 1.6890824, -1.104, -1.3636982)
+
+[node name="Sketchfab_Scene" parent="." unique_id=2035926237 instance=ExtResource("3_luaoc")]
+transform = Transform3D(0.008, 0, 0, 0, 0.008, 0, 0, 0, 0.008, 0, 0.090758204, 0)
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="." unique_id=184738072]
+occluder = ExtResource("4_qt2kj")

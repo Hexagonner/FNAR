@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://d25ve8dvyodsq"]
+
+[ext_resource type="PackedScene" uid="uid://nkxtguyxf6x1" path="res://3D_model/monitor_3d/generic_monitor_low_poly.glb" id="1_ejyjg"]
+
+[node name="Sketchfab_Scene" unique_id=1573885651 instance=ExtResource("1_ejyjg")]
+
+[node name="defaultMaterial" parent="Sketchfab_model/Collada visual scene group/monitor" parent_id_path=PackedInt32Array(1090429594) index="0" unique_id=2016534747]
+gi_mode = 0

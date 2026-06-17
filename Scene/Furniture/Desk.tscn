@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://dfc35h6jlru2q"]
+
+[ext_resource type="Texture2D" uid="uid://b8fdn1g1mpfm6" path="res://Texture/wood_floor_diff_1k.jpg" id="1_2y3t7"]
+[ext_resource type="Texture2D" uid="uid://b7ccxjqx0sg6v" path="res://Texture/metal_plate_diff_1k.jpg" id="2_k185j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fpacx"]
+albedo_texture = ExtResource("1_2y3t7")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_b2m51"]
+material = SubResource("StandardMaterial3D_fpacx")
+top_radius = 0.1
+bottom_radius = 0.1
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_foufv"]
+albedo_texture = ExtResource("2_k185j")
+uv1_scale = Vector3(10, 5, 10)
+uv1_offset = Vector3(1, 5, 5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_keka7"]
+material = SubResource("StandardMaterial3D_foufv")
+size = Vector3(4.5, 0.2, 0.7)
+
+[node name="Desk" type="Node3D" unique_id=190327921]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=1972800252]
+mesh = SubResource("CylinderMesh_b2m51")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=118145836]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.411421, 0)
+mesh = SubResource("BoxMesh_keka7")

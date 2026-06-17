@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://be06wosialfax"]
+
+[ext_resource type="Script" uid="uid://n21rh1kcu5bn" path="res://Scripts/player.gd" id="1_4houo"]
+[ext_resource type="PackedScene" uid="uid://cw7ic73bcsoxu" path="res://Scene/Furniture/monitor.tscn" id="2_gwed5"]
+[ext_resource type="AudioStream" uid="uid://cr5vcnxfamtvj" path="res://Sounds/ambience/unknown.ogg" id="3_wxrtn"]
+[ext_resource type="AudioStream" uid="uid://dhicu5vmskpim" path="res://Sounds/ambience/horror_chime_ambience.ogg" id="4_glr2h"]
+[ext_resource type="AudioStream" uid="uid://dcayygtmh5kcx" path="res://Sounds/ambience/不%U7A4F.ogg" id="5_3pik8"]
+[ext_resource type="AudioStream" uid="uid://ctngwg5b2iluo" path="res://Sounds/FNAF-Power-Outage-Gaming-Sound-Effect-_HD_.ogg" id="6_0srxw"]
+[ext_resource type="AudioStream" uid="uid://c836a2nqv3duv" path="res://Sounds/ambience/ホラ%U30FC.ogg" id="6_adgam"]
+
+[sub_resource type="Curve" id="Curve_jlnl2"]
+_data = [Vector2(0.248889, 0), 0.0, 0.0, 0, 0, Vector2(0.504444, 0.48913), 4.02813, 4.02813, 0, 0, Vector2(0.753333, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="GDScript" id="GDScript_adgam"]
+resource_name = "cam_motionblur"
+script/source = "extends Camera3D
+#extends Camera3D
+@export_range(0.0, 1.0) var strength: float = .3
+@export_range(4, 32) var blur_samples: int = 16
+@export_range(0.0, 1.0) var smoothing: float = .9
+var prev_pos := Vector3.ZERO
+var prev_basis := Basis()
+var current_blur := Vector2.ZERO  
+var blur_overlay: ColorRect
+
+func _ready() -> void:
+	current = true
+	set_physics_process(GlobalSetting.is_motion_blur)
+	if !GlobalSetting.is_motion_blur:
+		return
+		
+		
+	blur_overlay = ColorRect.new()
+	blur_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	blur_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	
+	var mat = ShaderMaterial.new()
+	mat.shader = load(\"res://Shader/motionblur.gdshader\")
+	mat.set_shader_parameter(\"samples\", blur_samples)
+	blur_overlay.material = mat
+	
+	var canvas = CanvasLayer.new()
+	add_child(canvas)
+	canvas.add_child(blur_overlay)
+	
+	prev_pos = global_position
+	prev_basis = global_transform.basis
+
+func _physics_process(delta) -> void:
+	if delta <= 0: return
+	
+	var linear_vel = (global_position - prev_pos) / delta
+	
+	var delta_basis = prev_basis.inverse() * global_transform.basis
+	var delta_quat = Quaternion(delta_basis)
+	
+	var angular_vel := Vector3.ZERO
+	if abs(delta_quat.w) < 1.0:
+		var half_angle = acos(clamp(delta_quat.w, -1.0, 1.0))
+		if half_angle > 0.0001:
+			var sin_half = sin(half_angle)
+			angular_vel = Vector3(delta_quat.x, delta_quat.y, delta_quat.z) / sin_half * (2.0 * half_angle / delta)
+	
+	var local_vel = global_transform.basis.inverse() * linear_vel
+	
+	var raw_blur = Vector2(
+		-angular_vel.y - local_vel.x,
+		angular_vel.x + local_vel.y
+	) * strength * delta
+	
+
+	var t = 1.0 - pow(smoothing, delta * 60.0)
+	current_blur = current_blur.lerp(raw_blur, t)
+	
+	var mat = blur_overlay.material as ShaderMaterial
+	mat.set_shader_parameter(\"blur_direction\", current_blur)
+	
+	prev_pos = global_position
+	prev_basis = global_transform.basis
+"
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_h141m"]
+shuffle = true
+fade_time = 1.0
+stream_count = 4
+stream_0 = ExtResource("4_glr2h")
+stream_1 = ExtResource("3_wxrtn")
+stream_2 = ExtResource("5_3pik8")
+stream_3 = ExtResource("6_adgam")
+
+[sub_resource type="GDScript" id="GDScript_tyfkw"]
+resource_name = "ambient_sound"
+script/source = "extends AudioStreamPlayer
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	await get_tree().create_timer(randf_range(5,12)).timeout
+	play()
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+"
+
+[node name="Player" type="Node3D" unique_id=1353032735]
+script = ExtResource("1_4houo")
+max_panning_speed = 120.0
+panning_curve = SubResource("Curve_jlnl2")
+right_rotation_limit = -40
+left_rotation_limit = 40
+
+[node name="playercam" type="Camera3D" parent="." unique_id=992701928]
+current = true
+far = 10.0
+script = SubResource("GDScript_adgam")
+strength = 0.25
+blur_samples = 8
+
+[node name="Monitor" parent="playercam" unique_id=1879274920 instance=ExtResource("2_gwed5")]
+
+[node name="Ambient_sound" type="AudioStreamPlayer" parent="." unique_id=1502853067]
+stream = SubResource("AudioStreamPlaylist_h141m")
+volume_db = -2.462
+bus = &"ambient"
+script = SubResource("GDScript_tyfkw")
+
+[node name="black_out_sound" type="AudioStreamPlayer" parent="." unique_id=859295053]
+stream = ExtResource("6_0srxw")
+volume_db = 3.0
+bus = &"ambient"

@@ -1,0 +1,39 @@
+[gd_resource type="Theme" format=3 uid="uid://cdbabwb61ridm"]
+
+[ext_resource type="FontFile" uid="uid://b64buxvqw4x0o" path="res://Font/Galmuri14.ttf" id="1_48qoq"]
+[ext_resource type="StyleBox" uid="uid://b45wm6s7vuvw3" path="res://Theme/Cam_normal_box.stylebox" id="2_0ic0h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_48qoq"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_py3ew"]
+bg_color = Color(0.6313726, 0.8235294, 0, 0)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[resource]
+Button/colors/font_hover_color = Color(0.636454, 0.519172, 1, 1)
+Button/constants/outline_size = 5
+Button/font_sizes/font_size = 25
+Button/fonts/font = ExtResource("1_48qoq")
+Button/styles/disabled = SubResource("StyleBoxFlat_48qoq")
+Button/styles/focus = ExtResource("2_0ic0h")
+Button/styles/hover = ExtResource("2_0ic0h")
+Button/styles/normal = ExtResource("2_0ic0h")
+Button/styles/pressed = SubResource("StyleBoxFlat_py3ew")

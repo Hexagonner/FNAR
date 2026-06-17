@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=3 uid="uid://dicfisfnphp5"]
+
+[ext_resource type="Script" uid="uid://n43mgtsgebfd" path="res://Scripts/waring.gd" id="1_a2lg4"]
+[ext_resource type="FontFile" uid="uid://b64buxvqw4x0o" path="res://Font/Galmuri14.ttf" id="2_0ful5"]
+[ext_resource type="FontFile" uid="uid://jgelr8unukd" path="res://Font/Galmuri11-Bold.ttf" id="3_8fthq"]
+[ext_resource type="AudioStream" uid="uid://op2gm0f7753" path="res://Sounds/웃음1_@.ogg" id="4_7k5jd"]
+
+[node name="WARING" type="Control"]
+z_index = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_a2lg4")
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="CenterContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(1300, 500)
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/shadow_outline_size = 10
+theme_override_constants/outline_size = 15
+theme_override_fonts/normal_font = ExtResource("2_0ful5")
+theme_override_fonts/bold_font = ExtResource("3_8fthq")
+bbcode_enabled = true
+text = "[shake rate=30.0 level=15 connected=-][center][font_size=120][b][color=orange]경고![/color]
+[/b][/font_size][/center][/shake]
+"
+scroll_active = false
+shortcut_keys_enabled = false
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="CenterContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(1300, 300)
+layout_mode = 2
+mouse_filter = 1
+theme_override_constants/shadow_outline_size = 10
+theme_override_constants/outline_size = 15
+theme_override_fonts/normal_font = ExtResource("2_0ful5")
+theme_override_fonts/bold_font = ExtResource("3_8fthq")
+bbcode_enabled = true
+text = "[shake rate=30.0 level=15 connected=-][center][font_size=80][b]
+이 게임은 시끄러운 소리와
+놀라는 장면이 포함되어 있습니다.
+[/b][/font_size][/center][/shake]
+"
+scroll_active = false
+shortcut_keys_enabled = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_7k5jd")
+autoplay = true
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

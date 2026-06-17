@@ -1,0 +1,46 @@
+[gd_resource type="Theme" format=3 uid="uid://b8ir2cd0df1tp"]
+
+[ext_resource type="FontFile" uid="uid://b64buxvqw4x0o" path="res://Font/Galmuri14.ttf" id="1_0llo0"]
+[ext_resource type="StyleBox" uid="uid://dlfgkj3ucaao1" path="res://Theme/tooltip_box.tres" id="2_ea3px"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mpsjr"]
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a4mhq"]
+bg_color = Color(0.6, 0.6, 0.6, 0.415686)
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kl8nb"]
+bg_color = Color(1, 1, 1, 0)
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5jrgt"]
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[resource]
+default_font = ExtResource("1_0llo0")
+default_font_size = 32
+Button/colors/font_hover_color = Color(0.731461, 0.529469, 1, 1)
+Button/constants/h_separation = 4
+Button/constants/outline_size = 20
+Button/font_sizes/font_size = 60
+Button/fonts/font = ExtResource("1_0llo0")
+Button/styles/focus = SubResource("StyleBoxFlat_mpsjr")
+Button/styles/hover = SubResource("StyleBoxFlat_a4mhq")
+Button/styles/normal = SubResource("StyleBoxFlat_kl8nb")
+Button/styles/pressed = SubResource("StyleBoxFlat_5jrgt")
+TooltipPanel/constants/resize_margin = 10
+TooltipPanel/fonts/title_font = ExtResource("1_0llo0")
+TooltipPanel/styles/panel = ExtResource("2_ea3px")

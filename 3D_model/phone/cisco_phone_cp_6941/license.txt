@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cisco Phone CP 6941
+* source:	https://sketchfab.com/3d-models/cisco-phone-cp-6941-6510ae6088d346649a27582764077d20
+* author:	RUben (https://sketchfab.com/Begalov)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cisco Phone CP 6941" (https://sketchfab.com/3d-models/cisco-phone-cp-6941-6510ae6088d346649a27582764077d20) by RUben (https://sketchfab.com/Begalov) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

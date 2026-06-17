@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cafe Chair
+* source:	https://sketchfab.com/3d-models/cafe-chair-d747543bb8f4481b8405fa40cb4e6a44
+* author:	spideyboy07 (https://sketchfab.com/spideyboy07)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cafe Chair" (https://sketchfab.com/3d-models/cafe-chair-d747543bb8f4481b8405fa40cb4e6a44) by spideyboy07 (https://sketchfab.com/spideyboy07) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

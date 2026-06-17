@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://vo1npougcvjg"]
+
+[ext_resource type="Texture2D" uid="uid://dtwa7575rtlq8" path="res://Sprites/Rdu_doodle/ㄹㄴㅇㅎㄴㅇㅎㄴ.jpg" id="1_325e3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hm4yt"]
+cull_mode = 2
+albedo_texture = ExtResource("1_325e3")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_nwclc"]
+material = SubResource("StandardMaterial3D_hm4yt")
+flip_faces = true
+size = Vector2(1, 1)
+subdivide_width = 10
+subdivide_depth = 10
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hm4yt"]
+radius = 5.0
+
+[node name="poster" type="SoftBody3D" unique_id=793737667]
+transform = Transform3D(1.0000001, -1.6703743e-22, 7.30144e-30, 0, -4.371139e-08, -1.0000002, 1.6703746e-22, 1, -4.37114e-08, 0, 0, 0)
+layers = 3
+mesh = SubResource("PlaneMesh_nwclc")
+skeleton = NodePath("")
+collision_layer = 2
+collision_mask = 2
+disable_mode = 1
+pinned_points = [132, 134, 136, 138, 140, 142, 143]
+attachments/0/point_index = 132
+attachments/0/spatial_attachment_path = NodePath("")
+attachments/0/offset = Vector3(0, 0, 0)
+attachments/1/point_index = 134
+attachments/1/spatial_attachment_path = NodePath("")
+attachments/1/offset = Vector3(0, 0, 0)
+attachments/2/point_index = 136
+attachments/2/spatial_attachment_path = NodePath("")
+attachments/2/offset = Vector3(0, 0, 0)
+attachments/3/point_index = 138
+attachments/3/spatial_attachment_path = NodePath("")
+attachments/3/offset = Vector3(0, 0, 0)
+attachments/4/point_index = 140
+attachments/4/spatial_attachment_path = NodePath("")
+attachments/4/offset = Vector3(0, 0, 0)
+attachments/5/point_index = 142
+attachments/5/spatial_attachment_path = NodePath("")
+attachments/5/offset = Vector3(0, 0, 0)
+attachments/6/point_index = 143
+attachments/6/spatial_attachment_path = NodePath("")
+attachments/6/offset = Vector3(0, 0, 0)
+
+[node name="wind" type="Area3D" parent="." unique_id=528333083]
+transform = Transform3D(-0.999563, 0, 0.029561656, 7.1054274e-15, 1, 0, -0.029561656, 0, -0.999563, 0, 4.444, 0.452)
+disable_mode = 2
+collision_layer = 2
+collision_mask = 2
+input_ray_pickable = false
+wind_force_magnitude = 10.0
+wind_attenuation_factor = 1.0
+wind_source_path = NodePath("../Node3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="wind" unique_id=488813492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.077, -0.609)
+shape = SubResource("SphereShape3D_hm4yt")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1828914407]
+transform = Transform3D(0.95102113, 0.25751504, 0.17101009, 0.17298743, 0.015134446, -0.9848076, -0.25619102, 0.96615547, -0.030153697, 0.12442977, -0.76765364, 0.70920503)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1514074123]
+transform = Transform3D(0.12212929, 0.078528, -0.98940265, 0.99251425, -0.009663034, 0.12174642, -1.2844058e-07, -0.99686486, -0.079120286, -1.5063394, 0.37617958, -1.6443325e-08)

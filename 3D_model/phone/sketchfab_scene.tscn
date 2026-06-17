@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://b4o07l16bpjgg"]
+
+[ext_resource type="PackedScene" uid="uid://b6ajcx1h4hfra" path="res://3D_model/phone/cisco_phone_cp_6941/scene.gltf" id="1_rr0x7"]
+
+[node name="Sketchfab_Scene" unique_id=1293373873 instance=ExtResource("1_rr0x7")]

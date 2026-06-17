@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://n3vh7rnwk524"]
+
+[ext_resource type="Texture2D" uid="uid://cbl6hthyxm47h" path="res://Texture/wall.png" id="1_44b5n"]
+
+[resource]
+albedo_texture = ExtResource("1_44b5n")
+uv1_scale = Vector3(3, 2, 3)
+uv1_world_triplanar = true

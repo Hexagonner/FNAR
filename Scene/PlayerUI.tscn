@@ -1,0 +1,692 @@
+[gd_scene format=3 uid="uid://ib41ajohiyvr"]
+
+[ext_resource type="Texture2D" uid="uid://dngnbsls5s27j" path="res://Sprites/cam_ui/monitor_button.png" id="1_te4r3"]
+[ext_resource type="Script" uid="uid://devkp6nw5nx7y" path="res://Scripts/player_ui.gd" id="1_vvjsw"]
+[ext_resource type="Script" uid="uid://ql6ktwyl5gb6" path="res://Scripts/battery.gd" id="3_8vuop"]
+[ext_resource type="Texture2D" uid="uid://cstske45vky8p" path="res://Sprites/cam_ui/back_button.png" id="3_ftclr"]
+[ext_resource type="FontFile" uid="uid://b64buxvqw4x0o" path="res://Font/Galmuri14.ttf" id="4_o4far"]
+[ext_resource type="FontFile" uid="uid://jgelr8unukd" path="res://Font/Galmuri11-Bold.ttf" id="5_6ybcf"]
+[ext_resource type="Texture2D" uid="uid://dn5p8dpnlvs77" path="res://Sprites/battery_meter/Battery_usage_green.png" id="5_12skm"]
+[ext_resource type="Texture2D" uid="uid://d1t7fjdnvsyhf" path="res://Sprites/battery_meter/Battery_usage_yellow.png" id="6_hllwx"]
+[ext_resource type="Texture2D" uid="uid://be0thk8a8y6gw" path="res://Sprites/battery_meter/Battery_usage_red.png" id="7_sdauw"]
+[ext_resource type="Script" uid="uid://cuww3tsaycir2" path="res://Scripts/time.gd" id="9_0xb0g"]
+[ext_resource type="Script" uid="uid://dq8ds70f1bxio" path="res://Scripts/win_screen.gd" id="10_xrj1o"]
+[ext_resource type="AudioStream" uid="uid://ddyqppgp282eu" path="res://Sounds/6am.mp3" id="11_jax5p"]
+[ext_resource type="Texture2D" uid="uid://g65w35tmocap" path="res://Sprites/confetti.png" id="12_prdqg"]
+[ext_resource type="Script" uid="uid://dym3asrqlut5h" path="res://Scripts/fps.gd" id="13_r110g"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_c5cmn"]
+device = -1
+keycode = 32
+unicode = 32
+
+[sub_resource type="Shortcut" id="Shortcut_k0eei"]
+events = [SubResource("InputEventKey_c5cmn")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_r110g"]
+device = -1
+keycode = 4194326
+
+[sub_resource type="Shortcut" id="Shortcut_ftclr"]
+events = [SubResource("InputEventKey_r110g")]
+
+[sub_resource type="Animation" id="Animation_prdqg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("5:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(838, 487)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("6:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(838, 1500)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("5:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ColorRect/black_bar:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("6:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Confetti:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Confetti:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("6:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("AM:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_r110g"]
+resource_name = "game_win"
+length = 11.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("5:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335, 9),
+"transitions": PackedFloat32Array(0.5, 1.3),
+"update": 0,
+"values": [Vector2(838, 487), Vector2(838, 287)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("6:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 9),
+"transitions": PackedFloat32Array(0.5, 1.3),
+"update": 0,
+"values": [Vector2(838, 687), Vector2(838, 487)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ColorRect/black_bar:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 9.12),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("6am_ring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0.0],
+"method": &"play"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("5:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 9.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("6:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 9.7, 11.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AM:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 9.7, 11.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Confetti:emitting")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 5.5333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Confetti:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 9.7, 11.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("6:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("AM:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ftclr"]
+_data = {
+&"RESET": SubResource("Animation_prdqg"),
+&"game_win": SubResource("Animation_r110g")
+}
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_r110g"]
+particles_animation = true
+particles_anim_h_frames = 2
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="Curve" id="Curve_ftclr"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.73718786, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.40711898), -4.0349627, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_mbu2t"]
+curve = SubResource("Curve_ftclr")
+
+[sub_resource type="Gradient" id="Gradient_a6xua"]
+offsets = PackedFloat32Array(0.3221154, 0.32623628, 0.6723901, 0.67513734)
+colors = PackedColorArray(1, 0.37621143, 0.49061775, 1, 0.096620865, 0.6302791, 0.9999997, 1, 0.096620865, 0.6302791, 0.9999997, 1, 0.96682626, 0.75866365, 7.70092e-07, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dlh7s"]
+gradient = SubResource("Gradient_a6xua")
+
+[sub_resource type="Curve" id="Curve_yosla"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.20792079, 0.78101075), -0.41245526, -0.41245526, 0, 0, Vector2(1, 1), -1.1236376, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_s3apm"]
+curve = SubResource("Curve_yosla")
+
+[sub_resource type="Curve" id="Curve_igkyt"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.73927397, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.62838185), -2.8954358, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_poh6c"]
+curve = SubResource("Curve_igkyt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_evehl"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1000, 10, 1)
+angle_min = -179.99998
+angle_max = 180.00002
+direction = Vector3(0, 2, 0)
+initial_velocity_min = 130.0
+initial_velocity_max = 160.0
+angular_velocity_min = -180.00002
+angular_velocity_max = 179.99998
+gravity = Vector3(0, 75, 0)
+linear_accel_min = 9.999997
+linear_accel_max = 29.999996
+damping_min = 74.0
+damping_max = 78.0
+damping_curve = SubResource("CurveTexture_s3apm")
+scale_min = 0.19999999
+scale_max = 0.55
+scale_curve = SubResource("CurveTexture_poh6c")
+color_initial_ramp = SubResource("GradientTexture1D_dlh7s")
+alpha_curve = SubResource("CurveTexture_mbu2t")
+hue_variation_min = -0.020000022
+hue_variation_max = 0.019999977
+anim_speed_min = 2.0
+anim_speed_max = 5.0
+anim_offset_max = 1.0
+
+[node name="PlayerUi" type="Control" unique_id=972663794]
+z_index = 5
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_vvjsw")
+metadata/_edit_use_anchors_ = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1282102295]
+layer = 3
+
+[node name="CamButton" type="Control" parent="CanvasLayer" unique_id=522400748]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CamButton" unique_id=1962181446]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 32.0
+offset_bottom = -32.0
+mouse_filter = 2
+theme_override_constants/separation = 20
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/CamButton/VBoxContainer" unique_id=1730732132]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Cambutton" type="TextureButton" parent="CanvasLayer/CamButton/VBoxContainer/HBoxContainer" unique_id=1722548566]
+layout_mode = 2
+shortcut = SubResource("Shortcut_k0eei")
+shortcut_in_tooltip = false
+texture_normal = ExtResource("1_te4r3")
+
+[node name="Backbutton" type="TextureButton" parent="CanvasLayer/CamButton/VBoxContainer/HBoxContainer" unique_id=553561262]
+layout_mode = 2
+focus_mode = 0
+shortcut = SubResource("Shortcut_ftclr")
+shortcut_in_tooltip = false
+texture_normal = ExtResource("3_ftclr")
+
+[node name="Battery" type="Control" parent="CanvasLayer" unique_id=1792709550 node_paths=PackedStringArray("left_power_label", "battery_timer", "battery_meter")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_8vuop")
+left_power_label = NodePath("HBoxContainer/VBoxContainer/HBoxContainer2/Left_power")
+battery_timer = NodePath("HBoxContainer/VBoxContainer/HBoxContainer2/battery_timer")
+battery_meter = NodePath("HBoxContainer/VBoxContainer/battery_meter")
+metadata/_edit_lock_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Battery" unique_id=836418389]
+layout_mode = 0
+anchor_left = 0.0166667
+anchor_top = 0.0296296
+anchor_right = 0.983333
+anchor_bottom = 0.97037
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Battery/HBoxContainer" unique_id=570595933]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Battery/HBoxContainer/VBoxContainer" unique_id=455225010]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Battery/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=131129769]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_constants/shadow_outline_size = 10
+theme_override_fonts/font = ExtResource("4_o4far")
+theme_override_font_sizes/font_size = 40
+text = "남은 전력:"
+
+[node name="Left_power" type="Label" parent="CanvasLayer/Battery/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1743414941]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 13
+theme_override_constants/shadow_outline_size = 3
+theme_override_fonts/font = ExtResource("5_6ybcf")
+theme_override_font_sizes/font_size = 66
+text = "100"
+
+[node name="Label3" type="Label" parent="CanvasLayer/Battery/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=1414245887]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_constants/shadow_outline_size = 10
+theme_override_fonts/font = ExtResource("4_o4far")
+theme_override_font_sizes/font_size = 40
+text = "%"
+
+[node name="battery_timer" type="Timer" parent="CanvasLayer/Battery/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=2039597876]
+
+[node name="battery_meter" type="HBoxContainer" parent="CanvasLayer/Battery/HBoxContainer/VBoxContainer" unique_id=389783417]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 7
+
+[node name="Label" type="Label" parent="CanvasLayer/Battery/HBoxContainer/VBoxContainer/battery_meter" unique_id=77143942]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_constants/shadow_outline_size = 10
+theme_override_fonts/font = ExtResource("4_o4far")
+theme_override_font_sizes/font_size = 40
+text = "사용량:"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Battery/HBoxContainer/VBoxContainer/battery_meter" unique_id=575778092]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_12skm")
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/Battery/HBoxContainer/VBoxContainer/battery_meter" unique_id=267072601]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_12skm")
+
+[node name="TextureRect3" type="TextureRect" parent="CanvasLayer/Battery/HBoxContainer/VBoxContainer/battery_meter" unique_id=597621544]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_hllwx")
+
+[node name="TextureRect4" type="TextureRect" parent="CanvasLayer/Battery/HBoxContainer/VBoxContainer/battery_meter" unique_id=665377036]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("7_sdauw")
+
+[node name="Time" type="Control" parent="CanvasLayer" unique_id=278705381 node_paths=PackedStringArray("game_timer", "win_screen")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("9_0xb0g")
+game_timer = NodePath("Timer")
+win_screen = NodePath("../win_screen")
+metadata/_edit_lock_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Time" unique_id=620012998]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0166667
+anchor_top = 0.0296296
+anchor_right = 0.983333
+anchor_bottom = 0.97037
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 2
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Time/HBoxContainer" unique_id=1843059303]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="timer_label" type="Label" parent="CanvasLayer/Time/HBoxContainer/VBoxContainer" unique_id=1378305550]
+layout_mode = 2
+theme_override_constants/outline_size = 15
+theme_override_constants/shadow_outline_size = 5
+theme_override_fonts/font = ExtResource("5_6ybcf")
+theme_override_font_sizes/font_size = 80
+text = "12 AM"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="CanvasLayer/Time/HBoxContainer/VBoxContainer" unique_id=770216273]
+layout_mode = 2
+theme_override_constants/outline_size = 13
+theme_override_constants/shadow_outline_size = 5
+theme_override_fonts/font = ExtResource("4_o4far")
+theme_override_font_sizes/font_size = 40
+text = "Night 1"
+horizontal_alignment = 2
+
+[node name="Timer" type="Timer" parent="CanvasLayer/Time" unique_id=1348265345]
+wait_time = 100.0
+autostart = true
+
+[node name="win_screen" type="Control" parent="CanvasLayer" unique_id=647022251 node_paths=PackedStringArray("ani")]
+process_mode = 3
+z_index = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("10_xrj1o")
+ani = NodePath("AnimationPlayer")
+metadata/_edit_lock_ = true
+
+[node name="5" type="Label" parent="CanvasLayer/win_screen" unique_id=934493334]
+visible = false
+layout_mode = 0
+offset_left = 838.0
+offset_top = 487.0
+offset_right = 898.0
+offset_bottom = 592.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_6ybcf")
+theme_override_font_sizes/font_size = 90
+text = "5"
+
+[node name="6" type="Label" parent="CanvasLayer/win_screen" unique_id=388395601]
+visible = false
+layout_mode = 0
+offset_left = 838.0
+offset_top = 1500.0
+offset_right = 898.0
+offset_bottom = 1605.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_6ybcf")
+theme_override_font_sizes/font_size = 90
+text = "6"
+
+[node name="AM" type="Label" parent="CanvasLayer/win_screen" unique_id=1791356760]
+visible = false
+layout_mode = 0
+offset_left = 902.0
+offset_top = 487.0
+offset_right = 1082.0
+offset_bottom = 592.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("5_6ybcf")
+theme_override_font_sizes/font_size = 90
+text = " AM"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/win_screen" unique_id=1852452134]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/win_screen/VBoxContainer" unique_id=743380069]
+layout_mode = 2
+alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/win_screen" unique_id=1616204293]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="black_bar" type="Control" parent="CanvasLayer/win_screen/ColorRect" unique_id=1752316937]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/win_screen/ColorRect/black_bar" unique_id=987121222]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 592.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/win_screen/ColorRect/black_bar" unique_id=2115755039]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -593.0
+color = Color(0, 0, 0, 1)
+
+[node name="6am_ring" type="AudioStreamPlayer" parent="CanvasLayer/win_screen" unique_id=1397902116]
+stream = ExtResource("11_jax5p")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/win_screen" unique_id=494448996]
+libraries/ = SubResource("AnimationLibrary_ftclr")
+
+[node name="Confetti" type="GPUParticles2D" parent="CanvasLayer/win_screen" unique_id=493409316]
+material = SubResource("CanvasItemMaterial_r110g")
+position = Vector2(960, -100)
+emitting = false
+amount = 50
+texture = ExtResource("12_prdqg")
+lifetime = 5.0
+speed_scale = 1.5
+randomness = 0.2
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_evehl")
+
+[node name="FPS" type="Label" parent="CanvasLayer" unique_id=58043177]
+z_index = 999
+z_as_relative = false
+offset_right = 200.0
+offset_bottom = 112.0
+theme_override_constants/outline_size = 15
+theme_override_fonts/font = ExtResource("5_6ybcf")
+theme_override_font_sizes/font_size = 60
+text = "fps"
+script = ExtResource("13_r110g")
+metadata/_edit_lock_ = true
+
+[connection signal="battery_usage_change_signal" from="." to="CanvasLayer/Battery" method="_on_player_ui_battery_usage_change_signal"]
+[connection signal="mouse_entered" from="CanvasLayer/CamButton/VBoxContainer/HBoxContainer/Cambutton" to="." method="_on_texture_button_mouse_entered"]
+[connection signal="pressed" from="CanvasLayer/CamButton/VBoxContainer/HBoxContainer/Cambutton" to="." method="_on_texture_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/CamButton/VBoxContainer/HBoxContainer/Backbutton" to="." method="_on_backbutton_pressed"]
+[connection signal="battery_over" from="CanvasLayer/Battery" to="." method="_on_battery_battery_over"]
+[connection signal="timeout" from="CanvasLayer/Battery/HBoxContainer/VBoxContainer/HBoxContainer2/battery_timer" to="CanvasLayer/Battery" method="_on_battery_timer_timeout"]
+[connection signal="timeout" from="CanvasLayer/Time/Timer" to="CanvasLayer/Time" method="_on_timer_timeout"]
+[connection signal="animation_finished" from="CanvasLayer/win_screen/AnimationPlayer" to="CanvasLayer/win_screen" method="_on_animation_player_animation_finished"]

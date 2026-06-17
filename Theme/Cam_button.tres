@@ -1,0 +1,15 @@
+[gd_resource type="Theme" format=3 uid="uid://ct0ddfgrgrjrt"]
+
+[ext_resource type="FontFile" uid="uid://b64buxvqw4x0o" path="res://Font/Galmuri14.ttf" id="1_ihtqe"]
+[ext_resource type="StyleBox" uid="uid://b45wm6s7vuvw3" path="res://Theme/Cam_normal_box.stylebox" id="2_6wavs"]
+[ext_resource type="StyleBox" uid="uid://c1nxxb8ed1sqg" path="res://Theme/Cam_hilight_box.stylebox" id="3_ucrrh"]
+
+[resource]
+Button/colors/font_hover_color = Color(0.636454, 0.519172, 1, 1)
+Button/constants/outline_size = 5
+Button/font_sizes/font_size = 25
+Button/fonts/font = ExtResource("1_ihtqe")
+Button/styles/focus = ExtResource("2_6wavs")
+Button/styles/hover = ExtResource("2_6wavs")
+Button/styles/normal = ExtResource("2_6wavs")
+Button/styles/pressed = ExtResource("3_ucrrh")

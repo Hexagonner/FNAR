@@ -1,0 +1,11 @@
+Model Information:
+* title:	Plastic Bottles
+* source:	https://sketchfab.com/3d-models/plastic-bottles-49a637bb38bc40d5ad36b6dc6a0024a4
+* author:	FRH4D (https://sketchfab.com/FRH4D)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Plastic Bottles" (https://sketchfab.com/3d-models/plastic-bottles-49a637bb38bc40d5ad36b6dc6a0024a4) by FRH4D (https://sketchfab.com/FRH4D) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://ctyudcot01oj3"]
+
+[ext_resource type="PackedScene" uid="uid://c7r1vl2htm451" path="res://animatronics/RD/RD.tscn" id="1_37kl0"]
+
+[sub_resource type="Curve3D" id="Curve3D_mf4mk"]
+bake_interval = 10.0
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1.5157208, 0, 14.660529, 0, 0, 0, 0, 0, 0, -18.237679, 0, 4.706233),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[node name="Node3D" type="Node3D" unique_id=193439256]
+
+[node name="Path3D" type="Path3D" parent="." unique_id=775081357]
+curve = SubResource("Curve3D_mf4mk")
+debug_custom_color = Color(2.2140146e-06, 0.92862314, 0.6020762, 1)
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D" unique_id=586008564]
+transform = Transform3D(0.99464226, 0, -0.102833875, 0, 0.9999864, 0, 0.102833875, 0, 0.99464226, -0.7333965, 0, 10.146349)
+progress = 9.76045
+use_model_front = true
+tilt_enabled = false
+
+[node name="RD" parent="Path3D/PathFollow3D" unique_id=1675944184 instance=ExtResource("1_37kl0")]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1296384635]
+transform = Transform3D(-0.1397415, -6.0786305e-09, -0.99018806, 2.3283042e-09, 1, -6.4674492e-09, 0.990188, -3.2092284e-09, -0.1397415, -4.8174534, -7.450581e-09, 2.3841858e-07)

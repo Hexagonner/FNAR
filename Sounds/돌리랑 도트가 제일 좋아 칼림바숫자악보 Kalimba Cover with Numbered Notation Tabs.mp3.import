@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://jtgoh6fibed8"
+path="res://.godot/imported/돌리랑 도트가 제일 좋아 칼림바숫자악보 Kalimba Cover with Numbered Notation Tabs.mp3-523ede8f2b6f18b4e836430acab54ef1.mp3str"
+
+[deps]
+
+source_file="res://Sounds/돌리랑 도트가 제일 좋아 칼림바숫자악보 Kalimba Cover with Numbered Notation Tabs.mp3"
+dest_files=["res://.godot/imported/돌리랑 도트가 제일 좋아 칼림바숫자악보 Kalimba Cover with Numbered Notation Tabs.mp3-523ede8f2b6f18b4e836430acab54ef1.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

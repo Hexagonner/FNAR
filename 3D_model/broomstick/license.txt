@@ -1,0 +1,11 @@
+Model Information:
+* title:	PSX Broom
+* source:	https://sketchfab.com/3d-models/psx-broom-659f0190b9e04d56bd2edffffcc1a915
+* author:	zunkerbunk (https://sketchfab.com/zunkerbunk)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "PSX Broom" (https://sketchfab.com/3d-models/psx-broom-659f0190b9e04d56bd2edffffcc1a915) by zunkerbunk (https://sketchfab.com/zunkerbunk) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
