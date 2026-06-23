@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ctycb0fv1k2y6"]
 
 [ext_resource type="Texture2D" uid="uid://bmo5vsjku885s" path="res://Texture/metal_plate_rough_1k.jpg" id="1_fyhay"]
+[ext_resource type="Script" uid="uid://xnto7luwceja" path="res://Scene/electric_box.gd" id="1_pm4ub"]
 [ext_resource type="Texture2D" uid="uid://hev1qo3tsh2u" path="res://Texture/DirtyMetalWeave02_MR_1K/DirtyMetalWeave02_1K_Height.png" id="2_kw6lu"]
 [ext_resource type="Texture2D" uid="uid://cfssute5knucl" path="res://Texture/DirtyMetalWeave02_MR_1K/DirtyMetalWeave02_1K_Metallic.png" id="3_fojde"]
 [ext_resource type="Texture2D" uid="uid://bx284a161y4ul" path="res://Texture/DirtyMetalWeave02_MR_1K/DirtyMetalWeave02_1K_Normal.png" id="4_t57l7"]
@@ -235,9 +236,9 @@ emission_curve = SubResource("CurveTexture_fojde")
 collision_mode = 2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_86g04"]
-albedo_color = Color(1.4920398, 1.5519514, 0.6532772, 1)
+albedo_color = Color(0.6532772, 1.4920396, 1.5519514, 1)
 emission_enabled = true
-emission = Color(0.6949769, 0.66121703, 7.70092e-07, 1)
+emission = Color(0, 0.62100005, 0.69, 1)
 emission_energy_multiplier = 10.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_juvdl"]
@@ -287,6 +288,16 @@ emission = Color(0, 0, 1, 1)
 material = SubResource("StandardMaterial3D_fhb8y")
 size = Vector3(0.1, 0.2, 0.1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xjk5w"]
+albedo_color = Color(1.4920398, 1.5519514, 0.6532772, 1)
+emission_enabled = true
+emission = Color(0.69, 0.69, 0, 1)
+emission_energy_multiplier = 10.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_5tanu"]
+material = SubResource("StandardMaterial3D_xjk5w")
+size = Vector2(0.01, 0.05)
+
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xjk5w"]
 load_path = "res://.godot/imported/DirtyMetalWeave02_1K_Roughness.png-3a65c56454670089d2a90e61dd73715c.s3tc.ctex"
 
@@ -326,6 +337,16 @@ albedo_texture = ExtResource("5_pm4ub")
 material = SubResource("StandardMaterial3D_ohisa")
 size = Vector3(0.1, 0.2, 0.1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_38du4"]
+albedo_color = Color(1.5519514, 0.6532772, 1.282349, 1)
+emission_enabled = true
+emission = Color(0.69, 0, 0.5980001, 1)
+emission_energy_multiplier = 10.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_hkfwv"]
+material = SubResource("StandardMaterial3D_38du4")
+size = Vector2(0.01, 0.05)
+
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_syxfq"]
 load_path = "res://.godot/imported/DirtyMetalWeave02_1K_Roughness.png-3a65c56454670089d2a90e61dd73715c.s3tc.ctex"
 
@@ -364,6 +385,16 @@ albedo_texture = ExtResource("5_pm4ub")
 material = SubResource("StandardMaterial3D_nk1lj")
 size = Vector3(0.1, 0.2, 0.1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_in2db"]
+albedo_color = Color(0.6532772, 1.5519514, 0.6682551, 1)
+emission_enabled = true
+emission = Color(0.26450008, 0.69, 0, 1)
+emission_energy_multiplier = 10.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_syxfq"]
+material = SubResource("StandardMaterial3D_in2db")
+size = Vector2(0.01, 0.05)
+
 [sub_resource type="BoxMesh" id="BoxMesh_mw4un"]
 material = SubResource("StandardMaterial3D_nk1lj")
 size = Vector3(0.1, 0.2, 0.1)
@@ -372,6 +403,7 @@ size = Vector3(0.1, 0.2, 0.1)
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
 size = Vector3(1.5, 2, 0.5)
 material = SubResource("StandardMaterial3D_56ul5")
+script = ExtResource("1_pm4ub")
 
 [node name="subbox" type="CSGBox3D" parent="." unique_id=161565717]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.31227398)
@@ -523,7 +555,7 @@ explosiveness = 0.2
 fixed_fps = 60
 transform_align = 3
 process_material = SubResource("ParticleProcessMaterial_864kv")
-draw_pass_1 = SubResource("QuadMesh_juvdl")
+draw_pass_1 = SubResource("QuadMesh_5tanu")
 
 [node name="pin2" type="Marker3D" parent="wire2" unique_id=1057065459 groups=["pins"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, -0.6035793, 0, 0)
@@ -573,7 +605,7 @@ explosiveness = 0.2
 fixed_fps = 60
 transform_align = 3
 process_material = SubResource("ParticleProcessMaterial_864kv")
-draw_pass_1 = SubResource("QuadMesh_juvdl")
+draw_pass_1 = SubResource("QuadMesh_hkfwv")
 
 [node name="pin2" type="Marker3D" parent="wire3" unique_id=1249556245 groups=["pins"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, -0.6035793, 0, 0)
@@ -623,7 +655,7 @@ explosiveness = 0.2
 fixed_fps = 60
 transform_align = 3
 process_material = SubResource("ParticleProcessMaterial_864kv")
-draw_pass_1 = SubResource("QuadMesh_juvdl")
+draw_pass_1 = SubResource("QuadMesh_syxfq")
 
 [node name="pin2" type="Marker3D" parent="wire4" unique_id=1262871986 groups=["pins"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, -0.6035793, 0, 0)

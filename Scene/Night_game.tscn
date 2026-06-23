@@ -3059,7 +3059,7 @@ script = ExtResource("19_5xxkr")
 libraries/ = SubResource("AnimationLibrary_oewrs")
 
 [node name="CAM0" type="Camera3D" parent="CameraManager" unique_id=1003935292]
-transform = Transform3D(0.74779797, 0.12782057, -0.6515059, 1.4422938e-08, 0.9812916, 0.1925224, 0.66392624, -0.14396776, 0.7338086, -2.8625, 3.20413, -31.0414)
+transform = Transform3D(0.747798, 0.12782054, -0.6515058, 1.4422938e-08, 0.9812916, 0.19252239, 0.6639262, -0.14396775, 0.7338087, -2.8625, 3.20413, -31.0414)
 fov = 40.0
 far = 10.0
 script = ExtResource("19_5xxkr")
@@ -3569,7 +3569,7 @@ mesh = SubResource("ArrayMesh_8qesi")
 skeleton = NodePath("")
 
 [node name="star2" type="Node3D" parent="Map/Celling_object" unique_id=1630695764]
-transform = Transform3D(-1.1175869e-08, -0.02615604, 0.13381715, -0.015129694, 0.5000875, 0.0069926204, -0.49977097, -0.015139277, -0.00021169236, 3.2592287, 3.5634575, -32.53933)
+transform = Transform3D(-1.1175869e-08, -0.02615604, 0.13381715, -0.015129693, 0.5000875, 0.0069926204, -0.49977097, -0.015139276, -0.00021169236, 3.2592287, 3.5634575, -32.53933)
 
 [node name="Object_6" type="MeshInstance3D" parent="Map/Celling_object/star2" unique_id=1977683286]
 transform = Transform3D(0.9999996, 0, -1.7462298e-10, -5.5879354e-09, 0.99999803, 1.7608727e-08, -4.656613e-10, -9.103678e-08, 0.9999983, 0.0639801, -2.106514, -0.41174126)
@@ -3577,7 +3577,7 @@ mesh = SubResource("ArrayMesh_8cy37")
 skeleton = NodePath("")
 
 [node name="star3" type="Node3D" parent="Map/Celling_object" unique_id=569780708]
-transform = Transform3D(-1.5646219e-08, -0.03659732, 0.18774362, -0.021181572, 0.6997184, 0.009810549, -0.6996794, -0.021182755, -0.00029700145, 3.2592287, 4.0199614, -34.168297)
+transform = Transform3D(-1.5646219e-08, -0.03659732, 0.18774362, -0.021181572, 0.6997184, 0.00981055, -0.6996794, -0.021182755, -0.00029700145, 3.2592287, 4.0199614, -34.168297)
 
 [node name="Object_6" type="MeshInstance3D" parent="Map/Celling_object/star3" unique_id=1445396496]
 transform = Transform3D(0.9999996, 0, -1.7462298e-10, -5.5879354e-09, 0.99999803, 1.7608727e-08, -4.656613e-10, -9.103678e-08, 0.9999983, 0.0639801, -2.106514, -0.41174126)
@@ -3585,7 +3585,7 @@ mesh = SubResource("ArrayMesh_8cy37")
 skeleton = NodePath("")
 
 [node name="Star2" type="Node3D" parent="Map/Celling_object" unique_id=995063469]
-transform = Transform3D(-0.061784968, -0.020641202, 0.13186687, -0.015241184, 0.5004228, 0.0050147786, -0.4959338, -0.012807594, -0.0165825, 3.381232, 3.340412, -34.992626)
+transform = Transform3D(-0.061784968, -0.02064121, 0.13186687, -0.015241184, 0.50042284, 0.0050147795, -0.4959338, -0.012807595, -0.0165825, 3.381232, 3.340412, -34.992626)
 
 [node name="Object_4" type="MeshInstance3D" parent="Map/Celling_object/Star2" unique_id=683212804]
 transform = Transform3D(0.9999999, 0, 0, 0, 1.0000002, 0, 0, 0, 1, 0, -1.9520345, -0.38332558)
@@ -3593,7 +3593,7 @@ mesh = SubResource("ArrayMesh_8qesi")
 skeleton = NodePath("")
 
 [node name="Cloud2" type="Node3D" parent="Map/Celling_object" unique_id=1104297841]
-transform = Transform3D(0.009972398, -0.00017752958, -0.00072092906, 0.00017291302, 0.009998257, -7.022745e-05, 0.00072205014, 5.7567802e-05, 0.009973732, -2.4583824, 4.0775003, -35.39621)
+transform = Transform3D(0.009972398, -0.00017752958, -0.0007209291, 0.00017291302, 0.009998257, -7.022745e-05, 0.0007220502, 5.7567802e-05, 0.009973732, -2.4583824, 4.0775003, -35.39621)
 
 [node name="Sketchfab_model" type="Node3D" parent="Map/Celling_object/Cloud2" unique_id=772978415]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, -139.26163, 0)
@@ -3616,7 +3616,7 @@ mesh = SubResource("ArrayMesh_oggwd")
 skeleton = NodePath("")
 
 [node name="Cloud3" type="Node3D" parent="Map/Celling_object" unique_id=459358725]
-transform = Transform3D(0.0119973235, 1.782806e-05, -0.00025281555, -1.8218849e-05, 0.011999972, -1.835804e-05, 0.0002527877, 1.8737781e-05, 0.011997322, 1.7872646, 4.1736693, -35.17718)
+transform = Transform3D(0.0119973235, 1.7828062e-05, -0.00025281557, -1.821885e-05, 0.011999972, -1.835804e-05, 0.00025278772, 1.8737781e-05, 0.011997322, 1.7872646, 4.1736693, -35.17718)
 
 [node name="Sketchfab_model" type="Node3D" parent="Map/Celling_object/Cloud3" unique_id=600678295]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, -139.26163, 0)
@@ -4241,7 +4241,7 @@ mesh = SubResource("BoxMesh_00cww")
 skeleton = NodePath("../../..")
 metadata/_edit_lock_ = true
 
-[node name="FadeOut2" type="ColorRect" parent="." unique_id=547404748]
+[node name="old_shader" type="ColorRect" parent="." unique_id=547404748]
 z_index = 300
 z_as_relative = false
 material = SubResource("ShaderMaterial_i4bxa")

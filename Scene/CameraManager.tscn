@@ -188,14 +188,14 @@ script/source = "extends AnimationPlayer
 
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	play(\"map\")
+#func _ready() -> void:
+	#play(\"map\")
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2rnsi"]
 shader = ExtResource("4_vegls")
 shader_parameter/amount = 20.0
-shader_parameter/uv_amount = 0.502
+shader_parameter/uv_amount = 0.03
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_la1i8"]
 shader = ExtResource("5_qxgn5")
@@ -244,6 +244,61 @@ tracks/2/keys = {
 "values": [Color(0.34706828, 0.34706834, 0.34706816, 0.9098039)]
 }
 
+[sub_resource type="Animation" id="Animation_jj5mi"]
+resource_name = "disconnected"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("White_noise:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("White_noise:material:shader_parameter/uv_amount")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.03]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("White_noise:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "audio"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../../select_sound")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("8_x2m83")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/3/use_blend = true
+
 [sub_resource type="Animation" id="Animation_1mpcy"]
 resource_name = "noise"
 length = 0.4
@@ -257,7 +312,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.133333, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.478431, 0.478431, 0.478431, 0.823529)]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.47843137, 0.47843137, 0.47843137, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -312,7 +367,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.133333, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.478431, 0.478431, 0.478431, 0.823529)]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(0.47843137, 0.47843137, 0.47843137, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -342,6 +397,7 @@ tracks/2/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_840pm"]
 _data = {
 &"RESET": SubResource("Animation_y2vu2"),
+&"disconnected": SubResource("Animation_jj5mi"),
 &"noise": SubResource("Animation_1mpcy"),
 &"noise_no_sound": SubResource("Animation_5aktn")
 }
@@ -614,7 +670,7 @@ shader_parameter/glow_threshold = 0.65
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tjlmj"]
 shader = ExtResource("12_jj5mi")
-shader_parameter/brightness = 1.18400005624
+shader_parameter/brightness = 1.0000000475
 shader_parameter/contrast = 1.1
 shader_parameter/vignette_strength = 1.2
 shader_parameter/grain_strength = 0.04
@@ -633,7 +689,7 @@ cam_buttons_parent = NodePath("CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer
 Cam_ui = NodePath("CanvasLayer/CamUi")
 noise_ani = NodePath("CanvasLayer/CamUi/Noise_ani")
 map_label = NodePath("CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Name")
-Warning_msg = NodePath("CanvasLayer/CamUi/Warning_msg")
+Warning_msg = NodePath("CanvasLayer/CamUi/Warning_msg/alart/warningMsg")
 blink_ani = NodePath("CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton/Button_blink")
 white_noise = NodePath("CanvasLayer/CamUi/White_noise")
 selected_button = NodePath("CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton/CAM0")
@@ -664,7 +720,7 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 2
 mouse_filter = 2
 
-[node name="SoundOnly" type="Label" parent="CanvasLayer/CamUi/Warning_msg/alart" unique_id=1382261449]
+[node name="warningMsg" type="Label" parent="CanvasLayer/CamUi/Warning_msg/alart" unique_id=1382261449]
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -682,7 +738,6 @@ z_index = 1
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
@@ -738,6 +793,7 @@ shortcut = SubResource("Shortcut_4ehff")
 shortcut_in_tooltip = false
 text = "CAM1"
 script = ExtResource("2_f7e7f")
+is_disconnected = true
 metadata/_edit_use_anchors_ = true
 
 [node name="CAM2" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=883612325]
@@ -929,7 +985,7 @@ grow_vertical = 2
 scale = Vector2(1.5, 1.5)
 pivot_offset_ratio = Vector2(0.5, 0.5)
 mouse_filter = 2
-color = Color(0.34706828, 0.34706834, 0.34706816, 0.9098039)
+color = Color(0.86381376, 0.86381376, 0.86381376, 1)
 metadata/_edit_use_anchors_ = true
 metadata/_edit_lock_ = true
 

@@ -1,5 +1,6 @@
 extends Button
 
+@export var is_disconnected:bool = false
 var normal = preload("res://Theme/Cam_normal_box.stylebox")
 var hilight = preload("res://Theme/Cam_hilight_box.stylebox")
 @warning_ignore("unused_signal")

@@ -24,6 +24,7 @@ var fixed_in_pin: Marker3D = null
 var current_out_pin: Marker3D = null
 
 var is_dragging: bool = false
+#@warning_ignore("shadowed_variable_base_class")
 var is_connected: bool = false
 
 var init_height: float = 0.0

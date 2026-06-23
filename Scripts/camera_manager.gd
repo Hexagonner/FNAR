@@ -3,16 +3,18 @@ extends Node
 var normal = preload("res://Theme/Cam_normal_box.stylebox")
 var hilight = preload("res://Theme/Cam_hilight_box.stylebox")
 
-@export var map_light:Node # for optimize light
 
 @export var cam_buttons_parent:Node
 @export var Cam_ui:Node
-@export var noise_ani :Node
+@export var noise_ani :AnimationPlayer
 @export var map_label:Node
-@export var Warning_msg:Node
-@export var blink_ani:Node
+@export var Warning_msg:Label
+@export var blink_ani:AnimationPlayer
 @export var white_noise:Node
-
+@export_category("dont touch")
+@export var map_light:Node # for optimize light
+@export var selected_button:Button
+@export var selected_cam: Camera3D
 var map_name:Dictionary = {
 	"cam1": "왼쪽 복도 구석",
 	"cam2": "왼쪽 복도",
@@ -30,9 +32,9 @@ var map_name:Dictionary = {
 
 var all_cams:Dictionary = {}
 var all_lights:Dictionary = {}
-@export var selected_cam: Camera3D
+
 var selected_light: Node3D
-@export var selected_button:Button
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -65,10 +67,13 @@ func _ready() -> void:
 
 
 func set_current_cam(cam) -> void:
-	white_noise.rotation_degrees = randf_range(0.0, 12.0)
-	#print($CamUi/White_noise.rotation_degrees)
-	noise_ani.stop()
-	noise_ani.play("noise")
+	if cam.is_disconnected:
+		white_noise.rotation_degrees = 0
+		noise_ani.play("disconnected")
+	else:
+		white_noise.rotation_degrees = randf_range(0.0, 12.0)
+		noise_ani.stop()
+		noise_ani.play("noise")
 
 	var prev_button = selected_button
 	selected_cam.visible = false
@@ -96,8 +101,11 @@ func set_current_cam(cam) -> void:
 	selected_button.add_theme_stylebox_override("hover", hilight)
 	if "is_hilight" in selected_button:
 		selected_button.is_hilight = true
-
-	if cam.name.to_lower() == "cam-":
+	if cam.is_disconnected:
+		Warning_msg.text = "-경고-\n연결 끊김"
+		Warning_msg.visible = true
+	elif cam.name.to_lower() == "cam-":
+		Warning_msg.text = "-카메라 비활성화됨-\n사운드 전용"
 		Warning_msg.visible = true
 	else:
 		Warning_msg.visible = false
