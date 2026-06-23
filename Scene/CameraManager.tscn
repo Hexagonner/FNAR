@@ -195,7 +195,7 @@ script/source = "extends AnimationPlayer
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2rnsi"]
 shader = ExtResource("4_vegls")
 shader_parameter/amount = 20.0
-shader_parameter/uv_amount = 0.03
+shader_parameter/uv_amount = 0.502
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_la1i8"]
 shader = ExtResource("5_qxgn5")
@@ -683,7 +683,7 @@ shader_parameter/glitch_strength = 0.02
 shader_parameter/glitch_speed = 8.0
 shader_parameter/flicker_strength = 0.0
 
-[node name="CameraManager" type="Node" unique_id=826170809 node_paths=PackedStringArray("cam_buttons_parent", "Cam_ui", "noise_ani", "map_label", "Warning_msg", "blink_ani", "white_noise", "selected_button")]
+[node name="CameraManager" type="Node" unique_id=826170809 node_paths=PackedStringArray("cam_buttons_parent", "Cam_ui", "noise_ani", "map_label", "Warning_msg", "blink_ani", "white_noise", "white_bg", "selected_button")]
 script = ExtResource("1_stw4l")
 cam_buttons_parent = NodePath("CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton")
 Cam_ui = NodePath("CanvasLayer/CamUi")
@@ -692,6 +692,7 @@ map_label = NodePath("CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Name")
 Warning_msg = NodePath("CanvasLayer/CamUi/Warning_msg/alart/warningMsg")
 blink_ani = NodePath("CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton/Button_blink")
 white_noise = NodePath("CanvasLayer/CamUi/White_noise")
+white_bg = NodePath("CanvasLayer/CamUi/White_background")
 selected_button = NodePath("CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton/CAM0")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1470164439]
@@ -973,6 +974,22 @@ libraries/ = SubResource("AnimationLibrary_ts87o")
 libraries/ = SubResource("AnimationLibrary_u1nln")
 script = SubResource("GDScript_vxd7h")
 
+[node name="White_background" type="ColorRect" parent="CanvasLayer/CamUi" unique_id=814105628]
+visible = false
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
 [node name="White_noise" type="ColorRect" parent="CanvasLayer/CamUi" unique_id=694775260]
 z_index = -1
 material = SubResource("ShaderMaterial_2rnsi")
@@ -985,7 +1002,7 @@ grow_vertical = 2
 scale = Vector2(1.5, 1.5)
 pivot_offset_ratio = Vector2(0.5, 0.5)
 mouse_filter = 2
-color = Color(0.86381376, 0.86381376, 0.86381376, 1)
+color = Color(0.34706828, 0.34706834, 0.34706816, 0.9098039)
 metadata/_edit_use_anchors_ = true
 metadata/_edit_lock_ = true
 

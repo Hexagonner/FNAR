@@ -11,6 +11,7 @@ var hilight = preload("res://Theme/Cam_hilight_box.stylebox")
 @export var Warning_msg:Label
 @export var blink_ani:AnimationPlayer
 @export var white_noise:Node
+@export var white_bg:ColorRect
 @export_category("dont touch")
 @export var map_light:Node # for optimize light
 @export var selected_button:Button
@@ -38,6 +39,7 @@ var selected_light: Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	white_bg.visible =false
 	Warning_msg.visible = false
 	Cam_ui.visible = false
 #여기서 나오는 c들은 for 문속 지역변수(임시)입니다. 또한 for in 구문은 파라미터 값을 검색?할때 쓰입니다.
@@ -69,11 +71,13 @@ func _ready() -> void:
 func set_current_cam(cam) -> void:
 	if cam.is_disconnected:
 		white_noise.rotation_degrees = 0
+		white_bg.visible =true
 		noise_ani.play("disconnected")
 	else:
 		white_noise.rotation_degrees = randf_range(0.0, 12.0)
 		noise_ani.stop()
 		noise_ani.play("noise")
+		white_bg.visible =false
 
 	var prev_button = selected_button
 	selected_cam.visible = false

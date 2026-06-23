@@ -24,7 +24,8 @@ var fixed_in_pin: Marker3D = null
 var current_out_pin: Marker3D = null
 
 var is_dragging: bool = false
-#@warning_ignore("shadowed_variable_base_class")
+
+@warning_ignore("shadowed_variable_base_class")
 var is_connected: bool = false
 
 var init_height: float = 0.0
@@ -38,7 +39,7 @@ var has_played_snap_sound: bool = false
 var door_area: Area3D = null
 var last_valid_mouse_pos: Vector3 = Vector3.ZERO
 var electric_box: CSGBox3D = null
-
+var wire_light: OmniLight3D
 func _ready():
 	rubber_mesh.visible = true
 	if connected_material:
@@ -97,8 +98,20 @@ func _ready():
 	# CSGBox3D 참조 및 초기 마우스 위치
 	electric_box = get_parent() as CSGBox3D
 	last_valid_mouse_pos = fixed_in_pin.global_position if fixed_in_pin else Vector3.ZERO
+	
+	# 연결 시 주변을 밝히는 OmniLight3D 생성 (재질의 emission 색상 사용)
+	wire_light = OmniLight3D.new()
+	if local_conn_mat and local_conn_mat is StandardMaterial3D:
+		wire_light.light_color = local_conn_mat.emission
+	else:
+		wire_light.light_color = Color(1.0, 0.85, 0.3)
+	wire_light.light_energy = 1
+	wire_light.omni_range = 0.5
+	wire_light.omni_attenuation = 1.0
+	wire_light.visible = false
+	add_child(wire_light)
 
-func _input(event):
+func _unhandled_input(event):
 	if not fixed_in_pin: return
 	
 	# 문이 닫혀 있으면 와이어 조작 불가
@@ -109,6 +122,9 @@ func _input(event):
 		print_all_connections()
 	
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		# 박스 밖 클릭/드래그는 와이어 조작으로 인식하지 않음
+		if event.pressed and not is_mouse_inside_box():
+			return
 		var mouse_3d = get_mouse_3d_position()
 		
 		if event.pressed:
@@ -162,14 +178,26 @@ func _input(event):
 func _process(_delta):
 	if not fixed_in_pin: return
 	
+	wire_light.visible = false
+	
 	if is_connected and current_out_pin:
 		update_rubber_band(fixed_in_pin.global_position, current_out_pin.global_position)
 		spark.emitting = false
+		var mid: Vector3 = (fixed_in_pin.global_position + current_out_pin.global_position) * 0.5
+		var wire_half: float = fixed_in_pin.global_position.distance_to(current_out_pin.global_position) * 0.5
+		wire_light.global_position = mid
+		wire_light.omni_range = clamp_to_box(mid, wire_half)
+		wire_light.visible = true
 	elif is_dragging and current_dragging_wire == self:
 			var mouse_3d = get_mouse_3d_position()
 			var closest = get_closest_out_pin(mouse_3d)
 			var t_pos: Vector3 = mouse_3d
 			if closest:
+				var mid: Vector3 = (fixed_in_pin.global_position + closest.global_position) * 0.5
+				var wire_half: float = fixed_in_pin.global_position.distance_to(closest.global_position) * 0.5
+				wire_light.visible = true
+				wire_light.global_position = mid
+				wire_light.omni_range = clamp_to_box(mid, wire_half)
 				t_pos = closest.global_position
 				if !has_played_snap_sound and !sound.playing:
 					sound.play()
@@ -276,6 +304,37 @@ func update_rubber_band(pos_a: Vector3, pos_b: Vector3):
 	
 	if rubber_mesh.mesh is CylinderMesh:
 		rubber_mesh.mesh.height = distance - 0.1
+func clamp_to_box(world_pos: Vector3, desired_range: float) -> float:
+	if not electric_box:
+		return desired_range
+	var local_pos: Vector3 = electric_box.to_local(world_pos)
+	var half: Vector3 = electric_box.size * 0.5
+	var dist_x: float = half.x - abs(local_pos.x)
+	var dist_y: float = half.y - abs(local_pos.y)
+	var dist_z: float = half.z - abs(local_pos.z)
+	var safe_range: float = minf(dist_x, minf(dist_y, dist_z))
+	return maxf(minf(desired_range, safe_range), 0.5)
+
+func is_mouse_inside_box() -> bool:
+	if not electric_box: return true
+	var camera: Camera3D = get_viewport().get_camera_3d()
+	if not camera: return false
+	
+	var mouse_pos: Vector2 = get_viewport().get_mouse_position()
+	var ray_origin: Vector3 = camera.project_ray_origin(mouse_pos)
+	var ray_normal: Vector3 = camera.project_ray_normal(mouse_pos)
+	
+	var base_pos: Vector3 = fixed_in_pin.global_position if fixed_in_pin else Vector3.ZERO
+	var plane_normal: Vector3 = fixed_in_pin.global_transform.basis.z
+	var plane: Plane = Plane(plane_normal, base_pos)
+	var intersection: Variant = plane.intersects_ray(ray_origin, ray_normal)
+	if not intersection: return false
+	
+	var raw_pos: Vector3 = intersection
+	var local_pos: Vector3 = electric_box.to_local(raw_pos)
+	var half_size: Vector3 = electric_box.size * 0.5
+	return abs(local_pos.x) <= half_size.x and abs(local_pos.y) <= half_size.y and abs(local_pos.z) <= half_size.z
+
 func get_mouse_3d_position() -> Vector3:
 	var camera = get_viewport().get_camera_3d()
 	if not camera: return Vector3.ZERO
