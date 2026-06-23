@@ -3059,7 +3059,7 @@ script = ExtResource("19_5xxkr")
 libraries/ = SubResource("AnimationLibrary_oewrs")
 
 [node name="CAM0" type="Camera3D" parent="CameraManager" unique_id=1003935292]
-transform = Transform3D(0.747798, 0.12782055, -0.6515058, 1.4422939e-08, 0.98129165, 0.19252239, 0.6639262, -0.14396776, 0.7338087, -2.8625, 3.20413, -31.0414)
+transform = Transform3D(0.74779797, 0.12782057, -0.6515059, 1.4422938e-08, 0.9812916, 0.1925224, 0.66392624, -0.14396776, 0.7338086, -2.8625, 3.20413, -31.0414)
 fov = 40.0
 far = 10.0
 script = ExtResource("19_5xxkr")
@@ -3105,11 +3105,10 @@ color = Color(0, 0, 0, 1)
 script = SubResource("GDScript_qbdri")
 metadata/_edit_use_anchors_ = true
 
-[node name="Map" type="Node3D" parent="." unique_id=55443137 node_paths=PackedStringArray("furniture", "office_light", "back_light")]
+[node name="Map" type="Node3D" parent="." unique_id=55443137 node_paths=PackedStringArray("furniture", "office_light")]
 script = ExtResource("6_dkjqe")
 furniture = NodePath("NavigationRegion3D/Funiture")
 office_light = NodePath("Celling/Lights/OfficeLight")
-back_light = NodePath("")
 
 [node name="Celling" type="MeshInstance3D" parent="Map" unique_id=634821720]
 transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, -0.113, 3.41, -13.126)
@@ -3187,7 +3186,7 @@ priority = 1
 script = SubResource("GDScript_3oqfa")
 player_node = NodePath("../../../../../../../../../../../../../Player")
 light = NodePath("../../../../../../MiddleLight")
-back_light = NodePath("")
+back_light = NodePath("../../../../../../../../../../../../NavigationRegion3D/Funiture/electricBox/backlight")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Map/Celling/Lights/OfficeLight/Lightblub_pos/Lightblub/Node3D/light_blub_model/Sketchfab_model/root/GLTF_SceneRootNode/lightbulb_01_0/Area3D" unique_id=445240521]
 transform = Transform3D(0.9999999, 0, 0, 0, 1, 0, 0, 0, 0.99999976, 0, 0, 0)
@@ -3570,7 +3569,7 @@ mesh = SubResource("ArrayMesh_8qesi")
 skeleton = NodePath("")
 
 [node name="star2" type="Node3D" parent="Map/Celling_object" unique_id=1630695764]
-transform = Transform3D(-1.1175869e-08, -0.02615604, 0.13381715, -0.015129693, 0.5000875, 0.0069926204, -0.49977097, -0.015139276, -0.00021169236, 3.2592287, 3.5634575, -32.53933)
+transform = Transform3D(-1.1175869e-08, -0.02615604, 0.13381715, -0.015129694, 0.5000875, 0.0069926204, -0.49977097, -0.015139277, -0.00021169236, 3.2592287, 3.5634575, -32.53933)
 
 [node name="Object_6" type="MeshInstance3D" parent="Map/Celling_object/star2" unique_id=1977683286]
 transform = Transform3D(0.9999996, 0, -1.7462298e-10, -5.5879354e-09, 0.99999803, 1.7608727e-08, -4.656613e-10, -9.103678e-08, 0.9999983, 0.0639801, -2.106514, -0.41174126)
@@ -3578,7 +3577,7 @@ mesh = SubResource("ArrayMesh_8cy37")
 skeleton = NodePath("")
 
 [node name="star3" type="Node3D" parent="Map/Celling_object" unique_id=569780708]
-transform = Transform3D(-1.5646219e-08, -0.03659732, 0.18774362, -0.021181572, 0.6997184, 0.00981055, -0.6996794, -0.021182755, -0.00029700145, 3.2592287, 4.0199614, -34.168297)
+transform = Transform3D(-1.5646219e-08, -0.03659732, 0.18774362, -0.021181572, 0.6997184, 0.009810549, -0.6996794, -0.021182755, -0.00029700145, 3.2592287, 4.0199614, -34.168297)
 
 [node name="Object_6" type="MeshInstance3D" parent="Map/Celling_object/star3" unique_id=1445396496]
 transform = Transform3D(0.9999996, 0, -1.7462298e-10, -5.5879354e-09, 0.99999803, 1.7608727e-08, -4.656613e-10, -9.103678e-08, 0.9999983, 0.0639801, -2.106514, -0.41174126)
@@ -3586,7 +3585,7 @@ mesh = SubResource("ArrayMesh_8cy37")
 skeleton = NodePath("")
 
 [node name="Star2" type="Node3D" parent="Map/Celling_object" unique_id=995063469]
-transform = Transform3D(-0.061784968, -0.020641204, 0.13186687, -0.015241184, 0.5004227, 0.0050147795, -0.4959338, -0.012807591, -0.0165825, 3.381232, 3.340412, -34.992626)
+transform = Transform3D(-0.061784968, -0.020641202, 0.13186687, -0.015241184, 0.5004228, 0.0050147786, -0.4959338, -0.012807594, -0.0165825, 3.381232, 3.340412, -34.992626)
 
 [node name="Object_4" type="MeshInstance3D" parent="Map/Celling_object/Star2" unique_id=683212804]
 transform = Transform3D(0.9999999, 0, 0, 0, 1.0000002, 0, 0, 0, 1, 0, -1.9520345, -0.38332558)
@@ -3594,7 +3593,7 @@ mesh = SubResource("ArrayMesh_8qesi")
 skeleton = NodePath("")
 
 [node name="Cloud2" type="Node3D" parent="Map/Celling_object" unique_id=1104297841]
-transform = Transform3D(0.009972398, -0.00017752958, -0.0007209291, 0.00017291302, 0.009998257, -7.022745e-05, 0.0007220502, 5.7567802e-05, 0.009973732, -2.4583824, 4.0775003, -35.39621)
+transform = Transform3D(0.009972398, -0.00017752958, -0.00072092906, 0.00017291302, 0.009998257, -7.022745e-05, 0.00072205014, 5.7567802e-05, 0.009973732, -2.4583824, 4.0775003, -35.39621)
 
 [node name="Sketchfab_model" type="Node3D" parent="Map/Celling_object/Cloud2" unique_id=772978415]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, -139.26163, 0)
@@ -3617,7 +3616,7 @@ mesh = SubResource("ArrayMesh_oggwd")
 skeleton = NodePath("")
 
 [node name="Cloud3" type="Node3D" parent="Map/Celling_object" unique_id=459358725]
-transform = Transform3D(0.0119973235, 1.7828062e-05, -0.00025281557, -1.821885e-05, 0.011999972, -1.835804e-05, 0.00025278772, 1.8737781e-05, 0.011997322, 1.7872646, 4.1736693, -35.17718)
+transform = Transform3D(0.0119973235, 1.782806e-05, -0.00025281555, -1.8218849e-05, 0.011999972, -1.835804e-05, 0.0002527877, 1.8737781e-05, 0.011997322, 1.7872646, 4.1736693, -35.17718)
 
 [node name="Sketchfab_model" type="Node3D" parent="Map/Celling_object/Cloud3" unique_id=600678295]
 transform = Transform3D(1, 0, 0, 0, 2.220446e-16, 1, 0, -1, 2.220446e-16, 0, -139.26163, 0)
@@ -3700,6 +3699,12 @@ shaded = true
 text = "미 구현"
 font = ExtResource("23_xjhla")
 font_size = 38
+
+[node name="backlight" type="OmniLight3D" parent="Map/NavigationRegion3D/Funiture/electricBox" unique_id=1459664313]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7148643, 4.375047)
+light_energy = 0.5
+shadow_opacity = 0.16
+omni_range = 3.372
 
 [node name="broomStick" parent="Map/NavigationRegion3D/Funiture" unique_id=339440607 instance=ExtResource("42_l712j")]
 transform = Transform3D(1.8245443, -0.23189318, 0.7856611, 0.019155055, 1.9297433, 0.5250929, -0.8189454, -0.47150293, 1.7626728, -12.067897, 1.4923155, -8.800711)

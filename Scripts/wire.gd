@@ -34,7 +34,9 @@ var base_priority: int = 0
 var local_conn_mat: Material
 var local_disconn_mat: Material
 var has_played_snap_sound: bool = false
-
+var door_area: Area3D = null
+var last_valid_mouse_pos: Vector3 = Vector3.ZERO
+var electric_box: CSGBox3D = null
 
 func _ready():
 	rubber_mesh.visible = true
@@ -87,9 +89,20 @@ func _ready():
 		call_deferred("connect_to_out_index", target_out_index)
 	else:
 		call_deferred("reset_to_home")
+	
+	# door/Area3D 참조 가져오기 (같은 부모 아래에 있음)
+	door_area = get_parent().get_node_or_null("door/Area3D") as Area3D
+	
+	# CSGBox3D 참조 및 초기 마우스 위치
+	electric_box = get_parent() as CSGBox3D
+	last_valid_mouse_pos = fixed_in_pin.global_position if fixed_in_pin else Vector3.ZERO
 
 func _input(event):
 	if not fixed_in_pin: return
+	
+	# 문이 닫혀 있으면 와이어 조작 불가
+	if door_area and not door_area.is_door_open:
+		return
 	
 	if event is InputEventKey and event.pressed and event.keycode == KEY_C:
 		print_all_connections()
@@ -272,22 +285,28 @@ func get_mouse_3d_position() -> Vector3:
 	
 	var base_pos = fixed_in_pin.global_position if fixed_in_pin else Vector3.ZERO
 	
-	# 물리 충돌(Physics Raycast)을 제거하고 순수 수학적 평면(Plane)을 사용합니다.
-	# 기준점은 IN 핀의 위치이며, 카메라가 바라보는 방향을 평면의 앞면(Normal)으로 삼습니다.
-	var plane_normal = camera.global_transform.basis.z
-	
-	# 💡 만약 퍼즐 보드가 카메라를 정면으로 보지 않고 기울어져 있다면, 
-	# 카메라 방향 대신 핀이 바라보는 방향을 써야 완벽하게 밀착됩니다.
-	# (필요시 아래 주석을 풀고 사용하세요. 상황에 따라 y 대신 z일 수 있습니다)
-	plane_normal = fixed_in_pin.global_transform.basis.z
+	var plane_normal: Vector3 = fixed_in_pin.global_transform.basis.z
 	
 	var plane = Plane(plane_normal, base_pos)
 	var intersection = plane.intersects_ray(ray_origin, ray_normal)
 	
+	var result: Vector3
 	if intersection: 
-		return intersection
-		
-	return ray_origin + ray_normal * 10
+		result = intersection
+	else:
+		result = ray_origin + ray_normal * 10
+	
+	# CSGBox3D 경계 검사: 박스 밖이면 마지막 유효 위치 반환
+	if electric_box:
+		var local_pos: Vector3 = electric_box.to_local(result)
+		var half_size: Vector3 = electric_box.size * 0.5
+		if abs(local_pos.x) <= half_size.x and abs(local_pos.y) <= half_size.y and abs(local_pos.z) <= half_size.z:
+			last_valid_mouse_pos = result
+			return result
+		else:
+			return last_valid_mouse_pos
+	
+	return result
 # ==========================================
 # ⚡ 수정됨: 배열 인덱스와 핀 종류를 명확히 출력
 # ==========================================
