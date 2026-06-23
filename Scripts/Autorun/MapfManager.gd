@@ -9,14 +9,16 @@ const MAX_HORIZON := 48           # 경로 탐색 시 고려할 최대 시간 �
 const GOAL_HOLD_TICKS := MAX_HORIZON + 8 # 목적지에 도착한 후 해당 위치를 점유하고 있을 시간
 const MAX_EXPANSIONS := 4096      # A* 탐색 시 확인할 최대 노드 수 (무한 루프 방지)
 const YIELD_SEARCH_DEPTH := 10    # 길 양보를 위해 비어있는 공간을 찾을 때의 탐색 깊이
-const YIELD_COOLDOWN_MS := 1200   # 양보 요청 간의 대기 시간(연속된 양보 방지)
-const YIELD_MIN_CONFLICT_DISTANCE := 2 # 양보 시 충돌 지점으로부터 떨어져야 하는 최소 거리
+const YIELD_COOLDOWN_MS := 300    # 양보 요청 간의 대기 시간(연속된 양보 방지) - 단축: 1200ms → 300ms
+const YIELD_MIN_CONFLICT_DISTANCE := 1 # 양보 시 충돌 지점으로부터 떨어져야 하는 최소 거리 (1칸으로 충분)
 const FORBIDDEN_BUFFER_DEPTH := 1 # 양보 지점 선택 시 다른 경로 근처에 가지 않도록 하는 여유 공간
+const BLOCKED_REPLAN_MAX_TIMES := 5 # 같은 충돌에 대한 최대 양보 요청 횟수 (무한 루프 방지)
 
 var _agents: Dictionary = {}           # 등록된 에이전트들의 정보 (위치, 목표, 경로 등)
 var _priority_order: Array[String] = [] # 에이전트들의 우선순위 순서
 var _distance_cache: Dictionary = {}    # 노드 간 거리 계산 결과 저장 (속도 향상용)
 var _yield_cooldown_until: Dictionary = {} # 에이전트별 다음 양보 가능 시간
+var _yield_attempt_count: Dictionary = {} # 에이전트별 양보 시도 횟수 (충돌 위치별)
 var _next_priority := 0                # 다음에 부여할 우선순위 번호
 
 ## 에이전트를 시스템에 등록합니다.
@@ -30,6 +32,7 @@ func register_agent(agent: Node, start_pin: Movepoint) -> void:
 			"goal": null,      # 목표 위치
 			"must": null,      # 반드시 거쳐야 하는 경유지
 			"path": [],        # 계산된 경로
+			"path_index": 0,   # ⭐ NEW: 경로상 현재 위치 인덱스
 			"valid": true,     # 경로 유효성 여부
 			"priority": _next_priority, # 우선순위
 		}
@@ -40,15 +43,25 @@ func register_agent(agent: Node, start_pin: Movepoint) -> void:
 		"goal": null,
 		"must": null,
 		"path": [],
+		"path_index": 0,      # ⭐ NEW: 경로상 현재 위치 인덱스
 		"valid": true,
 		"priority": _agents[id].get("priority", 999999),
 	}
+	# 새 경로 설정 시 해당 에이전트의 양보 시도 횟수 초기화
+	_reset_yield_attempts_for_agent(id)
 
 ## 에이전트 등록을 해제합니다.
 func unregister_agent(agent: Node) -> void:
 	var id := _agent_id(agent)
 	_agents.erase(id)
 	_priority_order.erase(id)
+	_reset_yield_attempts_for_agent(id)
+
+## 특정 에이전트의 양보 시도 횟수를 초기화합니다.
+func _reset_yield_attempts_for_agent(agent_id: String) -> void:
+	for key in _yield_attempt_count.keys():
+		if key.begins_with(agent_id):
+			_yield_attempt_count.erase(key)
 
 ## 특정 에이전트의 경로를 요청합니다.
 func request_path(agent: Node, start_pin: Movepoint, goal_pin: Movepoint, must_visit_pin: Movepoint = null) -> Array[Movepoint]:
@@ -59,6 +72,9 @@ func request_path(agent: Node, start_pin: Movepoint, goal_pin: Movepoint, must_v
 	_agents[id]["must"] = must_visit_pin
 	_agents[id]["valid"] = true
 	
+	# 새로운 목표로 변경된 경우, 이전 충돌에 대한 양보 시도 횟수 초기화
+	_reset_yield_attempts_for_agent(id)
+	
 	# 모든 에이전트의 경로를 다시 계산합니다 (우선순위 기반이므로 한 명만 바뀌어도 연쇄 영향)
 	_replan_all()
 	
@@ -68,10 +84,19 @@ func request_path(agent: Node, start_pin: Movepoint, goal_pin: Movepoint, must_v
 	return []
 
 ## 에이전트의 현재 위치를 업데이트합니다.
-func update_agent_position(agent: Node, pin: Movepoint) -> void:
+func update_agent_position(agent: Node, pin: Movepoint, path_index: int = -1) -> void:
 	var id := _agent_id(agent)
 	if _agents.has(id):
 		_agents[id]["node"] = pin
+		# ⭐ NEW: 경로상 현재 인덱스 동기화 (전달되지 않으면 현재 경로에서 pin의 위치 찾기)
+		if path_index >= 0:
+			_agents[id]["path_index"] = path_index
+		else:
+			var path: Array = _agents[id].get("path", [])
+			for i in range(path.size()):
+				if path[i] == pin:
+					_agents[id]["path_index"] = i
+					break
 
 ## 특정 노드(위치)에 들어갈 수 있는지 확인합니다. (다른 에이전트가 서 있는지 체크)
 func can_enter_node(agent: Node, node: Movepoint) -> bool:
@@ -116,26 +141,42 @@ func try_resolve_deadlock(blocked_agent: Node, blocked_from: Movepoint, blocked_
 	var cooldown_until: int = _yield_cooldown_until.get(yielder_id, 0)
 	if now_ms < cooldown_until:
 		return false
+	
+	# 같은 충돌 지점에 대한 양보 시도 제한 (무한 루프 방지)
+	var conflict_key := "%s|%s|%s" % [_agent_id(blocked_agent), _node_id(blocked_to), _agent_id(blocker)]
+	var attempt_count: int = _yield_attempt_count.get(conflict_key, 0)
+	if attempt_count >= BLOCKED_REPLAN_MAX_TIMES:
+		print("[양보 불가] %s→%s 충돌: 최대 양보 횟수(%d) 초과, 계속 진행" % [
+			blocked_agent.name, blocker.name, BLOCKED_REPLAN_MAX_TIMES
+		])
+		# 쿨타임을 더 길게 설정하여 안정화 유도
+		_yield_cooldown_until[yielder_id] = now_ms + 2000
+		return false
+	_yield_attempt_count[conflict_key] = attempt_count + 1
 
 	# 비켜줄 만한 적절한 위치(Target)를 찾습니다.
 	var yield_target := _find_yield_target(yielder, blocked_from, blocked_to, requester_remaining)
 	if yield_target == null:
-		print("[충돌] %s가 %s를 막고 있음 → %s가 양보할 위치를 찾을 수 없음" % [
-			blocker.name, 
-			blocked_agent.name,
-			yielder.name
-		])
-		return false
+		# 양보 위치를 찾을 수 없으면 현재 위치 인근으로 폴백
+		yield_target = _find_yield_target_fallback(yielder, blocked_from, blocked_to, requester_remaining)
+		if yield_target == null:
+			print("[충돌] %s가 %s를 막고 있음 → %s가 양보할 위치를 찾을 수 없음 (폴백 실패)" % [
+				blocker.name, 
+				blocked_agent.name,
+				yielder.name
+			])
+			return false
+		print("[양보 폴백] 표준 양보 위치 선택 실패 → 인근 회피 경로 탐색")
 		
 	# 에이전트 노드에 'request_yield_to' 함수가 있다면 양보를 요청합니다.
 	if not yielder.has_method("request_yield_to"):
 		return false
-		
+	
+	var yield_target_name: String = yield_target.name if yield_target != null else "Unknown"
 	var accepted: bool = yielder.call("request_yield_to", yield_target)
 	if accepted:
 		# 양보를 수락했다면 쿨타임을 설정합니다.
 		_yield_cooldown_until[yielder_id] = now_ms + YIELD_COOLDOWN_MS
-		var yield_target_name: String = yield_target.name if yield_target else "Unknown"
 		print("[양보 성공] %s → %s (양보자: %s, 목표: %s)" % [
 			blocked_agent.name,
 			blocker.name,
@@ -143,7 +184,7 @@ func try_resolve_deadlock(blocked_agent: Node, blocked_from: Movepoint, blocked_
 			yield_target_name
 		])
 	else:
-		print("[양보 거부] %s가 양보를 거부함 (목표: %s)" % [yielder.name, yield_target.name if yield_target else "Unknown"])
+		print("[양보 거부] %s가 양보를 거부함 (목표: %s)" % [yielder.name, yield_target_name])
 	return accepted
 
 ## 특정 노드에 위치한 에이전트를 찾습니다.
@@ -159,6 +200,47 @@ func _find_agent_at_node(node: Movepoint, except_agent: Node = null) -> Node:
 			return agent_node
 	return null
 
+## 양보할 위치를 찾을 수 없을 때의 폴백 전략: 양보자의 현재 위치 근처에서 가장 가까운 비어있는 노드
+func _find_yield_target_fallback(blocker: Node, blocked_from: Movepoint, blocked_to: Movepoint, requester_remaining: Array[Movepoint]) -> Movepoint:
+	var blocker_id := _agent_id(blocker)
+	var blocker_node: Movepoint = _agents[blocker_id].get("node")
+	if blocker_node == null:
+		return null
+	
+	# 봉쇄된 구간 설정: 양보자가 진행하려던 전체 경로를 금지하여 다른 방향으로 양보하도록 유도
+	var minimal_forbidden: Dictionary = {}
+	minimal_forbidden[_node_id(blocked_to)] = true
+	minimal_forbidden[_node_id(blocked_from)] = true
+	
+	# ⭐ 개선: requester_remaining (양보자가 진행하려던 경로) 전체를 금지
+	# 이미 지나온 경로가 아닌, 앞으로 가려는 경로만 금지하여 뒤쪽 양보 가능
+	for candidate_node in requester_remaining:
+		if candidate_node != null:
+			minimal_forbidden[_node_id(candidate_node)] = true
+	
+	# 양보자의 현재 위치에서 1-2칸 떨어진 곳 검색 (금지된 방향 제외)
+	var candidates: Array[Movepoint] = blocker_node.neighbors.duplicate()
+	for candidate in candidates:
+		if candidate == null: continue
+		var node_id := _node_id(candidate)
+		if minimal_forbidden.has(node_id): continue
+		if not can_enter_node(blocker, candidate): continue
+		return candidate
+	
+	# 2칸 거리까지 확장
+	var _secondary: Array[Movepoint] = []
+	for first in blocker_node.neighbors:
+		if first == null: continue
+		for second in first.neighbors:
+			if second == null: continue
+			if second == blocker_node: continue
+			var node_id := _node_id(second)
+			if minimal_forbidden.has(node_id): continue
+			if can_enter_node(blocker, second):
+				return second
+	
+	return null
+
 ## 양보할 때 이동할 안전한 노드를 찾습니다.
 func _find_yield_target(blocker: Node, blocked_from: Movepoint, blocked_to: Movepoint, requester_remaining: Array[Movepoint]) -> Movepoint:
 	var blocker_id := _agent_id(blocker)
@@ -167,6 +249,11 @@ func _find_yield_target(blocker: Node, blocked_from: Movepoint, blocked_to: Move
 	var blocker_node: Movepoint = _agents[blocker_id].get("node")
 	if blocker_node == null:
 		return null
+
+	# ⭐ 개선: 현재 위치에서의 대기가 항상 가능한지 먼저 확인
+	# (현재 위치는 이미 안전한 곳이므로 충돌 거리 체크 불필요)
+	if can_enter_node(blocker, blocker_node):
+		return blocker_node  # 현재 위치에서 그냥 대기하면 됨!
 
 	# 피해야 할 '금지 구역'을 설정합니다 (상대방의 이동 경로 등)
 	var forbidden: Dictionary = _build_forbidden_nodes_for_yield(blocker_id, blocked_from, blocked_to, requester_remaining)
@@ -208,7 +295,7 @@ func _find_yield_target(blocker: Node, blocked_from: Movepoint, blocked_to: Move
 			continue # 이미 누가 있는 곳 패스
 		
 		var d_from_blocker: int = int(distance_from_blocker[node_id])
-		if d_from_blocker <= 0: continue
+		if d_from_blocker < 0: continue  # 거리가 0인 경우(현재 위치)도 허용
 		
 		# 충돌 지점에서 충분히 떨어져 있는지 확인
 		var d_from_blocked_to: int = int(distance_from_blocked_to.get(node_id, 999999))
@@ -257,15 +344,24 @@ func _find_yield_target(blocker: Node, blocked_from: Movepoint, blocked_to: Move
 	
 	# 결과 출력
 	if best_node != null:
-		var target_info: String = "근처" if best_distance <= 2 else ("경로상" if best_is_on_path else "경로외")
+		var target_info: String
+		if best_distance <= 2:
+			target_info = "근처"
+		elif best_is_on_path:
+			target_info = "경로상"
+		else:
+			target_info = "경로외"
 		print("  [양보 대상 선택] %s ← %s (거리:%d, %s) | 검토:%d, 필터:%d, 유효:%d" % [
 			best_node.name, blocker.name, best_distance, target_info,
 			candidates_checked, candidates_filtered, candidates_valid
 		])
 	else:
+		# 후보 부족 디버깅: 금지 구역이 너무 넓은 경우 완화 로직 필요
 		print("  [양보 대상 선택 실패] 검토:%d개, 필터:%d개, 유효:%d개, 경로상:%d개" % [
 			candidates_checked, candidates_filtered, candidates_valid, candidates_on_path
 		])
+		if candidates_valid == 0 and candidates_checked > 0:
+			print("  → 금지 구역이 너무 넓을 가능성 높음. 차단 해제 검토 필요")
 	
 	return best_node
 
@@ -290,9 +386,25 @@ func _build_forbidden_nodes_for_yield(
 		var current_node: Movepoint = _agents[id].get("node")
 		if current_node != null: forbidden[_node_id(current_node)] = true
 		var planned: Array = _agents[id].get("path", [])
-		var limit: int = mini(planned.size(), 12)
-		for i in range(limit):
+		# ⭐ 개선: 경로상 현재 인덱스 기준으로 앞으로 가려는 경로만 금지
+		# 이미 지나온 경로는 금지하지 않음 (양보 위치를 뒤쪽으로 더 확보)
+		var path_index: int = _agents[id].get("path_index", 0)
+		var start: int = max(path_index, 0)  # 현재 위치부터 시작
+		var limit: int = mini(planned.size(), start + 3)  # 앞으로 3칸까지만 금지
+		for i in range(start, limit):
 			var planned_node: Variant = planned[i]
+			if planned_node is Movepoint:
+				forbidden[_node_id(planned_node as Movepoint)] = true
+	
+	# 양보자의 현재 경로도 금지 (양보 중에 원래 경로로 돌아가면 안됨)
+	var blocker_path: Array = _agents[blocker_id].get("path", [])
+	# ⭐ 개선: path_index를 사용하여 정확한 경로상 위치 파악
+	var blocker_path_index: int = _agents[blocker_id].get("path_index", 0)
+	if blocker_path.size() > 0:
+		var start_idx: int = max(blocker_path_index + 1, 0)
+		var limit_future: int = mini(blocker_path.size(), start_idx + 15)
+		for i in range(start_idx, limit_future):
+			var planned_node: Variant = blocker_path[i]
 			if planned_node is Movepoint:
 				forbidden[_node_id(planned_node as Movepoint)] = true
 	
@@ -507,8 +619,8 @@ func _reserve_edge(edge_reservations: Dictionary, from_node: Movepoint, to_node:
 func _is_vertex_reserved(node_reservations: Dictionary, node: Movepoint, t: int, agent_id: String) -> bool:
 	if not node_reservations.has(t): return false
 	var at_time: Dictionary = node_reservations[t]
-	var owner = at_time.get(_node_id(node))
-	return owner != null and owner != agent_id
+	var node_owner = at_time.get(_node_id(node))
+	return node_owner != null and node_owner != agent_id
 
 func _is_edge_conflict(edge_reservations: Dictionary, from_node: Movepoint, to_node: Movepoint, t: int, agent_id: String) -> bool:
 	if not edge_reservations.has(t): return false
@@ -571,6 +683,8 @@ func _pop_lowest_f_index(open: Array[Dictionary]) -> int:
 
 func _agent_id(agent: Node) -> String:
 	return str(agent.get_instance_id())
+
+
 
 func _node_id(node: Movepoint) -> String:
 	return str(node.get_path())

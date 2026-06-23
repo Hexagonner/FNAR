@@ -152,11 +152,10 @@ func pupil_light_toggle()->void:
 	right_pupil_light.visible = false
 #endregion
 	
-func black_out_song()->void:
-	
-#TODO connect move to office door
+func black_out_song() -> void:
+	# TODO connect move to office door
 	music_player.play(0.0)
-	is_black_out = true #this bool make eyes blink
+	is_black_out = true  # this bool make eyes blink
 	
 
 @warning_ignore("unused_parameter")

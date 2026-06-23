@@ -17,10 +17,9 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="FNAR"
 config/version="0.0.5"
 run/main_scene="uid://dicfisfnphp5"
-config/features=PackedStringArray("4.6", "Mobile")
-run/max_fps=60
+config/features=PackedStringArray("4.7", "Forward Plus")
 boot_splash/show_image=false
-config/icon="res://icon.svg"
+config/icon="uid://ber8jesbnxxlx"
 
 [audio]
 
@@ -38,9 +37,7 @@ MapfManager="*res://Scripts/Autorun/MapfManager.gd"
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/mode=3
-window/size/maximize_disabled=true
 window/stretch/mode="viewport"
-window/vsync/vsync_mode=0
 mouse_cursor/custom_image="uid://78w34coni6io"
 
 [gui]

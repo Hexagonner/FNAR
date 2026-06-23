@@ -7,7 +7,7 @@
 ```
 상황: RD2가 Left_door로 가려는데 RD1이 Left_door에 있음
 문제: RD2가 Left_door까지 갈 필요가 없는데 Left_hall_mid_low → Left_door 까지 간 후 
-      다시 Left_hall_mid_low로 돌아옴
+	  다시 Left_hall_mid_low로 돌아옴
 결과: 불필요한 우회로 시간 낭비, 움직임이 부자연스러움
 ```
 

@@ -1,6 +1,6 @@
 extends Node3D
 
-@onready var furniture = $Funiture
+@export var furniture:Node
 @export var office_light:Node #= $Celling/Lights/OfficeLight
 #@export var light_off:Material
 @export var back_light: OmniLight3D

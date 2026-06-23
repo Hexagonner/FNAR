@@ -295,6 +295,17 @@ func _move_to_internal(goal: PinName, must_visit: PinName = PinName.NONE, update
 		move_path = find_path(start_pin, goal_pin, must_visit_pin)
 	if move_path.is_empty():
 		_set_walking_state(false)
+		# ⭐ 개선: 경로 계산 실패 원인을 파악하기 위한 디버깅 정보 출력
+		var start_name: String = start_pin.name if start_pin != null else "Unknown"
+		var goal_name: String = goal_pin.name if goal_pin != null else "Unknown"
+		var must_name: String = must_visit_pin.name if must_visit_pin != null else "None"
+		printerr("[경로 실패] %s: %s → %s (경유지: %s) | MAPF 활성화: %s" % [
+			self.name,
+			start_name,
+			goal_name,
+			must_name,
+			"Yes" if mapf != null else "No"
+		])
 		return
 
 	_planned_path = move_path
@@ -329,7 +340,21 @@ func request_yield_to(goal_pin: Movepoint) -> bool:
 	if _current_pin == null:
 		return false
 	if _current_pin == goal_pin:
+		# ⭐ 개선: 이미 양보 목표 위치에 있으면 그냥 대기만 함 (새 경로 계산 불필요!)
+		_yield_resume_goal_pin = _main_goal_pin
+		_yield_wait_remaining = WAIT_STEP_SECONDS
+		_is_yielding = true
+		var goal_name: String = PIN_NODE_NAMES.get(_main_goal_pin, "Unknown")
+		var current_pin_name: String = _current_pin.name if _current_pin != null else "Unknown"
+		print("[양보 수락] %s가 %s에서 대기 (원래 목표: %s, 대기시간: %.1f초)" % [
+			self.name, 
+			current_pin_name,
+			goal_name,
+			WAIT_STEP_SECONDS
+		])
+		_set_walking_state(false)  # 걷기 멈추고 대기
 		return true
+	
 	var wait_pin_name := _pin_name_from_node(goal_pin)
 	if wait_pin_name == PinName.NONE:
 		return false
@@ -337,9 +362,10 @@ func request_yield_to(goal_pin: Movepoint) -> bool:
 	_yield_wait_remaining = WAIT_STEP_SECONDS
 	_is_yielding = true
 	var goal_name: String = PIN_NODE_NAMES.get(_main_goal_pin, "Unknown")
+	var current_pin_name: String = _current_pin.name if _current_pin != null else "Unknown"
 	print("[양보 수락] %s가 %s에서 %s로 양보 (원래 목표: %s, 대기시간: %.1f초)" % [
 		self.name, 
-		_current_pin.name if _current_pin else "Unknown",
+		current_pin_name,
 		goal_pin.name,
 		goal_name,
 		WAIT_STEP_SECONDS
@@ -412,16 +438,22 @@ func advance_along_path(delta: float) -> void:
 		_set_walking_state(false)
 		_yield_wait_remaining -= delta
 		if _yield_wait_remaining <= 0.0:
-			var resume_goal := _yield_resume_goal_pin
-			_is_yielding = false
-			_yield_resume_goal_pin = PinName.NONE
-			var resume_goal_name: String = PIN_NODE_NAMES.get(resume_goal, "Unknown")
-			print("[양보 완료] %s가 원래 목표 %s로 복귀" % [
-				self.name,
-				resume_goal_name
-			])
-			if resume_goal != PinName.NONE:
-				_move_to_internal(resume_goal, PinName.NONE, true)
+			# 데드락이 정말 해소되었는지 확인
+			if _is_deadlock_resolved():
+				_is_yielding = false
+				_yield_resume_goal_pin = _main_goal_pin
+				var resume_goal := _yield_resume_goal_pin
+				var resume_goal_name: String = PIN_NODE_NAMES.get(resume_goal, "Unknown")
+				print("[양보 완료] %s가 원래 목표 %s로 복귀" % [
+					self.name,
+					resume_goal_name
+				])
+				if resume_goal != PinName.NONE:
+					_move_to_internal(resume_goal, PinName.NONE, true)
+			else:
+				# 데드락이 아직 해소되지 않았으면 대기 연장
+				_yield_wait_remaining = WAIT_STEP_SECONDS
+				print("[양보 연장] %s가 여전히 데드락 상태, 대기 연장" % self.name)
 		return
 
 	if not is_walking:
@@ -488,6 +520,9 @@ func advance_along_path(delta: float) -> void:
 			if requested:
 				_yield_request_cooldown = YIELD_REQUEST_COOLDOWN_SECONDS
 				_blocked_time = 0.0
+			else:
+				# 양보 요청이 거부되면, 더 긴 대기 시간을 설정하여 재요청 방지
+				_yield_request_cooldown = YIELD_REQUEST_COOLDOWN_SECONDS * 1.5
 		return
 
 	if _path_gate_was_blocked:
@@ -510,7 +545,8 @@ func advance_along_path(delta: float) -> void:
 		_reset_path_gate()
 		_current_pin = next_node
 		if mapf != null:
-			mapf.update_agent_position(self, _current_pin)
+			# ⭐ 개선: path_index도 함께 전달하여 양보 시 정확한 경로상 위치 인식
+			mapf.update_agent_position(self, _current_pin, _path_index)
 		if _path_index >= _planned_path.size() - 1:
 			_set_walking_state(false)
 			return
@@ -605,6 +641,7 @@ func find_path(start:Movepoint, goal:Movepoint, must_visit:Movepoint = null) -> 
 	first_segment.append_array(second_segment)
 	return first_segment
 
+
 func update_path3d(path:Array):
 	var curve:Curve3D = Curve3D.new()
 	movepath.curve = curve
@@ -619,11 +656,21 @@ func update_path3d(path:Array):
 		curve.add_point(points[i])
 	# 꼭짓점 사이를 부드럽게 연결 (베지어 인/아웃 핸들 설정)
 	if path_smooth_factor > 0.0 and points.size() >= 2:
-		for i in points.size():
-			var n := points.size()
-			var p_prev := points[i] if i == 0 else points[i - 1]
-			var p_curr := points[i]
-			var p_next := points[i] if i == n - 1 else points[i + 1]
+		for i in range(points.size()):
+			var n: int = points.size()
+			var p_prev: Vector3
+			var p_curr: Vector3 = points[i]
+			var p_next: Vector3
+			
+			if i == 0:
+				p_prev = points[i]
+			else:
+				p_prev = points[i - 1]
+			
+			if i == n - 1:
+				p_next = points[i]
+			else:
+				p_next = points[i + 1]
 			var out_offset := Vector3.ZERO
 			var in_offset := Vector3.ZERO
 			if i < n - 1:
@@ -634,3 +681,32 @@ func update_path3d(path:Array):
 				in_offset = from_prev * clampf(path_smooth_factor, 0.0, 0.5)
 			curve.set_point_out(i, out_offset)
 			curve.set_point_in(i, in_offset)
+
+## ⭐ 새로운 함수: 데드락이 정말 해소되었는지 확인
+func _is_deadlock_resolved() -> bool:
+	# 현재 핀이 다른 에이전트에 점유되어 있는지 확인
+	if _current_pin == null:
+		return true
+	
+	var mapf := _get_mapf_manager()
+	if mapf == null:
+		return true
+	
+	# 현재 위치의 다음 노드가 여전히 막혀있는지 확인
+	var next_node: Movepoint = null
+	if _path_index + 1 < _planned_path.size():
+		next_node = _planned_path[_path_index + 1]
+	if next_node == null:
+		return true
+	
+	# 다른 에이전트가 다음 노드를 점유하고 있는지 확인
+	for agent_id in mapf._agents.keys():
+		var agent_node = instance_from_id(int(agent_id))
+		if agent_node != self and agent_node is Node:
+			var occupied: Movepoint = mapf._agents[agent_id].get("node")
+			if occupied == next_node:
+				# 다음 노드가 아직도 점유되어 있음 → 데드락 미해소
+				return false
+	
+	# 모든 다른 에이전트가 다음 노드에서 벗어났음 → 데드락 해소
+	return true
