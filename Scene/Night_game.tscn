@@ -3063,7 +3063,7 @@ script = ExtResource("19_5xxkr")
 libraries/ = SubResource("AnimationLibrary_oewrs")
 
 [node name="CAM0" type="Camera3D" parent="CameraManager" unique_id=1003935292]
-transform = Transform3D(0.747798, 0.12782054, -0.6515058, 1.4422938e-08, 0.9812916, 0.19252239, 0.6639262, -0.14396775, 0.7338087, -2.8625, 3.20413, -31.0414)
+transform = Transform3D(0.747798, 0.12782054, -0.6515058, 1.4422939e-08, 0.9812916, 0.19252239, 0.6639262, -0.14396775, 0.7338087, -2.8625, 3.20413, -31.0414)
 fov = 40.0
 far = 10.0
 script = ExtResource("19_5xxkr")
@@ -3589,7 +3589,7 @@ mesh = SubResource("ArrayMesh_8cy37")
 skeleton = NodePath("")
 
 [node name="Star2" type="Node3D" parent="Map/Celling_object" unique_id=995063469]
-transform = Transform3D(-0.061784968, -0.02064121, 0.13186687, -0.015241184, 0.50042284, 0.0050147795, -0.4959338, -0.012807595, -0.0165825, 3.381232, 3.340412, -34.992626)
+transform = Transform3D(-0.061784968, -0.020641211, 0.13186687, -0.015241184, 0.5004229, 0.0050147795, -0.4959338, -0.012807596, -0.0165825, 3.381232, 3.340412, -34.992626)
 
 [node name="Object_4" type="MeshInstance3D" parent="Map/Celling_object/Star2" unique_id=683212804]
 transform = Transform3D(0.9999999, 0, 0, 0, 1.0000002, 0, 0, 0, 1, 0, -1.9520345, -0.38332558)
