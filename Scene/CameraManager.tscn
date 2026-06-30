@@ -188,8 +188,8 @@ script/source = "extends AnimationPlayer
 
 
 # Called when the node enters the scene tree for the first time.
-#func _ready() -> void:
-	#play(\"map\")
+func _ready() -> void:
+	play(\"map\")
 "
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2rnsi"]
@@ -794,7 +794,6 @@ shortcut = SubResource("Shortcut_4ehff")
 shortcut_in_tooltip = false
 text = "CAM1"
 script = ExtResource("2_f7e7f")
-is_disconnected = true
 metadata/_edit_use_anchors_ = true
 
 [node name="CAM2" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=883612325]
@@ -902,6 +901,7 @@ shortcut = SubResource("Shortcut_6708a")
 shortcut_in_tooltip = false
 text = "CAM8"
 script = ExtResource("2_f7e7f")
+is_disconnected = true
 metadata/_edit_use_anchors_ = true
 
 [node name="CAM9" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=1242407129]
@@ -970,7 +970,7 @@ metadata/_edit_use_anchors_ = true
 root_node = NodePath("../../../../../../../..")
 libraries/ = SubResource("AnimationLibrary_ts87o")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map" unique_id=1149400636]
+[node name="map_blink" type="AnimationPlayer" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map" unique_id=1149400636]
 libraries/ = SubResource("AnimationLibrary_u1nln")
 script = SubResource("GDScript_vxd7h")
 

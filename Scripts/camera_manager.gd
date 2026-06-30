@@ -16,6 +16,13 @@ var hilight = preload("res://Theme/Cam_hilight_box.stylebox")
 @export var map_light:Node # for optimize light
 @export var selected_button:Button
 @export var selected_cam: Camera3D
+
+@export_category("Wire Bridge")
+@export var wire1: Node
+@export var wire2: Node
+@export var wire3: Node
+@export var wire4: Node
+
 var map_name:Dictionary = {
 	"cam1": "왼쪽 복도 구석",
 	"cam2": "왼쪽 복도",
@@ -35,6 +42,12 @@ var all_cams:Dictionary = {}
 var all_lights:Dictionary = {}
 
 var selected_light: Node3D
+
+# ---- Wire-Camera Bridge ----
+# wire 노드 → 해당 wire가 담당하는 cam 버튼 이름들 (lowercase)
+var _wire_cam_map: Dictionary = {}
+# cam 버튼 이름 (lowercase) → Button 레퍼런스
+var _cam_button_dict: Dictionary = {}
 
 
 # Called when the node enters the scene tree for the first time.
@@ -66,12 +79,17 @@ func _ready() -> void:
 	for cam in cam_buttons_parent.get_children():
 		if cam is BaseButton:
 			cam.connect("cam_button_pressed", set_current_cam.bind(cam))
+			_cam_button_dict[cam.name.to_lower()] = cam
+
+	# ---- Wire-Camera Bridge 초기화 ----
+	_setup_wire_cam_bridge()
 
 
 func set_current_cam(cam) -> void:
 	if cam.is_disconnected:
 		white_noise.rotation_degrees = 0
 		white_bg.visible =true
+		noise_ani.stop()
 		noise_ani.play("disconnected")
 	else:
 		white_noise.rotation_degrees = randf_range(0.0, 12.0)
@@ -114,14 +132,77 @@ func set_current_cam(cam) -> void:
 	else:
 		Warning_msg.visible = false
 		#for kitchen sound only alart
+
+# ---- Wire-Camera Bridge Functions ----
+func _setup_wire_cam_bridge() -> void:
+	# wire → 담당 cam 목록 매핑
+	_wire_cam_map = {
+		wire1: ["cam1", "cam2", "cam5"],
+		wire2: ["cam3", "cam4"],
+		wire3: ["cam6", "cam7", "cam8"],
+		wire4: ["cam0", "cam9"],
+	}
+	
+	for wire: Node in _wire_cam_map.keys():
+		if wire == null:
+			push_warning("[CameraManager] wire가 null입니다. Night_game.tscn에서 export 변수를 연결했는지 확인하세요.")
+			continue
+		if not wire.has_signal("connection_changed"):
+			push_warning("[CameraManager] %s에 connection_changed 시그널이 없습니다." % wire.name)
+			continue
+		wire.connection_changed.connect(_on_wire_connection_changed.bind(wire))
+		# 초기 상태 동기화 (wire가 이미 연결/비연결 상태일 수 있음)
+		@warning_ignore("shadowed_variable_base_class")
+		var is_connected: bool = wire.get("is_connected")
+		_apply_wire_state(wire, is_connected)
+
+@warning_ignore("shadowed_variable_base_class")
+func _on_wire_connection_changed(is_connected: bool, wire: Node) -> void:
+	_apply_wire_state(wire, is_connected)
+
+@warning_ignore("shadowed_variable_base_class")
+func _apply_wire_state(wire: Node, is_connected: bool) -> void:
+	var cam_names: Array = _wire_cam_map.get(wire, [])
+	for cam_name: String in cam_names:
+		var button: Node = _cam_button_dict.get(cam_name)
+		if button != null:
+			button.is_disconnected = not is_connected
+	
+	# 현재 선택된 카메라의 연결 상태가 변경되었으면 실시간 업데이트
+	if selected_button != null and selected_button.name.to_lower() in cam_names:
+		# 카메라가 켜져있으면 상태 업데이트
+		if selected_cam.current:
+			if selected_button.is_disconnected:
+				white_noise.rotation_degrees = 0
+				white_bg.visible = true
+				noise_ani.stop()
+				noise_ani.play("disconnected")
+				Warning_msg.text = "-경고-\n연결 끊김"
+				Warning_msg.visible = true
+			else:
+				white_noise.rotation_degrees = randf_range(0.0, 12.0)
+				white_bg.visible = false
+				noise_ani.stop()
+				noise_ani.play("noise")
+				Warning_msg.visible = false
+
 func enable_camera_display() -> void:
+	if selected_button.is_disconnected:
+		white_noise.rotation_degrees = 0
+		white_bg.visible =true
+		noise_ani.play("disconnected")
+	else:
+		white_noise.rotation_degrees = randf_range(0.0, 12.0)
+		noise_ani.stop()
+		noise_ani.play("noise")
+		white_bg.visible =false
+		$cam_start_sound.play()
 	selected_cam.visible = true
 	selected_light.visible = true
 	selected_cam.current = true
 	selected_button.button_pressed = true
 	Cam_ui.visible = true
-	noise_ani.play("noise")
-	$cam_start_sound.play()
+	
 func disable_camera_display() -> void:
 	$cam_start_sound.stop()
 	selected_cam.visible = false

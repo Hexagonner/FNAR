@@ -6,8 +6,10 @@ var hilight = preload("res://Theme/Cam_hilight_box.stylebox")
 @warning_ignore("unused_signal")
 signal cam_button_pressed(cam_node_name)
 var is_hilight:bool = false
+var self_pos:Vector2
 
-
+func _ready() -> void:
+	self_pos = self.global_position
 func _pressed() -> void:
 	emit_signal("cam_button_pressed")
 	

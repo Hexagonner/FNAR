@@ -3025,9 +3025,13 @@ spot_angle = 40.091152
 
 [node name="PlayerUi" parent="." unique_id=1418439094 instance=ExtResource("16_4scd4")]
 
-[node name="CameraManager" parent="." unique_id=554643071 node_paths=PackedStringArray("map_light", "selected_cam") instance=ExtResource("17_kkm1h")]
+[node name="CameraManager" parent="." unique_id=554643071 node_paths=PackedStringArray("map_light", "selected_cam", "wire1", "wire2", "wire3", "wire4") instance=ExtResource("17_kkm1h")]
 map_light = NodePath("../Map/Celling/Lights")
 selected_cam = NodePath("CAM0")
+wire1 = NodePath("../Map/NavigationRegion3D/Funiture/electricBox/electric_box/wire1")
+wire2 = NodePath("../Map/NavigationRegion3D/Funiture/electricBox/electric_box/wire2")
+wire3 = NodePath("../Map/NavigationRegion3D/Funiture/electricBox/electric_box/wire3")
+wire4 = NodePath("../Map/NavigationRegion3D/Funiture/electricBox/electric_box/wire4")
 
 [node name="CAM1" type="Camera3D" parent="CameraManager" unique_id=2019967462]
 transform = Transform3D(-0.931055, -0.16508397, 0.32539797, 0, 0.89179736, 0.45243508, -0.3648788, 0.42124194, -0.83031243, -3.32606, 3.09395, 2.96137)

@@ -1,5 +1,7 @@
 extends Node3D
 
+signal connection_changed(is_connected: bool)
+
 @export var rubber_mesh: MeshInstance3D
 var snap_threshold: float = 0.15
 @onready var sound:AudioStreamPlayer3D = get_parent().get_node("wiresound")
@@ -148,7 +150,7 @@ func _unhandled_input(event):
 					current_out_pin.set("connected_wire", null)
 				current_out_pin = null
 					
-				is_connected = false
+				_set_connection_state(false)
 				rubber_mesh.visible = true
 				update_material_and_priority(false, 127, float(top_sort_index + 1000))
 				spark.global_position = mouse_3d
@@ -168,7 +170,7 @@ func _unhandled_input(event):
 					
 					current_out_pin = closest_out
 					current_out_pin.set("connected_wire", self)
-					is_connected = true
+					_set_connection_state(true)
 					update_material_and_priority(true, base_priority, float(base_priority))
 				else:
 					reset_to_home() 
@@ -213,6 +215,11 @@ func _process(_delta):
 		spark.transform = spark_original_transform
 		await get_tree().create_timer(randf_range(1.0,4.0)).timeout
 		spark.emitting = true
+func _set_connection_state(value: bool) -> void:
+	if is_connected != value:
+		is_connected = value
+		connection_changed.emit(value)
+
 func connect_to_out_index(out_index: int):
 	if out_index < 0 or out_index >= out_pins.size():
 		print("⚠️ [에러] ", name, ": ", out_index, "번 OUT 핀이 없습니다.")
@@ -229,7 +236,7 @@ func force_connect_to_out_pin(p_out: Marker3D):
 	if current_out_pin: 
 		current_out_pin.set("connected_wire", self)
 	
-	is_connected = true
+	_set_connection_state(true)
 	rubber_mesh.visible = true
 	
 	update_material_and_priority(true, base_priority, float(base_priority))
@@ -240,7 +247,7 @@ func reset_to_home():
 		current_out_pin.set("connected_wire", null)
 		
 	current_out_pin = null
-	is_connected = false
+	_set_connection_state(false)
 	update_material_and_priority(false, base_priority, float(base_priority))
 	
 	# 초기 메쉬 상태로 명시적 복원 (update_rubber_band는 distance=0에서 return만 하므로 init 복원 생략됨)
