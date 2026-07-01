@@ -227,9 +227,20 @@ func _on_wire_connection_changed(is_connected: bool, wire: Node) -> void:
 					if button != null:
 						button.is_disconnected = true
 				_undo_swap_for_wire(other)
-				_update_current_cam_state(_wire_cam_map.get(other, []))
 
-@warning_ignore("shadowed_variable_base_class")
+				# [핵심 수정] other가 여전히 연결 상태인지 확인
+				# force_connect_to_out_pin에 의해 previous wire가 해제된 경우, is_connected가 이미 true
+				# 일 수 있으므로 즉시 복구
+				var other_still_connected: bool = other.get("is_connected")
+				if other_still_connected:
+					print("[DEBUG] 잘못 disconnected → 복구: ", other.name)
+					for cam_name: String in _wire_cam_map.get(other, []):
+						var button: Node = _cam_button_dict.get(cam_name)
+						if button != null:
+							button.is_disconnected = false
+					# swap 다시 실행 (other가 wire의 out-pin에 연결된 상태 유지)
+					_swap_positions_between_wires(other, wire)
+				_update_current_cam_state(_wire_cam_map.get(other, []))
 func _apply_wire_state(wire: Node, is_connected: bool) -> void:
 	# wire 자신의 원래 카메라들 (in-pin 기준)
 	var own_cams: Array = _wire_cam_map.get(wire, [])
