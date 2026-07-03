@@ -1,0 +1,178 @@
+[gd_scene format=3 uid="uid://1njutqd5wl2t"]
+
+[ext_resource type="Theme" uid="uid://b8ir2cd0df1tp" path="res://Theme/text_button.tres" id="1_i3got"]
+[ext_resource type="FontFile" uid="uid://b64buxvqw4x0o" path="res://Font/Galmuri14.ttf" id="2_8dofg"]
+[ext_resource type="Script" uid="uid://c708h32i38ysp" path="res://Scripts/pause_menu.gd" id="2_msjnk"]
+[ext_resource type="StyleBox" uid="uid://b45wm6s7vuvw3" path="res://Theme/Cam_normal_box.stylebox" id="3_msjnk"]
+[ext_resource type="StyleBox" uid="uid://c1nxxb8ed1sqg" path="res://Theme/Cam_hilight_box.stylebox" id="4_48vd4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ur6gg"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="Theme" id="Theme_n021q"]
+Panel/styles/panel = SubResource("StyleBoxFlat_ur6gg")
+
+[sub_resource type="Theme" id="Theme_nkw6i"]
+Button/colors/font_hover_color = Color(0.636454, 0.519172, 1, 1)
+Button/constants/outline_size = 5
+Button/font_sizes/font_size = 25
+Button/fonts/font = ExtResource("2_8dofg")
+Button/styles/focus = ExtResource("3_msjnk")
+Button/styles/hover = ExtResource("3_msjnk")
+Button/styles/normal = ExtResource("3_msjnk")
+Button/styles/pressed = ExtResource("4_48vd4")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_msjnk"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nkw6i"]
+bg_color = Color(0.8156863, 0.93333334, 0.09019608, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="Theme" id="Theme_vpppi"]
+Button/colors/font_hover_color = Color(0.636454, 0.519172, 1, 1)
+Button/constants/outline_size = 5
+Button/font_sizes/font_size = 25
+Button/fonts/font = ExtResource("2_8dofg")
+Button/styles/focus = ExtResource("3_msjnk")
+Button/styles/hover = ExtResource("3_msjnk")
+Button/styles/normal = ExtResource("3_msjnk")
+Button/styles/pressed = ExtResource("4_48vd4")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_48vd4"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 5.0
+expand_margin_top = 5.0
+expand_margin_right = 5.0
+expand_margin_bottom = 5.0
+
+[node name="pauseMenu" type="Control" unique_id=738862839]
+process_mode = 3
+process_priority = 1
+z_index = 4096
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_i3got")
+script = ExtResource("2_msjnk")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1219784199]
+z_index = 4096
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="CenterContainer" unique_id=1895237148]
+custom_minimum_size = Vector2(800, 450)
+layout_mode = 2
+theme = SubResource("Theme_n021q")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Panel" unique_id=1026167501]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 130
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/Panel/VBoxContainer" unique_id=1205452863]
+layout_mode = 2
+theme_override_font_sizes/font_size = 70
+text = "일시 정지"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/Panel/VBoxContainer" unique_id=194343913]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="Back_Button" type="Button" parent="CenterContainer/Panel/VBoxContainer/HBoxContainer" unique_id=616373707]
+layout_mode = 2
+theme = SubResource("Theme_nkw6i")
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_msjnk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_nkw6i")
+theme_override_styles/hover = SubResource("StyleBoxFlat_msjnk")
+theme_override_styles/focus = SubResource("StyleBoxFlat_msjnk")
+text = "재개 하기"
+
+[node name="main_Button" type="Button" parent="CenterContainer/Panel/VBoxContainer/HBoxContainer" unique_id=1351551018]
+layout_mode = 2
+theme = SubResource("Theme_vpppi")
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_48vd4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_nkw6i")
+theme_override_styles/hover = SubResource("StyleBoxFlat_msjnk")
+theme_override_styles/focus = SubResource("StyleBoxFlat_msjnk")
+text = "시작 화면으로"
+
+[node name="Label2" type="Label" parent="CenterContainer/Panel" unique_id=131971388]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.81333333
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.7380309, 0.73803085, 0.73803085, 1)
+theme_override_font_sizes/font_size = 24
+text = "Tip: 모든 상호작용은 마우스 클릭으로 가능합니다."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="CenterContainer/Panel/VBoxContainer/HBoxContainer/Back_Button" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="CenterContainer/Panel/VBoxContainer/HBoxContainer/main_Button" to="." method="_on_main_button_pressed"]

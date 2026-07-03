@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bhyamxnr4gq88" path="res://Sprites/cam_ui/map_2.png" id="6_txy3u"]
 [ext_resource type="AudioStream" uid="uid://ofqn0q6h2f4i" path="res://Sounds/cameraswitch.ogg" id="8_x2m83"]
 [ext_resource type="AudioStream" uid="uid://dhuwdfl4dndpf" path="res://Sounds/cameraidle.ogg" id="9_wn5at"]
-[ext_resource type="Shader" uid="uid://0f2uuekgfjm5" path="res://Shader/test11.gdshader" id="12_jj5mi"]
+[ext_resource type="Shader" uid="uid://0f2uuekgfjm5" path="res://Shader/glitch.gdshader" id="12_jj5mi"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_6et8d"]
 device = -1
