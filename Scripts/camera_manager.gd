@@ -49,11 +49,9 @@ var _wire_cam_map: Dictionary = {}
 # cam 버튼 이름 (lowercase) → Button 레퍼런스
 var _cam_button_dict: Dictionary = {}
 
-# ---- Position Swap System ----
+# ---- Position Assignment System ----
 # cam 버튼 이름 (lowercase) → 원래 위치 (시작 시 저장, 절대 변경 안 함)
 var _button_original_positions: Dictionary = {}
-# wire → 현재 할당된 cam 버튼 이름 배열 (swap 시 변경됨)
-var _wire_cam_assignment: Dictionary = {}
 # wire → [out-pin → wire] 매핑 캐시 (out-pin이 어느 wire 소속인지)
 var _pin_to_wire_cache: Dictionary = {}
 
@@ -151,10 +149,6 @@ func _setup_wire_cam_bridge() -> void:
 		wire4: ["cam0", "cam9", "cam-"],
 	}
 	
-	# 각 wire의 현재 카메라 할당을 기본값으로 초기화
-	for wire: Node in _wire_cam_map.keys():
-		_wire_cam_assignment[wire] = _wire_cam_map[wire].duplicate()
-	
 	# 모든 버튼의 원래 위치 저장
 	for cam_name: String in _cam_button_dict.keys():
 		var button: Button = _cam_button_dict[cam_name]
@@ -171,10 +165,9 @@ func _setup_wire_cam_bridge() -> void:
 			push_warning("[CameraManager] %s에 connection_changed 시그널이 없습니다." % wire.name)
 			continue
 		wire.connection_changed.connect(_on_wire_connection_changed.bind(wire))
-		# 초기 상태 동기화 (wire가 이미 연결/비연결 상태일 수 있음)
-		@warning_ignore("shadowed_variable_base_class")
-		var is_connected: bool = wire.get("is_connected")
-		_apply_wire_state(wire, is_connected)
+	
+	# 초기 상태 동기화: 모든 wire의 cam 위치를 연결 상태에 따라 재할당
+	_reassign_all_cam_positions()
 
 func _build_pin_to_wire_cache() -> void:
 	_pin_to_wire_cache.clear()
@@ -208,75 +201,101 @@ func _get_wire_for_pin(pin: Node) -> Node:
 		current = current.get_parent()
 	return null
 
-@warning_ignore("shadowed_variable_base_class")
-func _on_wire_connection_changed(is_connected: bool, wire: Node) -> void:
-	_apply_wire_state(wire, is_connected)
-	# wire가 해제될 때, 다른 wire가 이 wire의 out-pin을 사용 중이었다면
-	# 그 wire도 disconnected + swap 해제되어야 함
-	if not is_connected:
-		for other: Node in _wire_cam_map.keys():
-			if other == null or other == wire:
-				continue
-			var other_out_pin: Marker3D = other.get("current_out_pin") as Marker3D
-			if other_out_pin == null:
-				continue
-			if _get_wire_for_pin(other_out_pin) == wire:
-				# other가 wire의 out-pin을 쓰고 있었음 → other도 disconnected & swap 해제
-				for cam_name: String in _wire_cam_map.get(other, []):
-					var button: Node = _cam_button_dict.get(cam_name)
-					if button != null:
-						button.is_disconnected = true
-				_undo_swap_for_wire(other)
+## 모든 wire의 cam 버튼 위치를 현재 연결 상태에 따라 재할당
+## 규칙:
+##   1. 연결된 wire (pin1 → pin2) → pin2 주인의 cam 기본 위치 우선 할당
+##   2. 연결 안 된 wire → 자신의 pin2가 비어있으면 자신, 없으면 다른 빈 pin2
+##   3. cam 그룹 크기가 달라도 남는 cam들은 전역 남은 슬롯에 중복 없이 배정
+##   4. 결과: 모든 cam이 서로 다른 pin2 위치에 배치 (겹침 없음)
+func _reassign_all_cam_positions() -> void:
+	var wires: Array = _wire_cam_map.keys()
+	var target_map: Dictionary = {}  # wire → source_wire (이 wire의 기본 위치를 사용)
+	var used_sources: Array = []
 
-				# [핵심 수정] other가 여전히 연결 상태인지 확인
-				# force_connect_to_out_pin에 의해 previous wire가 해제된 경우, is_connected가 이미 true
-				# 일 수 있으므로 즉시 복구
-				var other_still_connected: bool = other.get("is_connected")
-				if other_still_connected:
-					print("[DEBUG] 잘못 disconnected → 복구: ", other.name)
-					for cam_name: String in _wire_cam_map.get(other, []):
-						var button: Node = _cam_button_dict.get(cam_name)
-						if button != null:
-							button.is_disconnected = false
-					# swap 다시 실행 (other가 wire의 out-pin에 연결된 상태 유지)
-					_swap_positions_between_wires(other, wire)
-				_update_current_cam_state(_wire_cam_map.get(other, []))
-func _apply_wire_state(wire: Node, is_connected: bool) -> void:
-	# wire 자신의 원래 카메라들 (in-pin 기준)
-	var own_cams: Array = _wire_cam_map.get(wire, [])
+	# Phase 1: 연결된 wire → 대상 wire의 기본 위치로 (강제)
+	# 주의: force_connect_to_out_pin으로 pin2를 빼앗긴 wire는
+	# is_connected=true지만 current_out_pin의 connected_wire가 자신이 아님 → 제외
+	for wire: Node in wires:
+		if not wire.get("is_connected"):
+			continue
+		var out_pin: Node = wire.get("current_out_pin")
+		if out_pin == null:
+			continue
+		# 이 wire가 실제로 이 out_pin의 legitimate 사용자인지 확인
+		if out_pin.get("connected_wire") != wire:
+			# pin2를 다른 wire에게 빼앗긴 상태 → 연결 끊긴 것으로 간주
+			continue
+		var target: Node = _get_wire_for_pin(out_pin)
+		if target == null:
+			continue
+		target_map[wire] = target
+		used_sources.append(target)
 
-	if not is_connected:
-		# 연결 해제: 자신의 카메라들 disconnected + swap 복원
+	# Phase 2: 연결 안 된 wire → 빈 pin2 위치 찾기 (자신 우선)
+	for wire: Node in wires:
+		if wire in target_map:
+			continue
+		if wire not in used_sources:
+			target_map[wire] = wire
+			used_sources.append(wire)
+		else:
+			for potential: Node in wires:
+				if potential in used_sources:
+					continue
+				target_map[wire] = potential
+				used_sources.append(potential)
+				break
+
+	# Phase 3: 전역 position pool 할당
+	# 1차: 각 wire의 cam들 → target wire의 기본 위치(index matching, target 크기만큼)
+	# 2차: 남은 cam들 → 남은 position slot에 중복 없이 배정
+	var assigned_slots: Array = []  # 사용된 slot (cam_name 기준)
+	var cam_positions: Dictionary = {}  # cam_name → Vector2
+
+	# 1차: index-by-index 우선 할당 (slot이 이미 사용 중이면 skip)
+	for wire: Node in wires:
+		var own_cams: Array = _wire_cam_map.get(wire, [])
+		var target: Node = target_map.get(wire, wire)
+		var target_cams: Array = _wire_cam_map.get(target, [])
+		for i: int in range(own_cams.size()):
+			if i < target_cams.size():
+				var slot: String = target_cams[i]
+				if slot in assigned_slots:
+					continue  # 이미 다른 wire가 이 slot 사용 중 → skip
+				cam_positions[own_cams[i]] = _button_original_positions[slot]
+				assigned_slots.append(slot)
+
+	# 2차: 남은 cam들 → 남은 slot에 순차 배정
+	var unassigned_cams: Array = []
+	for wire: Node in wires:
+		for cam_name: String in _wire_cam_map.get(wire, []):
+			if cam_name not in cam_positions:
+				unassigned_cams.append(cam_name)
+	var available_slots: Array = []
+	for slot: String in _button_original_positions.keys():
+		if slot not in assigned_slots:
+			available_slots.append(slot)
+	for i: int in range(unassigned_cams.size()):
+		if i < available_slots.size():
+			cam_positions[unassigned_cams[i]] = _button_original_positions[available_slots[i]]
+
+	# Phase 4: 모든 cam 버튼 위치 + disconnected 상태 적용
+	for wire: Node in wires:
+		var own_cams: Array = _wire_cam_map.get(wire, [])
+		var wire_connected: bool = wire.get("is_connected")
 		for cam_name: String in own_cams:
-			var button: Node = _cam_button_dict.get(cam_name)
-			if button != null:
-				button.is_disconnected = true
-		_undo_swap_for_wire(wire)
+			var button: Button = _cam_button_dict.get(cam_name) as Button
+			if button == null:
+				continue
+			if cam_name in cam_positions:
+				button.position = cam_positions[cam_name]
+			button.is_disconnected = not wire_connected
 		_update_current_cam_state(own_cams)
-		return
 
-	# 연결됨: out-pin의 소유 wire 찾기
-	var out_pin: Marker3D = wire.get("current_out_pin") as Marker3D
-	var out_wire: Node = null
-	if out_pin != null:
-		out_wire = _get_wire_for_pin(out_pin)
 
-	# in-pin은 연결됐으므로 disconnected 해제
-	for cam_name: String in own_cams:
-		var button: Node = _cam_button_dict.get(cam_name)
-		if button != null:
-			button.is_disconnected = false
-
-	if out_wire == null or out_wire == wire:
-		# 자기 own out-pin에 연결 (또는 owner 식별 불가) → swap 없음
-		_undo_swap_for_wire(wire)
-	else:
-		# 교차 연결 (다른 wire의 own out-pin) → 신호 섞임
-		_undo_swap_for_wire(wire)
-		_undo_swap_for_wire(out_wire)
-		_swap_positions_between_wires(wire, out_wire)
-
-	_update_current_cam_state(own_cams)
+@warning_ignore("shadowed_variable_base_class")
+func _on_wire_connection_changed(_is_connected: bool, _wire: Node) -> void:
+	_reassign_all_cam_positions()
 
 func _update_current_cam_state(cam_names: Array) -> void:
 	if selected_button != null and selected_button.name.to_lower() in cam_names:
@@ -295,87 +314,8 @@ func _update_current_cam_state(cam_names: Array) -> void:
 				noise_ani.play("noise")
 				Warning_msg.visible = false
 
-## wire의 swap 상대를 찾아서 양쪽 모두 원래 위치 + 할당 복원
-func _undo_swap_for_wire(wire: Node) -> void:
-	# 이미 기본 할당 상태면 할 일 없음
-	if _wire_cam_assignment.get(wire, []) == _wire_cam_map.get(wire, []):
-		return
-	
-	# swap 상대 찾기: 누가 wire의 원래 카메라들을 현재 할당받고 있는가
-	var wire_origin: Array = _wire_cam_map.get(wire, [])
-	var swap_partner: Node = null
-	for other: Node in _wire_cam_map.keys():
-		if other == wire:
-			continue
-		if _wire_cam_assignment.get(other, []) == wire_origin:
-			swap_partner = other
-			break
-	
-	if swap_partner == null:
-		# 상대를 못 찾았으면 자신만 복원
-		_restore_single_wire(wire)
-		return
-	
-	# 양쪽 모두 복원
-	_restore_single_wire(wire)
-	_restore_single_wire(swap_partner)
-
-## wire 하나만 원래 위치 + 할당 복원
-func _restore_single_wire(wire: Node) -> void:
-	var cam_names: Array = _wire_cam_map.get(wire, [])
-	for cam_name: String in cam_names:
-		var button: Button = _cam_button_dict.get(cam_name) as Button
-		if button == null:
-			continue
-		var original_pos: Vector2 = _button_original_positions.get(cam_name, button.position)
-		button.position = original_pos
-	_wire_cam_assignment[wire] = _wire_cam_map[wire].duplicate()
-
-## wire_a(in)와 wire_b(out) 사이의 버튼 위치 교환 (교차 연결)
-## 모든 위치를 한 풀에 모아서 중복 없이 분배 → 남는 버튼도 위치가 섞임
-func _swap_positions_between_wires(wire_a: Node, wire_b: Node) -> void:
-	if wire_a == wire_b:
-		return
-	
-	# 각 wire에 원래 할당된 cam 버튼들
-	var origin_a: Array = _wire_cam_map.get(wire_a, [])
-	var origin_b: Array = _wire_cam_map.get(wire_b, [])
-	
-	if origin_a.is_empty() or origin_b.is_empty():
-		return
-	
-	# wire_b → wire_a 순서로 현재 위치를 하나의 풀로 합침
-	# (wire_a 버튼들이 wire_b 위치부터 차례대로 가져가도록)
-	var position_pool: Array[Vector2] = []
-	for cam_name: String in origin_b:
-		var btn: Button = _cam_button_dict.get(cam_name) as Button
-		if btn != null:
-			position_pool.append(btn.position)
-	for cam_name: String in origin_a:
-		var btn: Button = _cam_button_dict.get(cam_name) as Button
-		if btn != null:
-			position_pool.append(btn.position)
-	
-	# wire_a 버튼들 → 풀 앞부분 (wire_b 위치 우선)
-	for i: int in range(origin_a.size()):
-		var cam_name: String = origin_a[i]
-		var button: Button = _cam_button_dict.get(cam_name) as Button
-		if button == null:
-			continue
-		button.position = position_pool[i]
-	
-	# wire_b 버튼들 → 풀 뒷부분 (wire_a 위치 우선 + 남는 것)
-	var offset: int = origin_a.size()
-	for i: int in range(origin_b.size()):
-		var cam_name: String = origin_b[i]
-		var button: Button = _cam_button_dict.get(cam_name) as Button
-		if button == null:
-			continue
-		button.position = position_pool[offset + i]
-	
-	# 할당 배열도 swap (논리적 소유권 교환)
-	_wire_cam_assignment[wire_a] = origin_b.duplicate()
-	_wire_cam_assignment[wire_b] = origin_a.duplicate()
+# (구 _undo_swap_for_wire, _restore_single_wire, _swap_positions_between_wires는
+#  _reassign_all_cam_positions로 대체되어 제거됨)
 
 func enable_camera_display() -> void:
 
