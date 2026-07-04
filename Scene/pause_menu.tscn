@@ -4,7 +4,23 @@
 [ext_resource type="FontFile" uid="uid://b64buxvqw4x0o" path="res://Font/Galmuri14.ttf" id="2_8dofg"]
 [ext_resource type="Script" uid="uid://c708h32i38ysp" path="res://Scripts/pause_menu.gd" id="2_msjnk"]
 [ext_resource type="StyleBox" uid="uid://b45wm6s7vuvw3" path="res://Theme/Cam_normal_box.stylebox" id="3_msjnk"]
+[ext_resource type="Shader" uid="uid://bbweac1x7dtes" path="res://Shader/CameraManager.gdshader" id="3_nkw6i"]
 [ext_resource type="StyleBox" uid="uid://c1nxxb8ed1sqg" path="res://Theme/Cam_hilight_box.stylebox" id="4_48vd4"]
+[ext_resource type="Shader" uid="uid://c6aoe7vyo6fwl" path="res://Shader/CRT_noise.gdshader" id="4_c7fen"]
+[ext_resource type="AudioStream" uid="uid://cn5ysuitwkvue" path="res://Sounds/UnPause.wav" id="8_c7fen"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vpppi"]
+shader = ExtResource("3_nkw6i")
+shader_parameter/amount = 20.0
+shader_parameter/uv_amount = 0.502
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1eq5e"]
+shader = ExtResource("4_c7fen")
+shader_parameter/shake = 0.015
+shader_parameter/noiseQuality = 250.0
+shader_parameter/noiseIntensity = 0.001
+shader_parameter/offsetIntensity = 0.009999999747
+shader_parameter/colorOffsetIntensity = 0.30000001099011997
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ur6gg"]
 bg_color = Color(0, 0, 0, 1)
@@ -102,6 +118,35 @@ grow_vertical = 2
 theme = ExtResource("1_i3got")
 script = ExtResource("2_msjnk")
 
+[node name="White_noise" type="ColorRect" parent="." unique_id=512662647]
+z_index = -1
+material = SubResource("ShaderMaterial_vpppi")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
+color = Color(0.14982426, 0.14982426, 0.14982426, 0.48235294)
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="CRT_noise" type="ColorRect" parent="." unique_id=1692365906]
+z_index = -2
+material = SubResource("ShaderMaterial_1eq5e")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.14982426, 0.14982426, 0.14982426, 0.48235294)
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1219784199]
 z_index = 4096
 z_as_relative = false
@@ -173,6 +218,10 @@ theme_override_font_sizes/font_size = 24
 text = "Tip: 모든 상호작용은 마우스 클릭으로 가능합니다."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="unpause" type="AudioStreamPlayer" parent="." unique_id=1727579205]
+process_mode = 3
+stream = ExtResource("8_c7fen")
 
 [connection signal="pressed" from="CenterContainer/Panel/VBoxContainer/HBoxContainer/Back_Button" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="CenterContainer/Panel/VBoxContainer/HBoxContainer/main_Button" to="." method="_on_main_button_pressed"]

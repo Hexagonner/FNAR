@@ -40,7 +40,7 @@ func _on_back_button_pressed() -> void:
 		if randi_range(0,1000) < 1:
 			$CenterContainer/Panel/Label2.text ="It was YOU."
 		get_tree().paused = false
-
+		$unpause.play()
 
 func _on_main_button_pressed() -> void:
 	change_scene(start_menu_scene)

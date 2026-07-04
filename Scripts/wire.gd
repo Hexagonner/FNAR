@@ -379,7 +379,7 @@ func get_mouse_3d_position() -> Vector3:
 # ==========================================
 ## 주어진 pin이 이 wire의 OUT 핀인지 판별 (다른 wire의 OUT 핀과 구분하기 위함)
 func is_my_out_pin(pin: Node) -> bool:
-	return pin != null and pin in out_pins
+	return pin != null and pin.get_parent() == self
 
 func print_all_connections():
 	print("\n=== 🔌 와이어 연결 현황 ===")

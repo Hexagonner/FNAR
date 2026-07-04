@@ -474,7 +474,6 @@ disconnected_material = SubResource("StandardMaterial3D_t57l7")
 [node name="pin1" type="Marker3D" parent="wire1" unique_id=1015528302 groups=["pins"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0.6026783, 0, 0)
 script = ExtResource("11_fojde")
-pin_num = 1
 
 [node name="spark" type="GPUParticles3D" parent="wire1/pin1" unique_id=228583139]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08, 0.004, 0)
@@ -505,7 +504,6 @@ skeleton = NodePath("../../..")
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, -0.6035793, 0, 0)
 script = ExtResource("11_fojde")
 pin_type = "OUT"
-pin_num = 1
 
 [node name="box" type="MeshInstance3D" parent="wire1/pin2" unique_id=592436998]
 transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000002, 0, 0, 0)
@@ -582,7 +580,7 @@ target_out_index = 2
 [node name="pin1" type="Marker3D" parent="wire3" unique_id=1287045428 groups=["pins"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0.6026783, 0, 0)
 script = ExtResource("11_fojde")
-pin_num = 1
+pin_num = 2
 
 [node name="wire" type="MeshInstance3D" parent="wire3/pin1" unique_id=536914004]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -0.047598243, 0, 0)
@@ -613,7 +611,7 @@ draw_pass_1 = SubResource("QuadMesh_hkfwv")
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, -0.6035793, 0, 0)
 script = ExtResource("11_fojde")
 pin_type = "OUT"
-pin_num = 1
+pin_num = 2
 
 [node name="box" type="MeshInstance3D" parent="wire3/pin2" unique_id=2090895202]
 transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000002, 0, 0, 0)
@@ -632,7 +630,7 @@ target_out_index = 3
 [node name="pin1" type="Marker3D" parent="wire4" unique_id=892090298 groups=["pins"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0.6026783, 0, 0)
 script = ExtResource("11_fojde")
-pin_num = 1
+pin_num = 3
 
 [node name="wire" type="MeshInstance3D" parent="wire4/pin1" unique_id=1084025463]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, -0.047598243, 0, 0)
@@ -663,7 +661,7 @@ draw_pass_1 = SubResource("QuadMesh_syxfq")
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, -0.6035793, 0, 0)
 script = ExtResource("11_fojde")
 pin_type = "OUT"
-pin_num = 1
+pin_num = 3
 
 [node name="box" type="MeshInstance3D" parent="wire4/pin2" unique_id=1867954469]
 transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000002, 0, 0, 0)

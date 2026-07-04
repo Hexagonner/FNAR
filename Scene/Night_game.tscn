@@ -70,6 +70,7 @@
 [ext_resource type="AudioStream" uid="uid://3krw0dukws2i" path="res://Sounds/phone_ring.ogg" id="57_tjt7y"]
 [ext_resource type="PackedScene" uid="uid://nkxtguyxf6x1" path="res://3D_model/monitor_3d/generic_monitor_low_poly.glb" id="58_qhnwm"]
 [ext_resource type="PackedScene" uid="uid://1njutqd5wl2t" path="res://Scene/pause_menu.tscn" id="70_526wg"]
+[ext_resource type="AudioStream" uid="uid://bawwvw7vt6vsf" path="res://Sounds/Pause.wav" id="71_kssgd"]
 
 [sub_resource type="GDScript" id="GDScript_7hm0t"]
 resource_name = "WorldEnv"
@@ -3065,7 +3066,7 @@ script = ExtResource("19_5xxkr")
 libraries/ = SubResource("AnimationLibrary_oewrs")
 
 [node name="CAM0" type="Camera3D" parent="CameraManager" unique_id=1003935292]
-transform = Transform3D(0.747798, 0.1278205, -0.6515058, 1.4422938e-08, 0.9812913, 0.19252238, 0.6639262, -0.1439677, 0.7338087, -2.8625, 3.20413, -31.0414)
+transform = Transform3D(0.747798, 0.1278205, -0.6515058, 1.4422939e-08, 0.9812913, 0.19252239, 0.6639262, -0.1439677, 0.7338087, -2.8625, 3.20413, -31.0414)
 fov = 40.0
 far = 10.0
 script = ExtResource("19_5xxkr")
@@ -3591,7 +3592,7 @@ mesh = SubResource("ArrayMesh_8cy37")
 skeleton = NodePath("")
 
 [node name="Star2" type="Node3D" parent="Map/Celling_object" unique_id=995063469]
-transform = Transform3D(-0.061784968, -0.020641226, 0.13186687, -0.015241184, 0.50042325, 0.0050147795, -0.4959338, -0.012807605, -0.0165825, 3.381232, 3.340412, -34.992626)
+transform = Transform3D(-0.061784968, -0.020641228, 0.13186687, -0.015241184, 0.5004233, 0.0050147795, -0.4959338, -0.012807607, -0.0165825, 3.381232, 3.340412, -34.992626)
 
 [node name="Object_4" type="MeshInstance3D" parent="Map/Celling_object/Star2" unique_id=683212804]
 transform = Transform3D(0.9999999, 0, 0, 0, 1.0000002, 0, 0, 0, 1, 0, -1.9520345, -0.38332558)
@@ -4263,6 +4264,9 @@ process_mode = 3
 layer = 2
 
 [node name="pauseMenu" parent="CanvasLayer" unique_id=738862839 instance=ExtResource("70_526wg")]
+
+[node name="pause" type="AudioStreamPlayer" parent="CanvasLayer" unique_id=9234125]
+stream = ExtResource("71_kssgd")
 
 [connection signal="Door_button_press" from="Map/Buttons/DoorButtonLeft" to="Map/Doors/DoorLeft" method="_on_door_button_left_door_button_press"]
 [connection signal="Light_button_press" from="Map/Buttons/LightButtonLeft" to="Map/Celling/Lights/Leftlight" method="_on_light_button_left_light_button_press"]

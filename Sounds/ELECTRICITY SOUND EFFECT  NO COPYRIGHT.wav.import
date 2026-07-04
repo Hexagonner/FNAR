@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bcxamyhusrgyt"
+path="res://.godot/imported/ELECTRICITY SOUND EFFECT  NO COPYRIGHT.wav-bfc83bd72fe94319495996d606fbb0b9.sample"
+
+[deps]
+
+source_file="res://Sounds/ELECTRICITY SOUND EFFECT  NO COPYRIGHT.wav"
+dest_files=["res://.godot/imported/ELECTRICITY SOUND EFFECT  NO COPYRIGHT.wav-bfc83bd72fe94319495996d606fbb0b9.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
