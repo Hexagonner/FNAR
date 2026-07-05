@@ -1,9 +1,7 @@
 extends Node3D
 class_name animatronics
 
-#@export var ani:Node
-#region PINname
-## Night_game/MovePoint 자식 노드 기반. 새 핀 추가 시 여기와 PIN_NODE_NAMES에 추가하세요.
+#region PinName enum & maps
 enum PinName {
 	NONE,
 	LEFT_DOOR,
@@ -49,7 +47,6 @@ enum PinName {
 	STAGE_RDI,
 }
 
-## PinName enum 값 → 씬의 Movepoint 노드 이름 매핑
 const PIN_NODE_NAMES: Dictionary = {
 	PinName.NONE: "",
 	PinName.LEFT_DOOR: "Left_door",
@@ -95,7 +92,7 @@ const PIN_NODE_NAMES: Dictionary = {
 	PinName.STAGE_RDI: "stage_RDI",
 }
 
-## 기존 씬의 오탈자 노드명도 허용해 하위 호환 유지
+## 오탈자 노드명도 허용 (하위 호환)
 const PIN_NODE_ALIASES: Dictionary = {
 	PinName.LEFT_HALL_CORNER: ["Left_hall_coner"],
 	PinName.RIGHT_HALL_CORNER: ["Right_hall_coner"],
@@ -107,606 +104,291 @@ const PIN_NODE_ALIASES: Dictionary = {
 	PinName.TOILET_WOMEN: ["toliet_women"],
 	PinName.STAGE_RIGHT_CORNER: ["stage_Right_coner"],
 }
-#endregion 
-static func get_pin_node_name(pin: PinName) -> String:
-	return PIN_NODE_NAMES.get(pin, "")
+#endregion
 
-func _find_pin_node(pin: PinName) -> Movepoint:
-	if movepoint == null:
-		return null
-	var primary_name := get_pin_node_name(pin)
-	if not primary_name.is_empty():
-		var primary_node := movepoint.find_child(primary_name)
-		if primary_node is Movepoint:
-			return primary_node
-	for alias in PIN_NODE_ALIASES.get(pin, []):
-		var alias_node := movepoint.find_child(alias)
-		if alias_node is Movepoint:
-			return alias_node
-	return null #핀노드 이름을 통해 핀 노드를 찾는 코드. 
+#region Exports
+@export var is_walking: bool = false
+@export var gui_node: Node
+@export var path_follow: PathFollow3D
+@export var ani_tree: AnimationTree
+@export var move_speed: float = 1.0
+@export var turn_speed: float = 8.0
+@export var movepoint: Node3D
+#endregion
 
-func _get_closest_pin() -> Movepoint:
-	if movepoint == null:
-		return null
-	var closest_pin: Movepoint = null
-	var closest_distance := INF
-	for pin in PinName.values():
-		if pin == PinName.NONE:
-			continue
-		var node := _find_pin_node(pin) #노드를 하나하나 조사하면서, 최단거리 노드를 설정하는거.
-		if node == null:
-			continue
-		var dist := node.global_position.distance_squared_to(global_position)
-		if dist < closest_distance:
-			closest_distance = dist
-			closest_pin = node
-	return closest_pin # 가장 가까운 핀을 찾는  코드  
+#region NavigationAgent3D
+@onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D as NavigationAgent3D
+#endregion
 
-func _get_mapf_manager() -> MapfPlanner:
-	return get_node_or_null("/root/MapfManager") as MapfPlanner
+#region Animation
+@onready var playback: AnimationNodeStateMachinePlayback = ani_tree.get("parameters/StateMachine/playback")
 
-@export var is_walking:bool = false
-@export var gui_node:Node #only Rando?
-#@export var is_turned:bool = false
-@export var path_follow:PathFollow3D
-
-
-@export var ani_tree:AnimationTree
-#@export var is_turned:bool = false
-@onready var playback = ani_tree.get("parameters/StateMachine/playback")
-
-
-@export var move_speed:float = 1.0
-@export var turn_speed:float = 8.0
-@export var bake_interval_var:float = 2.5
-## 꼭짓점을 부드럽게 연결하는 정도 (0=직선, 0.25~0.5 권장). 0이면 직각 경로 유지.
-@export_range(0.0, 1.0) var path_smooth_factor:float = 0.25
-@export var movepath:Path3D
-@export var movepoint:Node3D
-#var current_position
-#@export var start_pos: PinName
-
-const WAIT_STEP_SECONDS := 0.25
-const NODE_REACH_EPSILON := 0.05
-const BLOCKED_REPLAN_SECONDS := 0.9
-const YIELD_REQUEST_COOLDOWN_SECONDS := 1.2
-## 핀 사이 대기 시 can_enter가 잠깐 true가 되며 walking이 깜빡이는 것을 방지
-const PATH_GATE_OPEN_HOLD_SECONDS := 0.15
-
-var _planned_path: Array[Movepoint] = []
-var _path_index := 0
-var _wait_remaining := 0.0
-var _path_gate_open_timer := 0.0
-var _path_gate_was_blocked := false
-var _current_pin: Movepoint = null
-var _blocked_time := 0.0
-var _yield_request_cooldown := 0.0
-var _main_goal_pin: PinName = PinName.NONE
-var _yield_resume_goal_pin: PinName = PinName.NONE
-var _yield_wait_remaining := 0.0
-var _is_yielding := false
 var _current_anim_state: StringName = &"idle"
-var _path_locomotion_moving := false
+var _path_locomotion_moving: bool = false
+#endregion
 
-func _apply_animation_state(state: StringName) -> void:
-	if state == _current_anim_state:
-		return
-	_current_anim_state = state
-	if playback == null:
-		return
-	playback.travel(state)
+#region Navigation movement state
+var _planned_path: Array[Movepoint] = []
+var _path_index: int = 0
+var _current_pin: Movepoint = null
+var _main_goal_pin: PinName = PinName.NONE
 
-func _set_walking_state(walking: bool) -> void:
-	is_walking = walking
-	if not walking:
-		_enter_path_still()
+## 디버그/시각화용: 현재 이동 중인 핀
+var _temporary_pin: Movepoint = null
+## 디버그/시각화용: 직전에 지나친 핀
+var _previous_pin: Movepoint = null
+## 디버그/시각화용: 다음으로 이동할 핀
+var _next_pin: Movepoint = null
+#endregion
 
-func _enter_path_still() -> void:
-	if _path_locomotion_moving:
-		_path_locomotion_moving = false
-		_apply_animation_state(&"idle")
+var _physics_delta: float = 0.0
+var _navigation_initialized: bool = false
 
-func _enter_path_walk() -> void:
-	if not _path_locomotion_moving:
-		_path_locomotion_moving = true
-		_apply_animation_state(&"walking_001")
-
-func _reset_path_gate() -> void:
-	_path_gate_open_timer = 0.0
-	_path_gate_was_blocked = false
-
-func _can_enter_next_node(mapf: MapfPlanner, next_node: Movepoint) -> bool:
-	return mapf == null or mapf.can_enter_node(self, next_node)
-
-func _segment_is_mapf_wait(index: int) -> bool:
-	if index < 0 or index >= _planned_path.size() - 1:
-		return false
-	return _planned_path[index] == _planned_path[index + 1]
-
-func _update_locomotion_for_current_segment(mapf: MapfPlanner) -> void:
-	if _path_index >= _planned_path.size() - 1:
-		_enter_path_still()
-		return
-	if _segment_is_mapf_wait(_path_index):
-		_enter_path_still()
-		return
-	var next_node: Movepoint = _planned_path[_path_index + 1]
-	if not _can_enter_next_node(mapf, next_node):
-		_enter_path_still()
-		return
-	_enter_path_walk()
 
 func _ready() -> void:
-	_current_pin = _get_closest_pin() # 자신의 위치와 이름을 MAPF에 등록 
-	var mapf := _get_mapf_manager()
-	if mapf != null and _current_pin != null:
-		mapf.register_agent(self, _current_pin)
-	elif _current_pin == null:
-		push_warning("animatronics: movepoint or closest pin is not ready yet.")
+	add_to_group("animatronics")
+
+	# PinPathfinder 그래프 빌드 (루트 MovePoint 노드 찾기)
+	_build_pin_graph()
+
+	# NavigationAgent3D 시그널 연결
+	if navigation_agent != null:
+		navigation_agent.velocity_computed.connect(_on_velocity_computed)
+		navigation_agent.navigation_finished.connect(_on_navigation_finished)
+
+	# 첫 프레임 이후 네비게이션 맵 동기화 대기
+	_initialize_navigation.call_deferred()
 
 
-@warning_ignore("unused_parameter")
-func _physics_process(delta)->void: #FOR turn animation 
-
-	# 1. 반환 타입을 Quaternion으로 수정
-	var rotation_delta: Quaternion = ani_tree.get_root_motion_rotation()
-	# 2. 회전 값이 있을 때만 적용 (IDENTITY는 0,0,0,1임)
-	if rotation_delta != Quaternion.IDENTITY:
-		# 노드의 현재 quaternion에 변화량을 곱해 실제 회전 적용
-		quaternion = (quaternion * rotation_delta).normalized()
-
-		if playback.get_current_node() not in ["turn left", "turn right"]: #and is_turned:
-		# Y축 회전값을 90도 단위로 반올림하여 고정
-			var snapped_y = round(rotation.y / (PI/2)) * (PI/2)
-			rotation.y = lerp_angle(rotation.y, snapped_y, 0.1)
-			#is_turned = false
-	
-	
-func _move_to_internal(goal: PinName, must_visit: PinName = PinName.NONE, update_main_goal: bool = true) -> void:
-	if movepoint == null:
-		printerr("movepoint가 할당되지 않아 경로 계산을 할 수 없습니다.")
-		is_walking = false
-		return
-	var start_pin: Movepoint = _current_pin
-	if start_pin == null:
-		start_pin = _get_closest_pin()
-	if start_pin == null:
-		printerr("현재 위치 기준 시작 핀을 찾지 못했습니다.")
-		return
-	var goal_pin: Movepoint = _find_pin_node(goal)
-	if goal_pin == null:
-		printerr("잘못된 목표 핀 지정: ", goal)
-		return
-	if update_main_goal:
-		_main_goal_pin = goal
-
-	var must_visit_pin: Movepoint = null
-	if must_visit != PinName.NONE:
-		must_visit_pin = _find_pin_node(must_visit)
-		if must_visit_pin == null:
-			printerr("잘못된 경유지 지정: ", must_visit)
-			return
-
-	var move_path: Array[Movepoint] = []
-	var mapf := _get_mapf_manager()
-	if mapf != null:
-		move_path = mapf.request_path(self, start_pin, goal_pin, must_visit_pin)
+func _build_pin_graph() -> void:
+	var movepoint_root: Node3D = _get_movepoint_root()
+	if movepoint_root != null:
+		PinPathfinder.build_graph(movepoint_root, true)
+		# 현재 위치에서 가장 가까운 핀 찾기
+		_current_pin = _find_nearest_pin(movepoint_root)
+		if _current_pin != null:
+			_previous_pin = _current_pin
+			print("[%s] Initial pin: %s" % [name, _current_pin.name])
 	else:
-		move_path = find_path(start_pin, goal_pin, must_visit_pin)
-	if move_path.is_empty():
-		_set_walking_state(false)
-		# ⭐ 개선: 경로 계산 실패 원인을 파악하기 위한 디버깅 정보 출력
-		var start_name: String = start_pin.name if start_pin != null else "Unknown"
-		var goal_name: String = goal_pin.name if goal_pin != null else "Unknown"
-		var must_name: String = must_visit_pin.name if must_visit_pin != null else "None"
-		printerr("[경로 실패] %s: %s → %s (경유지: %s) | MAPF 활성화: %s" % [
-			self.name,
-			start_name,
-			goal_name,
-			must_name,
-			"Yes" if mapf != null else "No"
-		])
-		return
+		push_warning("[%s] MovePoint root not found" % name)
 
-	_planned_path = move_path
+
+func _initialize_navigation() -> void:
+	await get_tree().physics_frame
+	_navigation_initialized = true
+
+	# NavAgent 설정
+	if navigation_agent != null:
+		navigation_agent.path_desired_distance = 0.3
+		navigation_agent.target_desired_distance = 0.5
+		navigation_agent.max_speed = move_speed
+		navigation_agent.radius = 0.4
+		navigation_agent.neighbor_distance = 2.0
+		navigation_agent.max_neighbors = 10
+		navigation_agent.time_horizon_agents = 1.0
+
+
+## movepoint_root 아래에서 현재 위치에 가장 가까운 Movepoint 핀을 찾는다.
+func _find_nearest_pin(movepoint_root: Node3D) -> Movepoint:
+	var closest_pin: Movepoint = null
+	var closest_dist: float = INF
+	var all_pins: Array[Movepoint] = []
+	PinPathfinder._collect_pins(movepoint_root, all_pins)
+
+	var my_pos: Vector3 = global_position
+	for pin: Movepoint in all_pins:
+		var dist: float = my_pos.distance_squared_to(pin.global_position)
+		if dist < closest_dist:
+			closest_dist = dist
+			closest_pin = pin
+	return closest_pin
+
+
+## 목표 핀 이름(PinName enum)으로 경로를 설정하고 이동을 시작한다.
+func set_goal_by_pin_name(target_pin_name: PinName) -> bool:
+	if not PinPathfinder.is_built() or _current_pin == null:
+		return false
+
+	var target_pin: Movepoint = _resolve_pin(target_pin_name)
+	if target_pin == null:
+		return false
+
+	_main_goal_pin = target_pin_name
+	return _plan_and_start_path(target_pin)
+
+
+## 목표 Movepoint 노드로 직접 경로를 설정하고 이동을 시작한다.
+func set_goal_to_pin(target_pin: Movepoint) -> bool:
+	if not PinPathfinder.is_built() or _current_pin == null:
+		return false
+	_main_goal_pin = PinName.NONE
+	return _plan_and_start_path(target_pin)
+
+
+func _plan_and_start_path(target_pin: Movepoint) -> bool:
+	_planned_path = PinPathfinder.find_pin_path(_current_pin, target_pin)
+	if _planned_path.is_empty():
+		push_warning("[%s] No path from %s to %s" % [name, _current_pin.name, target_pin.name])
+		return false
+
+	print("[%s] Path planned: %s -> %s (hops: %d)" % [name, _current_pin.name, target_pin.name, _planned_path.size()])
+
 	_path_index = 0
-	_wait_remaining = 0.0
-	_reset_path_gate()
-	_blocked_time = 0.0
-	_yield_request_cooldown = 0.0
-	_path_locomotion_moving = false
-	_set_walking_state(_planned_path.size() > 1)
-	if _planned_path.size() > 1:
-		_update_locomotion_for_current_segment(mapf)
-	_current_pin = _planned_path[0]
-	
-	# 경로 출력 (가독성 개선)
-	var path_names: Array[String] = []
-	for node in move_path:
-		if node is Movepoint:
-			path_names.append(node.name)
-	var path_str: String = " → ".join(path_names)
-	print("[경로 계산] %s: %s (총 %d칸)" % [self.name, path_str, move_path.size()])
-	#start_pos = goal
+	if _planned_path[0] == _current_pin and _planned_path.size() > 1:
+		_path_index = 1
 
-func move_to(goal: PinName, must_visit: PinName = PinName.NONE) -> void:
-	_move_to_internal(goal, must_visit, true)
-
-func request_yield_to(goal_pin: Movepoint) -> bool:
-	if goal_pin == null:
-		return false
-	if _current_pin == null:
-		_current_pin = _get_closest_pin()
-	if _current_pin == null:
-		return false
-	if _current_pin == goal_pin:
-		# ⭐ 개선: 이미 양보 목표 위치에 있으면 그냥 대기만 함 (새 경로 계산 불필요!)
-		_yield_resume_goal_pin = _main_goal_pin
-		_yield_wait_remaining = WAIT_STEP_SECONDS
-		_is_yielding = true
-		var goal_name: String = PIN_NODE_NAMES.get(_main_goal_pin, "Unknown")
-		var current_pin_name: String = _current_pin.name if _current_pin != null else "Unknown"
-		print("[양보 수락] %s가 %s에서 대기 (원래 목표: %s, 대기시간: %.1f초)" % [
-			self.name, 
-			current_pin_name,
-			goal_name,
-			WAIT_STEP_SECONDS
-		])
-		_set_walking_state(false)  # 걷기 멈추고 대기
-		return true
-	
-	var wait_pin_name := _pin_name_from_node(goal_pin)
-	if wait_pin_name == PinName.NONE:
-		return false
-	_yield_resume_goal_pin = _main_goal_pin
-	_yield_wait_remaining = WAIT_STEP_SECONDS
-	_is_yielding = true
-	var goal_name: String = PIN_NODE_NAMES.get(_main_goal_pin, "Unknown")
-	var current_pin_name: String = _current_pin.name if _current_pin != null else "Unknown"
-	print("[양보 수락] %s가 %s에서 %s로 양보 (원래 목표: %s, 대기시간: %.1f초)" % [
-		self.name, 
-		current_pin_name,
-		goal_pin.name,
-		goal_name,
-		WAIT_STEP_SECONDS
-	])
-	_move_to_internal(wait_pin_name, PinName.NONE, false)
+	_start_moving_to_next_pin()
 	return true
 
-func _remaining_path_nodes(max_count: int = 10) -> Array[Movepoint]:
-	var remaining: Array[Movepoint] = []
-	var end: int = mini(_planned_path.size(), _path_index + max_count + 1)
-	for i in range(_path_index, end):
-		if _planned_path[i] != null:
-			remaining.append(_planned_path[i])
-	return remaining
 
-func _pin_name_from_node(node: Movepoint) -> PinName:
-	if node == null:
-		return PinName.NONE
-	for pin in PinName.values():
-		if pin == PinName.NONE:
-			continue
-		if _find_pin_node(pin) == node:
-			return pin
-	return PinName.NONE
-
-func _is_path_pin_to_pin(path: Array[Movepoint]) -> bool:
-	if path.is_empty():
-		return false
-	for i in range(path.size() - 1):
-		var a: Movepoint = path[i]
-		var b: Movepoint = path[i + 1]
-		if a == null or b == null:
-			return false
-		if a == b:
-			continue
-		if not a.neighbors.has(b):
-			return false
-	return true
-
-func _repair_non_neighbor_step(current_node: Movepoint, next_node: Movepoint) -> bool:
-	if current_node == null or next_node == null:
-		return false
-	if current_node == next_node:
-		return true
-	if current_node.neighbors.has(next_node):
-		return true
-
-	# Recover by expanding this jump into a valid pin-to-pin chain.
-	var bridge: Array[Movepoint] = find_path(current_node, next_node, null)
-	if bridge.size() < 2:
-		return false
-
-	var repaired: Array[Movepoint] = []
-	for i in range(_path_index):
-		repaired.append(_planned_path[i])
-	repaired.append(current_node)
-	for i in range(1, bridge.size()):
-		repaired.append(bridge[i])
-	for i in range(_path_index + 2, _planned_path.size()):
-		repaired.append(_planned_path[i])
-
-	if not _is_path_pin_to_pin(repaired):
-		return false
-
-	_planned_path = repaired
-	return true
-
-func advance_along_path(delta: float) -> void:
-	if _is_yielding and (_planned_path.size() < 2 or _path_index >= _planned_path.size() - 1):
-		_set_walking_state(false)
-		_yield_wait_remaining -= delta
-		if _yield_wait_remaining <= 0.0:
-			# 데드락이 정말 해소되었는지 확인
-			if _is_deadlock_resolved():
-				_is_yielding = false
-				_yield_resume_goal_pin = _main_goal_pin
-				var resume_goal := _yield_resume_goal_pin
-				var resume_goal_name: String = PIN_NODE_NAMES.get(resume_goal, "Unknown")
-				print("[양보 완료] %s가 원래 목표 %s로 복귀" % [
-					self.name,
-					resume_goal_name
-				])
-				if resume_goal != PinName.NONE:
-					_move_to_internal(resume_goal, PinName.NONE, true)
-			else:
-				# 데드락이 아직 해소되지 않았으면 대기 연장
-				_yield_wait_remaining = WAIT_STEP_SECONDS
-				print("[양보 연장] %s가 여전히 데드락 상태, 대기 연장" % self.name)
+## 경로의 다음 핀으로 NavigationAgent3D의 목표 위치를 설정한다.
+func _start_moving_to_next_pin() -> void:
+	if _path_index >= _planned_path.size():
+		_arrived_at_goal()
 		return
 
-	if not is_walking:
-		return
-	if _planned_path.size() < 2:
-		_set_walking_state(false)
-		return
-	if _path_index >= _planned_path.size() - 1:
-		_set_walking_state(false)
+	if not _navigation_initialized or navigation_agent == null:
 		return
 
-	var current_node: Movepoint = _planned_path[_path_index]
-	var next_node: Movepoint = _planned_path[_path_index + 1]
-	if current_node == null or next_node == null:
-		_set_walking_state(false)
-		return
-	if not _repair_non_neighbor_step(current_node, next_node):
-		printerr("Invalid non-neighbor step detected. Stopping movement to prevent wall clipping.")
-		_set_walking_state(false)
-		return
-	# next step may have changed after repair.
-	current_node = _planned_path[_path_index]
-	next_node = _planned_path[_path_index + 1]
-
-	if current_node == next_node:
-		_blocked_time = 0.0
-		_reset_path_gate()
-		_enter_path_still()
-		if _wait_remaining <= 0.0:
-			_wait_remaining = WAIT_STEP_SECONDS
-		_wait_remaining -= delta
-		if _wait_remaining <= 0.0:
-			_path_index += 1
-			_reset_path_gate()
-			if _path_index < _planned_path.size() - 1:
-				_update_locomotion_for_current_segment(_get_mapf_manager())
-		return
-
-	var mapf := _get_mapf_manager()
-	if not _can_enter_next_node(mapf, next_node):
-		_path_gate_was_blocked = true
-		_path_gate_open_timer = 0.0
-		_blocked_time += delta
-		_yield_request_cooldown = max(_yield_request_cooldown - delta, 0.0)
-		_enter_path_still()
-		
-		# 처음 충돌이 감지된 순간 출력
-		if _blocked_time - delta < BLOCKED_REPLAN_SECONDS and _blocked_time >= BLOCKED_REPLAN_SECONDS:
-			var blocker: Node = null
-			for agent_id in mapf._agents.keys():
-				var agent_node = instance_from_id(int(agent_id))
-				if agent_node is Node:
-					var occupied: Movepoint = mapf._agents[agent_id].get("node")
-					if occupied == next_node:
-						blocker = agent_node
-						break
-			if blocker:
-				print("[충돌 감지] %s이(가) %s로 가려하는데 %s이(가) %s에 있음" % [
-					self.name, next_node.name, blocker.name, next_node.name
-				])
-		
-		if mapf != null and _blocked_time >= BLOCKED_REPLAN_SECONDS and _yield_request_cooldown <= 0.0:
-			var requested := mapf.try_resolve_deadlock(self, current_node, next_node, _remaining_path_nodes())
-			if requested:
-				_yield_request_cooldown = YIELD_REQUEST_COOLDOWN_SECONDS
-				_blocked_time = 0.0
-			else:
-				# 양보 요청이 거부되면, 더 긴 대기 시간을 설정하여 재요청 방지
-				_yield_request_cooldown = YIELD_REQUEST_COOLDOWN_SECONDS * 1.5
-		return
-
-	if _path_gate_was_blocked:
-		if _path_gate_open_timer < PATH_GATE_OPEN_HOLD_SECONDS:
-			_path_gate_open_timer += delta
-			_enter_path_still()
-			return
-		_path_gate_was_blocked = false
-		_path_gate_open_timer = 0.0
-
-	_blocked_time = 0.0
-	_yield_request_cooldown = max(_yield_request_cooldown - delta, 0.0)
-
-	var next_pos := next_node.global_position
-	var to_target := next_pos - global_position
-	var distance := to_target.length()
-	if distance <= NODE_REACH_EPSILON:
-		global_position = next_pos
+	var target_pin: Movepoint = _planned_path[_path_index]
+	if target_pin == null:
 		_path_index += 1
-		_reset_path_gate()
-		_current_pin = next_node
-		if mapf != null:
-			# ⭐ 개선: path_index도 함께 전달하여 양보 시 정확한 경로상 위치 인식
-			mapf.update_agent_position(self, _current_pin, _path_index)
-		if _path_index >= _planned_path.size() - 1:
-			_set_walking_state(false)
-			return
-		_update_locomotion_for_current_segment(mapf)
+		_start_moving_to_next_pin()
 		return
 
-	_enter_path_walk()
-	var step := move_speed * delta
-	global_position = global_position.move_toward(next_pos, step) #TODO 직선거리로 대기장소 가는걸 수정해야 합니다.
+	_temporary_pin = target_pin
 
-	# Smooth turning to avoid right-angle snap at corners.
-	if distance > 0.001:
-		var dir := to_target.normalized()
-		var target_yaw := atan2(dir.x, dir.z)
-		rotation.y = lerp_angle(rotation.y, target_yaw, clamp(turn_speed * delta, 0.0, 1.0))
-
-func has_reached_path_end() -> bool:
-	return not is_walking
-
-func _exit_tree() -> void:
-	var mapf := _get_mapf_manager()
-	if mapf != null:
-		mapf.unregister_agent(self)
-	
-	
-func idle()->void:
-	pass
-	#TODO check self position pin and play animation
-func attack_player()->void:
-	pass
-	#TODO check self position and try to kill.
-	
-
-func _find_path_segment(start:Movepoint, goal:Movepoint) -> Array[Movepoint]:
-	var queue:Array[Movepoint] = [start] #큐에 초기 시작위치를 넣는다. #큐는 선입 선출. 
-	var came_from :={} #어디 왔는지 확인할 딕션너리 
-	came_from[start] = null
-	
-	var loop_counter = 0#TODO DELETME later
-	
-	while queue.size() > 0: #큐의 크기가 0 이상이면 계속 
-		var current:Movepoint = queue.pop_front() #큐에 맨 앞자리의 값을 꺼낸다. (호출 후 값 삭제)
-		#print(current, "조사한 노드?")
-		#print(queue.size(), "큐사이즈")
-		#print(queue, "큐")
-		if current == goal:
-			break #도착시 while 탈출 
-		if current == null:
-			if loop_counter >= 5:
-				printerr("null 루프에 빠짐 경로없음!")
-				break
-			#current = queue.pop_front()
-			loop_counter += 1
-			printerr("null이 들어감 .")
-			continue
-		for next in current.neighbors: #큐에서 pop한 값들의 이웃들을 검사. 
-			if not came_from.has(next): #만약 검사하는 이웃이 이미 조사했던것이 아니라면 
-				came_from[next] = current #이웃이 어디서 왔는지를 작성 
-				queue.append(next) #큐에 이웃 값들을 넣기.
-		
-	if not came_from.has(goal):
-		printerr(start," to ", goal, " 이동 가능한 경로가 없음.")
-		return [] #경로 없음
-		
-	
-	var path:Array[Movepoint] = []
-	var cur:Movepoint = goal
-	while cur != null:
-		path.push_front(cur)
-		cur = came_from[cur]
-		
-	return path
-
-
-func find_path(start:Movepoint, goal:Movepoint, must_visit:Movepoint = null) -> Array[Movepoint]:
-	# 단순 경로
-	if must_visit == null:
-		return _find_path_segment(start, goal)
-	
-	# 반드시 거쳐야 하는 핀(must_visit)을 포함하는 경로:
-	# start -> must_visit, must_visit -> goal 두 구간을 이어붙인다.
-	var first_segment := _find_path_segment(start, must_visit)
-	if first_segment.is_empty():
-		return []
-	
-	var second_segment := _find_path_segment(must_visit, goal)
-	if second_segment.is_empty():
-		return []
-	
-	# must_visit이 중복되지 않도록 두 번째 구간의 첫 점은 제거해서 이어붙인다.
-	second_segment.remove_at(0)
-	first_segment.append_array(second_segment)
-	return first_segment
-
-
-func update_path3d(path:Array):
-	var curve:Curve3D = Curve3D.new()
-	movepath.curve = curve
-	curve.bake_interval = bake_interval_var
-	var points: PackedVector3Array = []
-	for pin in path:
-		if pin == null:
-			continue
-		
-		points.append(pin.global_position)
-	for i in points.size():
-		curve.add_point(points[i])
-	# 꼭짓점 사이를 부드럽게 연결 (베지어 인/아웃 핸들 설정)
-	if path_smooth_factor > 0.0 and points.size() >= 2:
-		for i in range(points.size()):
-			var n: int = points.size()
-			var p_prev: Vector3
-			var p_curr: Vector3 = points[i]
-			var p_next: Vector3
-			
-			if i == 0:
-				p_prev = points[i]
-			else:
-				p_prev = points[i - 1]
-			
-			if i == n - 1:
-				p_next = points[i]
-			else:
-				p_next = points[i + 1]
-			var out_offset := Vector3.ZERO
-			var in_offset := Vector3.ZERO
-			if i < n - 1:
-				var to_next := (p_next - p_curr)
-				out_offset = to_next * clampf(path_smooth_factor, 0.0, 0.5)
-			if i > 0:
-				var from_prev := (p_prev - p_curr)
-				in_offset = from_prev * clampf(path_smooth_factor, 0.0, 0.5)
-			curve.set_point_out(i, out_offset)
-			curve.set_point_in(i, in_offset)
-
-## ⭐ 새로운 함수: 데드락이 정말 해소되었는지 확인
-func _is_deadlock_resolved() -> bool:
-	# 현재 핀이 다른 에이전트에 점유되어 있는지 확인
-	if _current_pin == null:
-		return true
-	
-	var mapf := _get_mapf_manager()
-	if mapf == null:
-		return true
-	
-	# 현재 위치의 다음 노드가 여전히 막혀있는지 확인
-	var next_node: Movepoint = null
 	if _path_index + 1 < _planned_path.size():
-		next_node = _planned_path[_path_index + 1]
-	if next_node == null:
-		return true
-	
-	# 다른 에이전트가 다음 노드를 점유하고 있는지 확인
-	for agent_id in mapf._agents.keys():
-		var agent_node = instance_from_id(int(agent_id))
-		if agent_node != self and agent_node is Node:
-			var occupied: Movepoint = mapf._agents[agent_id].get("node")
-			if occupied == next_node:
-				# 다음 노드가 아직도 점유되어 있음 → 데드락 미해소
-				return false
-	
-	# 모든 다른 에이전트가 다음 노드에서 벗어났음 → 데드락 해소
-	return true
+		_next_pin = _planned_path[_path_index + 1]
+	else:
+		_next_pin = null
+
+	is_walking = true
+	_current_anim_state = &"walking"
+	_play_anim(&"walking")
+
+	navigation_agent.set_target_position(target_pin.global_position)
+	print("[%s] Moving to pin %s" % [name, target_pin.name])
+
+
+## 최종 목표 핀에 도착했을 때 호출된다.
+func _arrived_at_goal() -> void:
+	is_walking = false
+	_current_anim_state = &"idle"
+	_play_anim(&"idle")
+	_temporary_pin = null
+	_next_pin = null
+	_planned_path.clear()
+	print("[%s] Arrived at goal" % name)
+
+
+## NavigationAgent3D가 현재 목표 위치(하나의 핀)에 도착했을 때 호출된다.
+func _on_navigation_finished() -> void:
+	if _path_index >= _planned_path.size():
+		_arrived_at_goal()
+		return
+
+	# 현재 핀 도착 → 이전 핀 / 현재 핀 업데이트
+	_previous_pin = _planned_path[_path_index]
+	_current_pin = _previous_pin
+
+	_path_index += 1
+	if _path_index >= _planned_path.size():
+		_arrived_at_goal()
+	else:
+		_start_moving_to_next_pin()
+
+
+## RVO 회피 속도가 계산되었을 때 호출된다. Node3D 방식으로 이동을 적용한다.
+func _on_velocity_computed(safe_velocity: Vector3) -> void:
+	global_position = global_position.move_toward(
+		global_position + safe_velocity,
+		_physics_delta * move_speed
+	)
+	_face_movement_direction(safe_velocity)
+
+
+## 이동 방향으로 부드럽게 회전한다.
+func _face_movement_direction(velocity: Vector3) -> void:
+	if velocity.length_squared() > 0.001:
+		var target_basis: Basis = Basis.looking_at(velocity.normalized(), Vector3.UP)
+		global_transform.basis = global_transform.basis.slerp(target_basis, _physics_delta * turn_speed)
+		global_transform.basis = global_transform.basis.orthonormalized()
+
+
+func _physics_process(delta: float) -> void:
+	_physics_delta = delta
+
+	if not _navigation_initialized or navigation_agent == null:
+		return
+
+	if not is_walking or _planned_path.is_empty():
+		return
+
+	# 네비게이션 맵이 아직 동기화되지 않았으면 스킵
+	if NavigationServer3D.map_get_iteration_id(navigation_agent.get_navigation_map()) == 0:
+		return
+
+	if navigation_agent.is_navigation_finished():
+		return
+
+	# NavAgent로부터 다음 경로 위치를 받아와 속도 계산
+	var next_path_position: Vector3 = navigation_agent.get_next_path_position()
+	var new_velocity: Vector3 = global_position.direction_to(next_path_position) * move_speed
+
+	if navigation_agent.avoidance_enabled:
+		navigation_agent.set_velocity(new_velocity)
+	else:
+		_on_velocity_computed(new_velocity)
+
+
+func _play_anim(anim_name: StringName) -> void:
+	if playback != null:
+		playback.travel(anim_name)
+
+
+## PinName enum 값으로 실제 Movepoint 노드를 찾는다.
+func _resolve_pin(pin_name: PinName) -> Movepoint:
+	if pin_name == PinName.NONE:
+		return null
+
+	var movepoint_root: Node3D = _get_movepoint_root()
+	if movepoint_root == null:
+		return null
+
+	# 정식 이름으로 먼저 시도
+	var node_name: String = PIN_NODE_NAMES.get(pin_name, "")
+	if node_name.is_empty():
+		return null
+
+	var pin_node: Node = movepoint_root.find_child(node_name, true, false)
+	if pin_node != null and pin_node is Movepoint:
+		return pin_node as Movepoint
+
+	# 별칭으로 시도
+	var aliases: Array = PIN_NODE_ALIASES.get(pin_name, [])
+	for alias: String in aliases:
+		pin_node = movepoint_root.find_child(alias, true, false)
+		if pin_node != null and pin_node is Movepoint:
+			return pin_node as Movepoint
+
+	push_warning("[%s] Pin not found: %s (name: %s)" % [name, pin_name, node_name])
+	return null
+
+
+## 씬에서 MovePoint 루트 노드를 찾는다.
+func _get_movepoint_root() -> Node3D:
+	# 먼저 부모의 자식 중 "MovePoint" 이름을 가진 노드를 찾는다.
+	var parent: Node = get_parent()
+	if parent != null:
+		for child in parent.get_children():
+			if child is Node3D and child.name == "MovePoint":
+				return child as Node3D
+	# fallback: movepoint export에서 역으로 올라가 루트 탐색
+	if movepoint != null:
+		var node: Node = movepoint
+		while node != null:
+			if node.name == "MovePoint":
+				return node as Node3D
+			node = node.get_parent()
+	return null

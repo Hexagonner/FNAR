@@ -27,10 +27,9 @@ buses/default_bus_layout="uid://tra0gd00k64v"
 
 [autoload]
 
+GameManager="*uid://c1csjfanhoifr"
 GlobalSetting="*res://Scripts/Autorun/global_setting.gd"
 SaveManager="*uid://cnp2r8o3k3uhu"
-GameManager="*uid://c1csjfanhoifr"
-MapfManager="*res://Scripts/Autorun/MapfManager.gd"
 
 [display]
 

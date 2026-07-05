@@ -121,23 +121,12 @@ var testpath #TODO DELETE ME usage is patrol
 
 func _ready() -> void:
 	super._ready()
-	#self.global_position = movepoint.find_child(get_pin_node_name(start_pos)).global_position
-	#print(rotation_degrees.y)
+	
 	right_pupil_mat = right_pupil.get_active_material(0)
 	left_pupil_mat = left_pupil.get_active_material(0)
-	#black_out_song()
 	
-	#delete me
-	await get_tree().create_timer(3).timeout
-	playback.travel("walking_001")
-	#delete me TODO
-	gui_node.battery_over.connect(black_out_song) # 시그널 연결 됨! 
-	#testpath = find_path(movepoint.find_child("Right_hall_entrance"),movepoint.find_child("Right_door"))
-	move_to(PinName.RIGHT_HALL_ENTRANCE, PinName.STORAGE)
-	testpath = true
-	#move_to(PinName.RIGHT_DOOR, PinName.RIGHT_HALL_ENTRANCE)
-	#print(testpath, "path")
-	#update_path3d(testpath)
+	gui_node.battery_over.connect(black_out_song)
+	
 #region pupil_light_toggle
 
 func pupil_light_toggle()->void:
@@ -168,30 +157,4 @@ func _process(delta: float) -> void: # FOR black out pupil only rando
 		elif time >= song_event[event_index]:
 			event_index +=1
 			pupil_light_toggle()
-			
-	#print(self.global_position, " RD loc")
-	if has_reached_path_end():
-		is_walking = false
-		if testpath:
-			move_to(PinName.TOILET_MEN)
-		else:
-			move_to(PinName.BACKSTAGE)
-		testpath = !testpath
-	if is_walking:
-		advance_along_path(delta)
-
-func _on_music_finished() -> void: 
-	pass # Replace with function body.
-#TODO Make blackout jumpscreen only rando
-
-#TODO class에 move 함수를 만들 때 회전을 고려 해야 함.
-#pin들의 위치를 백터 계산해서 현재 모델의 방향과 어디로 회전할지 생각.
-#
-
-
-@warning_ignore("unused_parameter")
-func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
-	#print(rotation_degrees.y)
-	#await get_tree().create_timer(3).timeout
-	pass
- #TODO delete it. it is just for test
+		
