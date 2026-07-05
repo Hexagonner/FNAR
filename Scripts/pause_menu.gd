@@ -12,9 +12,10 @@ var tips:Array = [
 	"금천이는 밝은 사무실을 좋아합니다.",
 	"전화기를 눌러 녹음 된 전화를 끊을 수 있습니다.",
 	"주방은 항상 화면이 나오지 않고 소리만 들립니다.",
-	"라디유 바보.",
+	"라디유는 바보입니다.",
 ]
 var i:int =0
+var count:int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	ResourceLoader.load_threaded_request(start_menu_scene,"PackedScene",true)
@@ -33,6 +34,9 @@ func _on_back_button_pressed() -> void:
 	if visible:
 		@warning_ignore("standalone_expression")
 		i=i+1
+		count = count + 1
+		if count == 20:
+			tips.append("당신은 팁을 읽는것을 좋아하는군요!")
 		if i >= tips.size():
 			i=0
 		self.visible = false
