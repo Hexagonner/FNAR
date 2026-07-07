@@ -18,7 +18,7 @@ func _process(delta: float) -> void:
 			self.text = str(current_fps)
 	
 @warning_ignore("unused_parameter")
-func _input(event):
+func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("Show_fps"):
 		FPS_is_toggle.emit()
 		

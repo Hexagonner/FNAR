@@ -22,6 +22,19 @@ func _ready() -> void:
 	self.visible = false
 	tips.shuffle()
 	$CenterContainer/Panel/Label2.text = "Tip: "+tips[0]
+	process_mode = PROCESS_MODE_ALWAYS
+
+
+func _input(_event: InputEvent) -> void:
+	if Input.is_action_just_pressed("exit_main_menu"):
+		if visible:
+			self.visible = false
+			get_tree().paused = false
+			$unpause.play()
+		else:
+			self.visible = true
+			get_tree().paused = true
+			$"../pause".play()
 	
 
 	

@@ -117,13 +117,15 @@ const PIN_NODE_ALIASES: Dictionary = {
 #endregion
 
 #region NavigationAgent3D
-@onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D as NavigationAgent3D
+@onready var navigation_agent: NavigationAgent3D = get_node("NavigationAgent3D")
+@export var movement_speed: float = 4.0
 #endregion
 
 #region Animation
 @onready var playback: AnimationNodeStateMachinePlayback = ani_tree.get("parameters/StateMachine/playback")
 
 var _current_anim_state: StringName = &"idle"
+@warning_ignore("unused_private_class_variable")
 var _path_locomotion_moving: bool = false
 #endregion
 
@@ -151,14 +153,11 @@ func _ready() -> void:
 	# PinPathfinder 그래프 빌드 (루트 MovePoint 노드 찾기)
 	_build_pin_graph()
 
-	# NavigationAgent3D 시그널 연결
-	if navigation_agent != null:
-		navigation_agent.velocity_computed.connect(_on_velocity_computed)
-		navigation_agent.navigation_finished.connect(_on_navigation_finished)
 
 	# 첫 프레임 이후 네비게이션 맵 동기화 대기
 	_initialize_navigation.call_deferred()
-
+	navigation_agent.velocity_computed.connect(Callable(_on_velocity_computed))
+	navigation_agent.target_reached.connect(_on_navigation_finished)
 
 func _build_pin_graph() -> void:
 	var movepoint_root: Node3D = _get_movepoint_root()
@@ -179,13 +178,14 @@ func _initialize_navigation() -> void:
 
 	# NavAgent 설정
 	if navigation_agent != null:
-		navigation_agent.path_desired_distance = 0.3
-		navigation_agent.target_desired_distance = 0.5
+		navigation_agent.path_desired_distance = 0.05
+		navigation_agent.target_desired_distance = 0.0
 		navigation_agent.max_speed = move_speed
 		navigation_agent.radius = 0.4
 		navigation_agent.neighbor_distance = 2.0
 		navigation_agent.max_neighbors = 10
 		navigation_agent.time_horizon_agents = 1.0
+		navigation_agent.avoidance_enabled = false  # RVO 회피 비활성화: 도착 시 즉시 정지되도록
 
 
 ## movepoint_root 아래에서 현재 위치에 가장 가까운 Movepoint 핀을 찾는다.
@@ -264,8 +264,8 @@ func _start_moving_to_next_pin() -> void:
 		_next_pin = null
 
 	is_walking = true
-	_current_anim_state = &"walking"
-	_play_anim(&"walking")
+	_current_anim_state = &"walking_001"
+	_play_anim(&"walking_001")
 
 	navigation_agent.set_target_position(target_pin.global_position)
 	print("[%s] Moving to pin %s" % [name, target_pin.name])
@@ -283,24 +283,26 @@ func _arrived_at_goal() -> void:
 
 
 ## NavigationAgent3D가 현재 목표 위치(하나의 핀)에 도착했을 때 호출된다.
+## 우리는 _physics_process에서 직접 거리 기반으로 advance하므로 이 콜백은 사용하지 않는다.
 func _on_navigation_finished() -> void:
-	if _path_index >= _planned_path.size():
-		_arrived_at_goal()
-		return
-
-	# 현재 핀 도착 → 이전 핀 / 현재 핀 업데이트
-	_previous_pin = _planned_path[_path_index]
-	_current_pin = _previous_pin
-
-	_path_index += 1
-	if _path_index >= _planned_path.size():
-		_arrived_at_goal()
-	else:
-		_start_moving_to_next_pin()
+	# 의도적으로 비워둠. advance는 _physics_process의 거리 체크로 처리.
+	pass
 
 
 ## RVO 회피 속도가 계산되었을 때 호출된다. Node3D 방식으로 이동을 적용한다.
 func _on_velocity_computed(safe_velocity: Vector3) -> void:
+	if _planned_path.is_empty() or _path_index >= _planned_path.size():
+		# 도착 상태: 이동 없음, 정지
+		_face_movement_direction(Vector3.ZERO)
+		return
+	var target_pin: Movepoint = _planned_path[_path_index]
+	var target_pos: Vector3 = target_pin.global_position
+	var dist_to_target: float = global_position.distance_to(target_pos)
+	# 도착 직전 (0.1m 이내)에는 정확히 target에 맞춰 정지
+	if dist_to_target <= 0.1:
+		global_position = target_pos
+		_face_movement_direction(Vector3.ZERO)
+		return
 	global_position = global_position.move_toward(
 		global_position + safe_velocity,
 		_physics_delta * move_speed
@@ -316,30 +318,40 @@ func _face_movement_direction(velocity: Vector3) -> void:
 		global_transform.basis = global_transform.basis.orthonormalized()
 
 
-func _physics_process(delta: float) -> void:
+
+func _physics_process(delta):
+	# Save the delta for use in _on_velocity_computed.
 	_physics_delta = delta
-
-	if not _navigation_initialized or navigation_agent == null:
-		return
-
-	if not is_walking or _planned_path.is_empty():
-		return
-
-	# 네비게이션 맵이 아직 동기화되지 않았으면 스킵
+	# Do not query when the map has never synchronized and is empty.
 	if NavigationServer3D.map_get_iteration_id(navigation_agent.get_navigation_map()) == 0:
 		return
-
 	if navigation_agent.is_navigation_finished():
 		return
+	if _planned_path.is_empty() or _path_index >= _planned_path.size():
+		return
 
-	# NavAgent로부터 다음 경로 위치를 받아와 속도 계산
-	var next_path_position: Vector3 = navigation_agent.get_next_path_position()
-	var new_velocity: Vector3 = global_position.direction_to(next_path_position) * move_speed
+	# 다음 waypoint 도달 판정 (NavigationAgent3D의 자동 advance를 신뢰하지 않고 직접 처리)
+	var target_pin: Movepoint = _planned_path[_path_index]
+	var target_pos: Vector3 = target_pin.global_position
+	var dist_to_target: float = global_position.distance_to(target_pos)
+	# target_desired_distance보다 가까우면 다음 waypoint로 advance
+	if dist_to_target <= 0.1:
+		# 다음 waypoint로 진행
+		_path_index += 1
+		if _path_index >= _planned_path.size():
+			_arrived_at_goal()
+			return
+		_start_moving_to_next_pin()
+		return
 
+	# target까지 직접 이동 (NavigationAgent3D의 path 중간 waypoint를 무시)
+	var next_path_position: Vector3 = target_pos
+	var new_velocity: Vector3 = global_position.direction_to(next_path_position) * movement_speed
 	if navigation_agent.avoidance_enabled:
 		navigation_agent.set_velocity(new_velocity)
 	else:
 		_on_velocity_computed(new_velocity)
+
 
 
 func _play_anim(anim_name: StringName) -> void:
@@ -376,6 +388,9 @@ func _resolve_pin(pin_name: PinName) -> Movepoint:
 	return null
 
 
+func set_movement_target(movement_target: Vector3):
+	navigation_agent.set_target_position(movement_target)
+	
 ## 씬에서 MovePoint 루트 노드를 찾는다.
 func _get_movepoint_root() -> Node3D:
 	# 먼저 부모의 자식 중 "MovePoint" 이름을 가진 노드를 찾는다.

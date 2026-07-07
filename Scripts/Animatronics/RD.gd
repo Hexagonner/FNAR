@@ -119,6 +119,20 @@ var event_index:=0
 
 var testpath #TODO DELETE ME usage is patrol
 
+
+## 네비게이션 맵이 준비되면 Left_hall_coner 로 이동을 시작한다.
+func _start_patrol_to_left_hall() -> void:
+	# 네비게이션 맵 동기화를 위해 2프레임 대기
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+
+	var result: bool = set_goal_by_pin_name(PinName.LEFT_HALL_CORNER)
+	if result:
+		print("[%s] Agent started patrolling to Left_hall_coner" % name)
+	else:
+		push_warning("[%s] Failed to start patrol to Left_hall_coner" % name)
+
+
 func _ready() -> void:
 	super._ready()
 	
@@ -126,6 +140,9 @@ func _ready() -> void:
 	left_pupil_mat = left_pupil.get_active_material(0)
 	
 	gui_node.battery_over.connect(black_out_song)
+	
+	# 네비게이션 초기화 후 Left_hall_coner 로 이동 시작
+	call_deferred("_start_patrol_to_left_hall")
 	
 #region pupil_light_toggle
 
