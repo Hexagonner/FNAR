@@ -2935,10 +2935,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.858511, 0, -21.659174)
 script = ExtResource("3_dy14h")
 neighbors = [NodePath("../backstage_front"), NodePath("../main_hall_mid_left"), NodePath("../Left_door/Solo_stage_front")]
 
-[node name="RD1" parent="animatronics" unique_id=1675944184 node_paths=PackedStringArray("gui_node", "movepoint") instance=ExtResource("4_hm4yt")]
+[node name="RD1" parent="animatronics" unique_id=1675944184 node_paths=PackedStringArray("gui_node") instance=ExtResource("4_hm4yt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33.72)
+is_walking = null
 gui_node = NodePath("../../PlayerUi")
-movepoint = NodePath("../MovePoint/Right_door/Right_hall_coner")
+move_speed = null
+turn_speed = null
+movement_speed = null
+is_turned = false
 
 [node name="PlayerUi" parent="." unique_id=1418439094 instance=ExtResource("16_4scd4")]
 
@@ -2980,7 +2984,7 @@ script = ExtResource("19_5xxkr")
 libraries/ = SubResource("AnimationLibrary_oewrs")
 
 [node name="CAM0" type="Camera3D" parent="CameraManager" unique_id=1003935292]
-transform = Transform3D(0.747798, 0.12782048, -0.6515058, 1.4422938e-08, 0.98129106, 0.19252239, 0.6639262, -0.14396767, 0.7338087, -2.8625, 3.20413, -31.0414)
+transform = Transform3D(0.747798, 0.12782046, -0.6515058, 1.4422939e-08, 0.98129106, 0.19252239, 0.6639262, -0.14396766, 0.7338087, -2.8625, 3.20413, -31.0414)
 fov = 40.0
 far = 10.0
 script = ExtResource("19_5xxkr")
@@ -3506,7 +3510,7 @@ mesh = SubResource("ArrayMesh_8cy37")
 skeleton = NodePath("")
 
 [node name="Star2" type="Node3D" parent="Map/Celling_object" unique_id=995063469]
-transform = Transform3D(-0.061784968, -0.020641241, 0.13186687, -0.015241184, 0.5004236, 0.0050147795, -0.4959338, -0.012807614, -0.0165825, 3.381232, 3.340412, -34.992626)
+transform = Transform3D(-0.061784968, -0.020641243, 0.13186687, -0.015241184, 0.50042367, 0.0050147795, -0.4959338, -0.012807616, -0.0165825, 3.381232, 3.340412, -34.992626)
 
 [node name="Object_4" type="MeshInstance3D" parent="Map/Celling_object/Star2" unique_id=683212804]
 transform = Transform3D(0.9999999, 0, 0, 0, 1.0000002, 0, 0, 0, 1, 0, -1.9520345, -0.38332558)
