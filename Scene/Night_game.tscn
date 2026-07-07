@@ -2936,13 +2936,8 @@ script = ExtResource("3_dy14h")
 neighbors = [NodePath("../backstage_front"), NodePath("../main_hall_mid_left"), NodePath("../Left_door/Solo_stage_front")]
 
 [node name="RD1" parent="animatronics" unique_id=1675944184 node_paths=PackedStringArray("gui_node") instance=ExtResource("4_hm4yt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33.72)
-is_walking = null
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -33.72)
 gui_node = NodePath("../../PlayerUi")
-move_speed = null
-turn_speed = null
-movement_speed = null
-is_turned = false
 
 [node name="PlayerUi" parent="." unique_id=1418439094 instance=ExtResource("16_4scd4")]
 
