@@ -111,7 +111,7 @@ const PIN_NODE_ALIASES: Dictionary = {
 @export var gui_node: Node
 @export var path_follow: PathFollow3D
 @export var ani_tree: AnimationTree
-@export var move_speed: float = 1.0
+#@export var move_speed: float = 1.0
 @export var turn_speed: float = 8.0
 var movepoint: Node3D
 #endregion
@@ -177,15 +177,20 @@ func _initialize_navigation() -> void:
 	_navigation_initialized = true
 
 	# NavAgent 설정
+	# 인스펙터에서 radius / max_speed를 양수로 지정하면 그 값을 존중하고,
+	# 비어있으면 기본값을 사용한다. RVO 회피는 활성화하여 RD1/RD2 같은
+	# 여러 에이전트가 좁은 통로에서 서로 밀고 들어가는 충돌을 방지한다.
 	if navigation_agent != null:
 		navigation_agent.path_desired_distance = 0.05
 		navigation_agent.target_desired_distance = 0.0
-		navigation_agent.max_speed = move_speed
-		navigation_agent.radius = 0.4
+		if navigation_agent.max_speed <= 0.0:
+			navigation_agent.max_speed = movement_speed
+		if navigation_agent.radius <= 0.0:
+			navigation_agent.radius = 0.5
 		navigation_agent.neighbor_distance = 2.0
 		navigation_agent.max_neighbors = 10
 		navigation_agent.time_horizon_agents = 1.0
-		navigation_agent.avoidance_enabled = false  # RVO 회피 비활성화: 도착 시 즉시 정지되도록
+		navigation_agent.avoidance_enabled = true
 
 
 ## movepoint_root 아래에서 현재 위치에 가장 가까운 Movepoint 핀을 찾는다.
@@ -305,7 +310,7 @@ func _on_velocity_computed(safe_velocity: Vector3) -> void:
 		return
 	global_position = global_position.move_toward(
 		global_position + safe_velocity,
-		_physics_delta * move_speed
+		_physics_delta * movement_speed
 	)
 	_face_movement_direction(safe_velocity)
 

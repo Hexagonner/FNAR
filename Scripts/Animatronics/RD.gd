@@ -126,7 +126,7 @@ func _start_patrol_to_left_hall() -> void:
 	await get_tree().physics_frame
 	await get_tree().physics_frame
 
-	var result: bool = set_goal_by_pin_name(PinName.STAGE_CENTER)
+	var result: bool = set_goal_by_pin_name(PinName.BACKSTAGE_FRONT)
 	if result:
 		print("[%s] Agent started patrolling to Left_hall_coner" % name)
 	else:
