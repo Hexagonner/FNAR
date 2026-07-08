@@ -1,14 +1,19 @@
 extends Node
 
+## apply_resolution 호출 시 mode/size 변경 직후 emit 된다.
+## Option.gd 가 이 시그널을 받아 resolution_option.selected 를 갱신한다.
+signal resolution_applied(index: int)
+
 var is_show_fps: bool = false
 var is_motion_blur: bool = true
 var low_spec_mode: bool = false
-
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 func _unhandled_input(event: InputEvent) -> void:
 	# ALT+Enter (또는 F11) 전체화면/창모드 토글
-	# InputMap 액션이 누락되어도 동작하도록 InputEventKey를 직접 검사한다
 	if event.is_action_pressed("toggle_fullscreen"):
 		toggle_fullscreen()
+
 func toggle_fullscreen() -> void:
 	var current_mode: int = DisplayServer.window_get_mode()
 	if current_mode == DisplayServer.WINDOW_MODE_WINDOWED:
@@ -26,10 +31,11 @@ func apply_resolution(index: int) -> void:
 		get_viewport().mode = Window.MODE_EXCLUSIVE_FULLSCREEN
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 		print("[Option] fullscreen mode 4", DisplayServer.window_get_mode())
+		resolution_applied.emit(0)
 		return
 
 
-	# 인덱스 -> 크기 매핑 (인덱스 0은 전체화면이므로 1-based로 접근)
+	# 인덱스 -> 크기 매핑
 	var size_index: int = index
 	if size_index < 0 or size_index >= _resolution_sizes.size():
 		return
@@ -55,3 +61,4 @@ func apply_resolution(index: int) -> void:
 	DisplayServer.window_set_position(pos)
 
 	print("[Option] windowed: 0 ", window_size, DisplayServer.window_get_mode())
+	resolution_applied.emit(index)

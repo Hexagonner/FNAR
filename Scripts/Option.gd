@@ -22,6 +22,12 @@ func _ready() -> void:
 	# FPS 체크박스 초기화
 	FPS_checkbox.button_pressed = GlobalSetting.is_show_fps
 
+	# GlobalSetting.apply_resolution (예: Alt+Enter / F11 토글) 으로
+	# mode/size 가 바뀐 경우 OptionButton.selected 도 같이 맞춰준다.
+	# 패널이 닫혀 있어도 signal 만 연결해 두면, 다음에 열렸을 때 dropdown 의
+	# 텍스트가 현재 mode 와 일치한다.
+	GlobalSetting.resolution_applied.connect(_on_global_resolution_applied)
+
 	# 모바일 플랫폼 처리
 	var platform: String = OS.get_name()
 	match platform:
@@ -47,8 +53,8 @@ func _ready() -> void:
 
 	# 현재 창 모드에 맞게 선택값 설정
 	match DisplayServer.window_get_mode():
-		DisplayServer.WINDOW_MODE_WINDOWED:
-			resolution_option.selected = resolution_select_index
+		DisplayServer.WINDOW_MODE_WINDOWED, DisplayServer.WINDOW_MODE_MAXIMIZED:
+			resolution_option.selected = 2
 		DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN, DisplayServer.WINDOW_MODE_FULLSCREEN:
 			resolution_option.selected = 0
 		_:
@@ -65,3 +71,13 @@ func _on_Resolution_option_button_item_selected(index: int) -> void:
 	if index < 0 or index >= resolution_option.item_count:
 		return
 	GlobalSetting.apply_resolution(index)
+
+
+# GlobalSetting.apply_resolution (예: Alt+Enter / F11 토글) 으로 mode 가 바뀐 뒤
+# 호출된다. OptionButton.selected 만 갱신하면 되며, 다시 apply_resolution 을
+# 호출하지 않도록 GlobalSetting 에 시그널을 그대로 흘려보내지 않는다 (이 핸들러는
+# resolution_applied 의 *수신자* 일 뿐).
+func _on_global_resolution_applied(index: int) -> void:
+	if index < 0 or index >= resolution_option.item_count:
+		return
+	resolution_option.selected = index
