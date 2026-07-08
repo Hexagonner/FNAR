@@ -7,26 +7,51 @@ var low_spec_mode: bool = false
 func _unhandled_input(event: InputEvent) -> void:
 	# ALT+Enter (또는 F11) 전체화면/창모드 토글
 	# InputMap 액션이 누락되어도 동작하도록 InputEventKey를 직접 검사한다
-	if event is InputEventKey and event.pressed and not event.echo:
-		var key_event: InputEventKey = event
-		var is_alt: bool = key_event.alt_pressed
-		var is_enter: bool = key_event.physical_keycode == KEY_ENTER or key_event.keycode == KEY_ENTER
-		var is_f11: bool = key_event.physical_keycode == KEY_F11 or key_event.keycode == KEY_F11
-		if (is_alt and is_enter) or is_f11:
-			toggle_fullscreen()
-			get_viewport().set_input_as_handled()
-
+	if event.is_action_pressed("toggle_fullscreen"):
+		toggle_fullscreen()
 func toggle_fullscreen() -> void:
 	var current_mode: int = DisplayServer.window_get_mode()
 	if current_mode == DisplayServer.WINDOW_MODE_WINDOWED:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+		apply_resolution(0)
 	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		DisplayServer.window_set_size(Vector2i(1920, 1080))
-		# 창을 화면 중앙에 배치
-		var screen_size: Vector2i = DisplayServer.screen_get_size()
-		var window_size: Vector2i = DisplayServer.window_get_size()
-		@warning_ignore("integer_division")
-		var center_pos: Vector2i = (screen_size - window_size) / 2
-		DisplayServer.window_set_position(center_pos)
-		print("[GlobalSetting] switched to windowed mode: ", window_size)
+		apply_resolution(2)
+
+var _resolution_sizes: Array[Vector2i] = []
+func apply_resolution(index: int) -> void:
+	# 인덱스 0 == 전체화면, 그 외 == 창모드 + 해상도 적용
+	if index <= 0:
+		# 전체화면으로 전환. viewport.mode를 먼저 설정해야 OS 윈도우가
+		# 그에 맞춰 reposition/resize 되고, 뒤따르는 size/position 설정이
+		# 덮어쓰여지지 않는다.
+		get_viewport().mode = Window.MODE_EXCLUSIVE_FULLSCREEN
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+		print("[Option] fullscreen mode 4", DisplayServer.window_get_mode())
+		return
+
+
+	# 인덱스 -> 크기 매핑 (인덱스 0은 전체화면이므로 1-based로 접근)
+	var size_index: int = index
+	if size_index < 0 or size_index >= _resolution_sizes.size():
+		return
+	var window_size: Vector2i = _resolution_sizes[size_index]
+	if window_size == Vector2i.ZERO:
+		return
+
+	# 1) viewport(=root Window)의 mode를 먼저 WINDOWED로 변경.
+	#    mode 변경 시 OS가 윈도우를 reposition/resize 하므로 size/position은
+	#    그 *후*에 적용해야 한다.
+	get_viewport().mode = Window.MODE_WINDOWED
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	# 2) 그 다음 size/position을 설정.
+	DisplayServer.window_set_size(window_size)
+	var screen_size: Vector2i = DisplayServer.screen_get_size()
+	# 창을 화면 중앙에 배치. 정수 나눗셈(소수점 버림)이 의도된 동작이다
+	# (픽셀 정렬) → integer_division 경고를 무시한다.
+	@warning_ignore("integer_division")
+	var pos: Vector2i = Vector2i(
+		(screen_size.x - window_size.x) / 2,
+		(screen_size.y - window_size.y) / 2,
+	)
+	DisplayServer.window_set_position(pos)
+
+	print("[Option] windowed: 0 ", window_size, DisplayServer.window_get_mode())
