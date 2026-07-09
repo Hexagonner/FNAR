@@ -37,11 +37,6 @@ func _on_tween_finished() -> void:
 
 @warning_ignore("unused_parameter")
 func _on_animation_player_animation_finished(anim_name:StringName) -> void:
-	#TODO DELETE ME 
-	OS.shell_open("https://youtu.be/dQw4w9WgXcQ?si=xOWWwoQ5S2fpjLgR") #TODO 나중에  깃헙등에 연 동   
 	
-	get_tree().quit()
-	
-	#DELETE
 	get_tree().change_scene_to_packed(ResourceLoader.load_threaded_get(start_menu_scene))
 	

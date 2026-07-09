@@ -16,8 +16,10 @@
 [ext_resource type="Texture2D" uid="uid://dqxkiqij6bwn7" path="res://Sprites/menu_icon/more_button.png" id="12_xhqlh"]
 [ext_resource type="Texture2D" uid="uid://cuhxbtrtnn6xs" path="res://Sprites/menu_icon/box_checked.png" id="13_4pw8c"]
 [ext_resource type="Script" uid="uid://dym3asrqlut5h" path="res://Scripts/fps.gd" id="13_y4icf"]
+[ext_resource type="Texture2D" uid="uid://bh07ufcxw0eql" path="res://Sprites/Help wanted.png" id="14_2rj0r"]
 [ext_resource type="Texture2D" uid="uid://btmo5l5ltm56k" path="res://Sprites/menu_icon/box_unchecked.png" id="14_jicu0"]
 [ext_resource type="Theme" uid="uid://ct0ddfgrgrjrt" path="res://Theme/Cam_button.tres" id="15_0nkfq"]
+[ext_resource type="AudioStream" uid="uid://wq5lxtd35fch" path="res://Sounds/samuelfjohanns-weird-mysterious-motif-110585.wav" id="15_ih1pi"]
 [ext_resource type="Script" uid="uid://th88asx3ybue" path="res://Scripts/Starmenu_Rd.gd" id="16_0kidg"]
 [ext_resource type="Texture2D" uid="uid://dlaaahxbbj1wg" path="res://animatronics/RD/RD_Image_4.png" id="16_ogqhd"]
 [ext_resource type="Texture2D" uid="uid://c6wr17ud0743f" path="res://animatronics/RD/RD_Image_7.png" id="17_0kidg"]
@@ -258,36 +260,12 @@ tracks/3/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.1882353)]
 }
-tracks/4/type = "method"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("start_sound")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [0.0],
-"method": &"play"
-}]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_840pm"]
 _data = {
 &"RESET": SubResource("Animation_y2vu2"),
 &"noise": SubResource("Animation_1mpcy")
 }
-
-[sub_resource type="GDScript" id="GDScript_ps5wg"]
-resource_name = "noise_start_menu"
-script/source = "extends AnimationPlayer
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass#play(\"noise\")
-"
 
 [sub_resource type="Theme" id="Theme_qyiu4"]
 Label/constants/outline_size = 10
@@ -1835,7 +1813,7 @@ cache/0/36/0/glyphs/24/size = Vector2(19, 28)
 cache/0/36/0/glyphs/24/uv_rect = Rect2(343, 54, 19, 28)
 cache/0/36/0/glyphs/24/texture_idx = 0
 
-[sub_resource type="Image" id="Image_4w2wx"]
+[sub_resource type="Image" id="Image_ih1pi"]
 data = {
 "data": PackedByteArray("////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8j////mf///77///+/////v////7////+/////v////7////+/////v////77///+Y////If///wD///8A////mf///7////+/////v////7////+/////v////7////+/////v////7////+/////v////5f///8A////AP///77///+/////v////7////+/////v////7////+/////v////7/t7e3D////v////7////++////AP///wD///+/////v////7////+/////v////7////+/////v////7+xsbHRJSUl/LKystH///+/////v////wD///8A////v////7////+/////v////7////+/////v////7+wsLDRICAg/hoaGv9UVFTr////v////7////8A////AP///7////+/////v////7////+/////v////7+wsLDRICAg/hoaGv9OTk7t+Pj4wf///7////+/////AP///wD///+/////v/39/cDe3t7G////v////7+vr6/SICAg/hoaGv9PT0/t+Pj4wf///7////+/////v////wD///8A////v/39/cBaWlrqLS0t+dTU1Miurq7SICAg/hoaGv9PT0/t+Pj4wf///7////+/////v////7////8A////AP///7/o6OjENjY29hoaGv8rKyv6ICAg/hoaGv9RUVHt+Pj4wf///7////+/////v////7////+/////AP///wD///+/////v+Li4sU2Njb2Ghoa/xoaGv9RUVHt+Pj4wf///7////+/////v////7////+/////v////wD///8A////v////7////+/4uLixTY2NvZRUVHs+Pj4wf///7////+/////v////7////+/////v////7////8A////AP///77///+/////v////7/m5ubF+Pj4wf///7////+/////v////7////+/////v////7////+9////AP///wD///+Y////v////7////+/////v////7////+/////v////7////+/////v////7////+/////lv///wD///8A////If///5f///++////v////7////+/////v////7////+/////v////7////+9////lv///yD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AA=="),
 "format": "RGBA8",
@@ -1845,9 +1823,9 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_uuafn"]
-image = SubResource("Image_4w2wx")
+image = SubResource("Image_ih1pi")
 
-[sub_resource type="Image" id="Image_2rj0r"]
+[sub_resource type="Image" id="Image_8v8wu"]
 data = {
 "data": PackedByteArray("////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8R////TP///17///9e////Xv///17///9e////Xv///17///9e////Xv///17///9L////Ef///wD///8A////TP///17///9e////Xv///17///9e////Xv///17///9e////Xv///17///9e////Xv///0v///8A////AP///17///9e////Xv///17///9e////Xv///17///9e////Xv///17t7e1j////Xv///17///9e////AP///wD///9e////Xv///17///9e////Xv///17///9e////Xv///165ubl1Xl5eqrm5uXX///9e////Xv///wD///8A////Xv///17///9e////Xv///17///9e////Xv///164uLh2W1tbrVdXV695eXmW////Xv///17///8A////AP///17///9e////Xv///17///9e////Xv///164uLh2W1tbrVdXV691dXWY+Pj4Yf///17///9e////AP///wD///9e////Xv39/V/g4OBo////Xv///164uLh2W1tbrVdXV693d3eY+Pj4Yf///17///9e////Xv///wD///8A////Xv39/V98fHyUYmJip9bW1mq2trZ2W1tbrVdXV693d3eY+Pj4Yf///17///9e////Xv///17///8A////AP///17p6ellZ2dno1dXV69hYWGoW1tbrVdXV693d3eY+Pj4Yf///17///9e////Xv///17///9e////AP///wD///9e////XuTk5GZnZ2ejV1dXr1dXV693d3eY+Pj4Yf///17///9e////Xv///17///9e////Xv///wD///8A////Xv///17///9e5OTkZmdnZ6N4eHiX+Pj4Yf///17///9e////Xv///17///9e////Xv///17///8A////AP///17///9e////Xv///17m5uZm+Pj4Yf///17///9e////Xv///17///9e////Xv///17///9d////AP///wD///9L////Xv///17///9e////Xv///17///9e////Xv///17///9e////Xv///17///9e////Sv///wD///8A////Ef///0v///9e////Xv///17///9e////Xv///17///9e////Xv///17///9d////Sv///xD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AA=="),
 "format": "RGBA8",
@@ -1857,9 +1835,9 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_v77rd"]
-image = SubResource("Image_2rj0r")
+image = SubResource("Image_8v8wu")
 
-[sub_resource type="Image" id="Image_ih1pi"]
+[sub_resource type="Image" id="Image_ygvjo"]
 data = {
 "data": PackedByteArray("////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8N////YP///4j///+t////rf///4j///9f////C////wD///8A////AP///wD///8A////AP///wD///84////q/7+/sHy8vLM5OTk2eTk5Nny8vLM////wP///6j///8z////AP///wD///8A////AP///wD///84////v/Pz88vOzs70xsbG/8bGxv/Gxsb/xsbG/8/Pz/Pz8/PL////vv///zL///8A////AP///wD///8M////q/Pz88vHx8f+sLCw/1FRUf8rKyv/Kysr/1NTU/+xsbH/x8fH/vPz88v///+o////Cv///wD///8A////Yf7+/sHOzs70sLCw/yUlJf8aGhr/Ghoa/xoaGv8aGhr/Jycn/7Ozs//Pz8/z////wP///2D///8A////AP///4ny8vLMxsbG/1FRUf8aGhr/Ghoa/xoaGv8aGhr/Ghoa/xoaGv9WVlb/xsbG//Ly8sz///+a////AP///wD///+u5OTk2cbGxv8rKyv/Ghoa/xoaGv8aGhr/Ghoa/xoaGv8aGhr/Kysr/8bGxv/k5OTZ////tP///wD///8A////reTk5NnGxsb/Kysr/xoaGv8aGhr/Ghoa/xoaGv8aGhr/Ghoa/ywsLP/Gxsb/5OTk2f///7T///8A////AP///4jy8vLMxsbG/1NTU/8aGhr/Ghoa/xoaGv8aGhr/Ghoa/xoaGv9YWFj/xsbG//Ly8sz///+Y////AP///wD///9f////wM/Pz/OysrL/Jycn/xoaGv8aGhr/Ghoa/xoaGv8qKir/tbW1/8/Pz/P////A////Xv///wD///8A////C////6nz8/PLx8fH/rOzs/9WVlb/Kysr/ywsLP9YWFj/tbW1/8jIyP309PTK////pf///wn///8A////AP///wD///80////vvPz88vPz8/zxsbG/8bGxv/Gxsb/xsbG/8/Pz/P09PTK////vf///y7///8A////AP///wD///8A////AP///zL///+o////wPLy8szk5OTZ5OTk2fLy8sz////A////pf///y7///8A////AP///wD///8A////AP///wD///8A////Cv///2D///+a////tP///7T///+Y////Xv///wn///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AA=="),
 "format": "RGBA8",
@@ -1869,9 +1847,9 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_ega5h"]
-image = SubResource("Image_ih1pi")
+image = SubResource("Image_ygvjo")
 
-[sub_resource type="Image" id="Image_8v8wu"]
+[sub_resource type="Image" id="Image_yxbet"]
 data = {
 "data": PackedByteArray("////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8J////Mf///03///9a////Wv///03///8x////Cf///wD///8A////AP///wD///8A////AP///wD///8g////Wv///17///9e////Xv///17///9e////Xv///1r///8f////AP///wD///8A////AP///wD///8g////Xv///17///9e////Xv///17///9e////Xv///17///9e////Xv///x////8A////AP///wD///8J////Wv///17///9e4ODgaHx8fJRhYWGoYWFhqH19fZPg4OBo////Xv///17///9Z////CP///wD///8A////Mf///17///9e4ODgaF5eXqpXV1evV1dXr1dXV69XV1evX19fqeDg4Gj///9e////Xv///zD///8A////AP///03///9e////Xnx8fJRXV1evV1dXr1dXV69XV1evV1dXr1dXV699fX2T////Xv///17///9N////AP///wD///9a////Xv///15hYWGoV1dXr1dXV69XV1evV1dXr1dXV69XV1evYWFhqP///17///9e////Wv///wD///8A////Wv///17///9eYWFhqFdXV69XV1evV1dXr1dXV69XV1evV1dXr2JiYqf///9e////Xv///1n///8A////AP///03///9e////Xn19fZNXV1evV1dXr1dXV69XV1evV1dXr1dXV69/f3+T////Xv///17///9M////AP///wD///8x////Xv///17g4OBoX19fqVdXV69XV1evV1dXr1dXV69fX1+p4uLiZ////17///9e////MP///wD///8A////Cf///1r///9e////XuDg4Gh9fX2TYWFhqGJiYqd/f3+T4uLiZ////17///9e////Wf///wj///8A////AP///wD///8f////Xv///17///9e////Xv///17///9e////Xv///17///9e////Xv///x7///8A////AP///wD///8A////AP///x////9Z////Xv///17///9e////Xv///17///9e////Wf///x7///8A////AP///wD///8A////AP///wD///8A////CP///zD///9N////Wv///1n///9M////MP///wj///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AA=="),
 "format": "RGBA8",
@@ -1881,9 +1859,9 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_fmfch"]
-image = SubResource("Image_8v8wu")
+image = SubResource("Image_yxbet")
 
-[sub_resource type="Image" id="Image_ygvjo"]
+[sub_resource type="Image" id="Image_o2tps"]
 data = {
 "data": PackedByteArray("////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wAqKioMGhoaQxoaGmkbGxt6GxsbehoaGmkbGxtCLi4uC////wD///8A////AP///wD///8A////AP///wAdHR0sGxsbehoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBsbG3oeHh4q////AP///wD///8A////AP///wAdHR0sGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagB4eHir///8A////AP///wAqKioMGxsbehoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAbGxt5Li4uC////wD///8AGhoaQxoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBsbG0H///8A////ABoaGmkaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAbGxto////AP///wAbGxt6GhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGxsbev///wD///8AGxsbehoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBsbG3n///8A////ABoaGmkaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAbGxtn////AP///wAbGxtCGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGxsbQf///wD///8ALi4uCxsbG3oaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGxsbeTMzMwr///8A////AP///wAeHh4qGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagB8fHyn///8A////AP///wD///8A////AB4eHiobGxt5GhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGxsbeR8fHyn///8A////AP///wD///8A////AP///wD///8ALi4uCxsbG0EbGxtoGxsbehsbG3kbGxtnGxsbQTMzMwr///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AA=="),
 "format": "RGBA8",
@@ -1893,9 +1871,9 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_urb2s"]
-image = SubResource("Image_ygvjo")
+image = SubResource("Image_o2tps")
 
-[sub_resource type="Image" id="Image_yxbet"]
+[sub_resource type="Image" id="Image_h51bg"]
 data = {
 "data": PackedByteArray("////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wAqKioGHh4eIhwcHDUdHR09HR0dPRwcHDUfHx8hKioqBv///wD///8A////AP///wD///8A////AP///wAiIiIWHR0dPRwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQB0dHT0kJCQV////AP///wD///8A////AP///wAiIiIWHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQCQkJBX///8A////AP///wAqKioGHR0dPRwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAdHR09KioqBv///wD///8AHh4eIhwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQB8fHyH///8A////ABwcHDUcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAdHR00////AP///wAdHR09HBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHR0dPf///wD///8AHR0dPRwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQB0dHT3///8A////ABwcHDUcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAdHR00////AP///wAfHx8hHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHx8fIf///wD///8AKioqBh0dHT0cHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHR0dPTMzMwX///8A////AP///wAkJCQVHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQCQkJBX///8A////AP///wD///8A////ACQkJBUdHR09HBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHR0dPSQkJBX///8A////AP///wD///8A////AP///wD///8AKioqBh8fHyEdHR00HR0dPR0dHT0dHR00Hx8fITMzMwX///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AA=="),
 "format": "RGBA8",
@@ -1905,9 +1883,9 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_m0lks"]
-image = SubResource("Image_yxbet")
+image = SubResource("Image_h51bg")
 
-[sub_resource type="Image" id="Image_o2tps"]
+[sub_resource type="Image" id="Image_j7evl"]
 data = {
 "data": PackedByteArray("////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8As7OzHrKysmeysrIu////AP///wD///8A////AP///wC1tbUfsrKyc7KysnOwsLAw////AP///wD///8A////AP///wCwsLAwsrKyc7KysnOwsLAw////AP///wD///8A////AP///wCwsLAwsrKyc7KysnOtra0f////AP///wD///8A////ALW1tTCysrJzsrKyc7W1tR////8A////AP///wC1tbUwsrKyc7KysnOzs7Mv////AP///wD///8AtbW1H7KysnOysrJzs7OzL////wD///8A////AP///wCzs7MesrKyZ7Kysi7///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wA="),
 "format": "RGBA8",
@@ -1917,9 +1895,9 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_euph1"]
-image = SubResource("Image_o2tps")
+image = SubResource("Image_j7evl")
 
-[sub_resource type="Image" id="Image_h51bg"]
+[sub_resource type="Image" id="Image_ckv8q"]
 data = {
 "data": PackedByteArray("////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8AsrKyLrKysmewsLAd////AP///wD///8A////ALW1tTCysrJzsrKyc7W1tR////8A////AP///wC1tbUwsrKyc7KysnOzs7Mv////AP///wD///8AtbW1H7KysnOysrJzs7OzL////wD///8A////AP///wC1tbUfsrKyc7KysnOwsLAw////AP///wD///8A////AP///wCwsLAwsrKyc7KysnOwsLAw////AP///wD///8A////AP///wCwsLAwsrKyc7KysnOtra0f////AP///wD///8A////AP///wCysrIusrKyZ7Ozsx7///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wA="),
 "format": "RGBA8",
@@ -1929,9 +1907,9 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_h76s4"]
-image = SubResource("Image_h51bg")
+image = SubResource("Image_ckv8q")
 
-[sub_resource type="Image" id="Image_j7evl"]
+[sub_resource type="Image" id="Image_u2mxf"]
 data = {
 "data": PackedByteArray("////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wAhISEXGxsbZxoaGn8aGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGn8bGxtmIiIiFv///wD///8AGxsbZxoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBsbG2X///8A////ABoaGn8aGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhp/////AP///wAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagP///wD///8AGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoD///8A////ABoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqA////AP///wAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagP///wD///8AGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoD///8A////ABoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqA////AP///wAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagP///wD///8AGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoD///8A////ABoaGn8aGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhp/////AP///wAbGxtmGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhqAHBwcZP///wD///8AIiIiFhsbG2UaGhp/GhoagBoaGoAaGhqAGhoagBoaGoAaGhqAGhoagBoaGoAaGhp/HBwcZCQkJBX///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AA=="),
 "format": "RGBA8",
@@ -1941,9 +1919,9 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_v10oh"]
-image = SubResource("Image_j7evl")
+image = SubResource("Image_u2mxf")
 
-[sub_resource type="Image" id="Image_ckv8q"]
+[sub_resource type="Image" id="Image_d2nv7"]
 data = {
 "data": PackedByteArray("////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wAqKioMHR0dNBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAeHh4zLi4uC////wD///8AHR0dNBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQB4eHjP///8A////ABwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxA////AP///wAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQP///wD///8AHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHED///8A////ABwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxA////AP///wAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQP///wD///8AHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHED///8A////ABwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxA////AP///wAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQP///wD///8AHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHED///8A////ABwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxA////AP///wAeHh4zHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHh4eMv///wD///8ALi4uCx4eHjMcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHBwcQBwcHEAcHBxAHh4eMi4uLgv///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AA=="),
 "format": "RGBA8",
@@ -1953,7 +1931,7 @@ data = {
 }
 
 [sub_resource type="ImageTexture" id="ImageTexture_axnam"]
-image = SubResource("Image_ckv8q")
+image = SubResource("Image_d2nv7")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cjpfu"]
 bg_color = Color(0.255659, 0.255659, 0.255659, 1)
@@ -9154,7 +9132,7 @@ transform = Transform3D(1, 0, 0, 0, 0.9352156, 0.35407886, 0, -0.35407883, 0.935
 spot_range = 8.109034
 spot_angle = 60.0
 
-[node name="Start_menu" type="Control" parent="." unique_id=1847663083 node_paths=PackedStringArray("option_node", "night_label", "select_day_spinbox")]
+[node name="Start_menu" type="Control" parent="." unique_id=1847663083 node_paths=PackedStringArray("option_node", "night_label", "select_day_spinbox", "news", "fadeout", "news_sound")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -9166,6 +9144,9 @@ script = ExtResource("3_4a2cd")
 option_node = NodePath("../Options")
 night_label = NodePath("Start_loading/HBoxContainer/VBoxContainer/night_show")
 select_day_spinbox = NodePath("LEFT_button_containor/VBoxContainer/continue_line/select_day")
+news = NodePath("news")
+fadeout = NodePath("fade_out")
+news_sound = NodePath("fade_out/news_sound")
 metadata/_edit_use_anchors_ = true
 metadata/_edit_lock_ = true
 
@@ -9188,8 +9169,8 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Start_menu/VBoxContainer/HBoxContainer" unique_id=1630275658]
-clip_contents = false
 custom_minimum_size = Vector2(350, 380)
+clip_contents = false
 layout_mode = 2
 theme_override_constants/shadow_outline_size = 10
 theme_override_constants/outline_size = 15
@@ -9372,7 +9353,6 @@ metadata/_edit_lock_ = true
 
 [node name="Noise_ani" type="AnimationPlayer" parent="Start_menu" unique_id=1716821724]
 libraries/ = SubResource("AnimationLibrary_840pm")
-script = SubResource("GDScript_ps5wg")
 
 [node name="Start_loading" type="ColorRect" parent="Start_menu" unique_id=85014372]
 visible = false
@@ -9436,6 +9416,7 @@ anchor_right = 0.933333
 anchor_bottom = 0.925926
 mouse_filter = 2
 alignment = 2
+metadata/_edit_lock_ = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Start_menu/VBoxContainer4" unique_id=1301651282]
 layout_mode = 2
@@ -9459,6 +9440,26 @@ theme_override_fonts/font = ExtResource("4_l8a40")
 theme_override_font_sizes/font_size = 60
 text = "fps"
 script = ExtResource("13_y4icf")
+
+[node name="news" type="Sprite2D" parent="Start_menu" unique_id=1044085789]
+self_modulate = Color(1, 1, 1, 0)
+top_level = true
+z_index = 4096
+position = Vector2(958, 500)
+texture = ExtResource("14_2rj0r")
+metadata/_edit_lock_ = true
+
+[node name="fade_out" type="ColorRect" parent="Start_menu" unique_id=768610498]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+metadata/_edit_lock_ = true
+
+[node name="news_sound" type="AudioStreamPlayer" parent="Start_menu/fade_out" unique_id=312036145]
+stream = ExtResource("15_ih1pi")
+bus = &"UI"
 
 [node name="Options" type="Control" parent="." unique_id=597320225 node_paths=PackedStringArray("resolution_option", "resolution_bar", "FPS_node", "FPS_checkbox", "low_spec_button")]
 z_index = 5
@@ -9488,6 +9489,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
 
 [node name="PanelContainer" type="PanelContainer" parent="Options/CenterContainer" unique_id=478983582]
 layout_mode = 2
@@ -9658,6 +9660,7 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
+metadata/_edit_lock_ = true
 
 [node name="RD" type="Node3D" parent="." unique_id=1817847497]
 transform = Transform3D(0.99857044, 0, -0.053451404, 0, 1, 0, 0.053451404, 0, 0.99857044, 1.0177493, 0, -5.6094484)
@@ -9682,43 +9685,43 @@ bones/1/name = "Hips"
 bones/1/parent = 0
 bones/1/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.357829e-09, 1.3925887, 0.0051944274)
 bones/1/enabled = true
-bones/1/position = Vector3(0.047043387, 1.3012873, 0.026030844)
-bones/1/rotation = Quaternion(0.01563264, -0.03915366, 0.015790533, 0.9989861)
+bones/1/position = Vector3(0.034181133, 1.3091891, 0.03511502)
+bones/1/rotation = Quaternion(-0.0024714663, 0.07365911, 0.0023726835, 0.9972776)
 bones/1/scale = Vector3(1, 1, 1)
 bones/2/name = "Spine"
 bones/2/parent = 1
 bones/2/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13910247, -0.0013590595)
 bones/2/enabled = true
 bones/2/position = Vector3(0, 0.13910247, -0.0013590595)
-bones/2/rotation = Quaternion(0.0052400096, 0.015640663, 0.008857899, 0.9998247)
+bones/2/rotation = Quaternion(0.014135861, -0.021184303, 0.0045412728, 0.9996653)
 bones/2/scale = Vector3(0.9999999, 1, 1.0000001)
 bones/3/name = "Chest"
 bones/3/parent = 2
 bones/3/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.684342e-16, 0.16228609, -0.001585568)
 bones/3/enabled = true
 bones/3/position = Vector3(-5.684342e-16, 0.16228609, -0.001585568)
-bones/3/rotation = Quaternion(0.014428243, 0.024551364, -0.012451456, 0.99951696)
+bones/3/rotation = Quaternion(0.023505962, -0.04212195, 0.004088932, 0.99882764)
 bones/3/scale = Vector3(0.99999976, 1, 0.99999994)
 bones/4/name = "UpperChest"
 bones/4/parent = 3
 bones/4/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.684342e-16, 0.18546996, -0.0018120812)
 bones/4/enabled = true
 bones/4/position = Vector3(-5.684342e-16, 0.18546996, -0.0018120812)
-bones/4/rotation = Quaternion(-0.024256691, 0.024766132, -0.016535569, 0.9992622)
+bones/4/rotation = Quaternion(-0.015993085, -0.042466037, -0.0011081072, 0.9989693)
 bones/4/scale = Vector3(1, 1.0000001, 1)
 bones/5/name = "Neck"
 bones/5/parent = 4
 bones/5/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.684342e-16, 0.20865358, -0.002038591)
 bones/5/enabled = true
 bones/5/position = Vector3(-5.684342e-16, 0.20865358, -0.002038591)
-bones/5/rotation = Quaternion(-0.04076231, -0.004103806, -0.022557212, 0.99890584)
+bones/5/rotation = Quaternion(-0.041187376, -0.0009871669, -0.015554874, 0.99902993)
 bones/5/scale = Vector3(1, 1, 1.0000001)
 bones/6/name = "Head"
 bones/6/parent = 5
 bones/6/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.078572534, -0.0010998739)
 bones/6/enabled = true
 bones/6/position = Vector3(0, 0.078572534, -0.0010998739)
-bones/6/rotation = Quaternion(-0.00030186772, -0.020852748, -0.013090948, 0.99969685)
+bones/6/rotation = Quaternion(-0.012037992, 0.0030745913, -0.0013288815, 0.99992204)
 bones/6/scale = Vector3(1.0000001, 1.0000001, 0.9999999)
 bones/7/name = "mixamorig_HeadTop_End"
 bones/7/parent = 6
@@ -9732,49 +9735,49 @@ bones/8/parent = 4
 bones/8/rest = Transform3D(0, 1, 0, 0, 0, 1, 1, 0, 0, 0.10201691, 0.20129879, -0.0014371156)
 bones/8/enabled = true
 bones/8/position = Vector3(0.10201691, 0.20129879, -0.0014371156)
-bones/8/rotation = Quaternion(0.38097927, 0.5606629, 0.51371497, -0.5259363)
+bones/8/rotation = Quaternion(0.26625067, 0.6593953, 0.5255524, -0.46701512)
 bones/8/scale = Vector3(1, 0.9999997, 0.9999997)
 bones/9/name = "LeftUpperArm"
 bones/9/parent = 8
 bones/9/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.0012029408, 0.2111235, -0.013717312)
 bones/9/enabled = true
 bones/9/position = Vector3(0.0012029408, 0.2111235, -0.013717312)
-bones/9/rotation = Quaternion(-0.18302791, 0.9514776, -0.11103453, -0.22104876)
+bones/9/rotation = Quaternion(-0.052917838, 0.99786377, 0.02137152, -0.031793866)
 bones/9/scale = Vector3(0.9999998, 1, 1.0000004)
 bones/10/name = "LeftLowerArm"
 bones/10/parent = 9
 bones/10/rest = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0.0019872542, 0.07435267, 0.43950602)
 bones/10/enabled = true
 bones/10/position = Vector3(0.0019872542, 0.07435267, 0.43950602)
-bones/10/rotation = Quaternion(-0.049422283, -0.83420235, 0.072537735, 0.5444283)
+bones/10/rotation = Quaternion(-0.024856074, -0.96566457, 0.08219755, 0.24518916)
 bones/10/scale = Vector3(0.9999999, 0.9999999, 1.0000001)
 bones/11/name = "LeftHand"
 bones/11/parent = 10
 bones/11/rest = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.44658387, -0.0039933524, 0.0013970615)
 bones/11/enabled = true
 bones/11/position = Vector3(0.44658387, -0.0039933524, 0.0013970615)
-bones/11/rotation = Quaternion(0.37903875, 0.6335692, 0.07390448, 0.6704162)
+bones/11/rotation = Quaternion(0.06395999, 0.6083732, 0.15626799, 0.7754816)
 bones/11/scale = Vector3(1, 1.0000001, 0.9999998)
 bones/12/name = "mixamorig_LeftHandIndex1"
 bones/12/parent = 11
 bones/12/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0015399678, 0.005104765, 0.19839734)
 bones/12/enabled = true
 bones/12/position = Vector3(-0.0015400588, 0.005104826, 0.19839726)
-bones/12/rotation = Quaternion(0.056963176, -0.33170584, 0.076416135, 0.93855584)
+bones/12/rotation = Quaternion(0.017900703, -0.32949543, 0.04576379, 0.94287753)
 bones/12/scale = Vector3(1.0000004, 1, 1.0000001)
 bones/13/name = "LeftIndexProximal"
 bones/13/parent = 12
 bones/13/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.036183544, 0.000939147, 0.04191971)
 bones/13/enabled = true
 bones/13/position = Vector3(0.036183544, 0.000939147, 0.04191971)
-bones/13/rotation = Quaternion(0.14707391, 0.6985065, -0.0052520433, 0.7003075)
+bones/13/rotation = Quaternion(0.14283112, 0.6986472, -0.005439503, 0.7010433)
 bones/13/scale = Vector3(0.9999999, 0.99999994, 0.99999976)
 bones/14/name = "LeftIndexIntermediate"
 bones/14/parent = 13
 bones/14/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.036334503, 0.00037175487, 0.034381285)
 bones/14/enabled = true
 bones/14/position = Vector3(-0.036334503, 0.00037175487, 0.034381285)
-bones/14/rotation = Quaternion(0.21396998, -0.25986686, 0.2129345, 0.9172486)
+bones/14/rotation = Quaternion(0.2103748, -0.26032633, 0.210955, 0.9184066)
 bones/14/scale = Vector3(1.0000001, 1, 1)
 bones/15/name = "LeftIndexDistal"
 bones/15/parent = 14
@@ -9788,49 +9791,49 @@ bones/16/parent = 4
 bones/16/rest = Transform3D(0, -1, 0, 0, 0, 1, -1, 0, 0, -0.102016926, 0.2012988, -0.0026962068)
 bones/16/enabled = true
 bones/16/position = Vector3(-0.102016926, 0.2012988, -0.0026962068)
-bones/16/rotation = Quaternion(0.36729348, -0.63181293, -0.44879556, -0.5142865)
+bones/16/rotation = Quaternion(0.45475516, -0.5477675, -0.4456245, -0.54274046)
 bones/16/scale = Vector3(1, 0.99999976, 0.9999998)
 bones/17/name = "RightUpperArm"
 bones/17/parent = 16
 bones/17/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.0013152182, 0.21112354, -0.013717383)
 bones/17/enabled = true
 bones/17/position = Vector3(0.0013152182, 0.21112354, -0.013717383)
-bones/17/rotation = Quaternion(-0.12881984, 0.9888909, -0.04973567, -0.055016123)
+bones/17/rotation = Quaternion(0.058237206, 0.9532405, -0.09619479, 0.280513)
 bones/17/scale = Vector3(1, 0.9999998, 1.0000002)
 bones/18/name = "RightLowerArm"
 bones/18/parent = 17
 bones/18/rest = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.0006579526, 0.074352376, 0.43950623)
 bones/18/enabled = true
 bones/18/position = Vector3(0.0006579526, 0.074352376, 0.43950623)
-bones/18/rotation = Quaternion(-0.038690247, 0.9084163, -0.07762431, 0.40897113)
+bones/18/rotation = Quaternion(-0.044204336, 0.8751253, -0.075145684, 0.47597796)
 bones/18/scale = Vector3(0.9999999, 0.9999999, 0.99999976)
 bones/19/name = "RightHand"
 bones/19/parent = 18
 bones/19/rest = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -0.44658422, -0.0039934823, 0.0051945895)
 bones/19/enabled = true
 bones/19/position = Vector3(-0.44658422, -0.0039934823, 0.0051945895)
-bones/19/rotation = Quaternion(0.078953825, -0.6697881, -0.0953963, 0.73215425)
+bones/19/rotation = Quaternion(0.24234435, -0.68458664, -0.17256881, 0.665455)
 bones/19/scale = Vector3(1, 1, 1.0000002)
 bones/20/name = "mixamorig_RightHandIndex1"
 bones/20/parent = 19
 bones/20/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.014722143, 0.00179647, 0.12674683)
 bones/20/enabled = true
 bones/20/position = Vector3(0.014722106, 0.0017965342, 0.12674683)
-bones/20/rotation = Quaternion(0.14747788, 0.15110448, 0.02596416, 0.97710985)
+bones/20/rotation = Quaternion(-0.038572825, 0.15672652, -0.0017666958, 0.986887)
 bones/20/scale = Vector3(1, 1.0000004, 1.0000005)
 bones/21/name = "RightIndexProximal"
 bones/21/parent = 20
 bones/21/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.008410341, -0.0030364206, 0.055238802)
 bones/21/enabled = true
 bones/21/position = Vector3(-0.008410341, -0.0030364206, 0.055238802)
-bones/21/rotation = Quaternion(0.30460343, -0.09660836, 0.028811513, 0.94712913)
+bones/21/rotation = Quaternion(0.3051515, -0.0966567, 0.028862108, 0.94694614)
 bones/21/scale = Vector3(0.9999999, 0.9999998, 0.99999976)
 bones/22/name = "RightIndexIntermediate"
 bones/22/parent = 21
 bones/22/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0013082824, 0.0075531425, 0.08228513)
 bones/22/enabled = true
 bones/22/position = Vector3(-0.0013082824, 0.0075531425, 0.08228513)
-bones/22/rotation = Quaternion(0.0705588, -0.09742539, -0.0025390948, 0.99273527)
+bones/22/rotation = Quaternion(0.071134925, -0.09748571, -0.0025760694, 0.9926881)
 bones/22/scale = Vector3(1, 1.0000001, 1)
 bones/23/name = "RightIndexDistal"
 bones/23/parent = 22
@@ -9844,28 +9847,28 @@ bones/24/parent = 1
 bones/24/rest = Transform3D(-1, 0, 0, 0, -1, 0, 0, 0, 1, 0.17436378, -0.077564545, -0.006878901)
 bones/24/enabled = true
 bones/24/position = Vector3(0.17436378, -0.077564545, -0.006878901)
-bones/24/rotation = Quaternion(0.026922483, 0.29032084, 0.9559957, 0.032579128)
+bones/24/rotation = Quaternion(0.10401076, -0.118720144, 0.9871391, -0.025371319)
 bones/24/scale = Vector3(1, 0.9999998, 0.99999994)
 bones/25/name = "LeftLowerLeg"
 bones/25/parent = 24
 bones/25/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -0.0056293346, 0.6460688, 0.0019094556)
 bones/25/enabled = true
 bones/25/position = Vector3(-0.0056293346, 0.6460688, 0.0019094556)
-bones/25/rotation = Quaternion(-0.017198691, 0.98680776, -0.15757126, 0.032954153)
+bones/25/rotation = Quaternion(-0.038509272, 0.962673, -0.25957653, -0.066316165)
 bones/25/scale = Vector3(1, 0.9999999, 1.0000001)
 bones/26/name = "LeftFoot"
 bones/26/parent = 25
 bones/26/rest = Transform3D(-1, 0, 0, 0, 0, -1, 0, -1, 0, -0.00065337226, 0.5118264, 0.0005618681)
 bones/26/enabled = true
 bones/26/position = Vector3(-0.00065337226, 0.5118264, 0.0005618681)
-bones/26/rotation = Quaternion(-0.006409493, 0.6911619, -0.7226703, 0.0013911353)
+bones/26/rotation = Quaternion(-0.062191937, 0.5896466, -0.7993521, -0.09739276)
 bones/26/scale = Vector3(0.9999999, 1.0000002, 1.0000001)
 bones/27/name = "LeftToes"
 bones/27/parent = 26
 bones/27/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.0024791327, 0.21118322, -0.1418359)
 bones/27/enabled = true
 bones/27/position = Vector3(0.0024791327, 0.21118322, -0.1418359)
-bones/27/rotation = Quaternion(1.4423568e-07, 0.99352634, 0.11360193, 1.7580673e-08)
+bones/27/rotation = Quaternion(-0.000629884, 0.971229, 0.2381126, -0.004032517)
 bones/27/scale = Vector3(1, 0.99999994, 0.9999997)
 bones/28/name = "mixamorig_LeftToe_End"
 bones/28/parent = 27
@@ -9879,28 +9882,28 @@ bones/29/parent = 1
 bones/29/rest = Transform3D(-1, 0, 0, 0, -1, 0, 0, 0, 1, -0.17436378, -0.077564545, -0.001503438)
 bones/29/enabled = true
 bones/29/position = Vector3(-0.17436378, -0.077564545, -0.001503438)
-bones/29/rotation = Quaternion(-0.13537773, -0.17635015, 0.9747462, 0.02105666)
+bones/29/rotation = Quaternion(-0.102004625, 0.30055392, 0.9479219, -0.026581729)
 bones/29/scale = Vector3(0.99999994, 1.0000001, 0.99999994)
 bones/30/name = "RightLowerLeg"
 bones/30/parent = 29
 bones/30/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.0056293444, 0.6460688, -0.0034817515)
 bones/30/enabled = true
 bones/30/position = Vector3(0.0056293444, 0.6460688, -0.0034817515)
-bones/30/rotation = Quaternion(0.043320898, 0.98215985, -0.16009733, 0.088624164)
+bones/30/rotation = Quaternion(0.020499235, 0.96632427, -0.25404027, 0.03550847)
 bones/30/scale = Vector3(1, 0.99999994, 1)
 bones/31/name = "RightFoot"
 bones/31/parent = 30
 bones/31/rest = Transform3D(-1, 0, 0, 0, 0, -1, 0, -1, 0, 0.0006533562, 0.51182634, -0.0032615948)
 bones/31/enabled = true
 bones/31/position = Vector3(0.0006533562, 0.51182634, -0.0032615948)
-bones/31/rotation = Quaternion(0.02774292, 0.61505246, -0.7879861, -0.0043465965)
+bones/31/rotation = Quaternion(-0.00089736085, 0.6285138, -0.7765146, -0.044661943)
 bones/31/scale = Vector3(0.9999996, 0.9999999, 0.9999999)
 bones/32/name = "RightToes"
 bones/32/parent = 31
 bones/32/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -0.00247917, 0.20521699, -0.1418358)
 bones/32/enabled = true
 bones/32/position = Vector3(-0.00247917, 0.20521699, -0.1418358)
-bones/32/rotation = Quaternion(0.000361568, 0.9737447, 0.22761431, 0.0035939212)
+bones/32/rotation = Quaternion(-4.9383775e-08, 0.994793, 0.1019164, 3.687541e-08)
 bones/32/scale = Vector3(1, 0.9999999, 0.9999999)
 bones/33/name = "mixamorig_RightToe_End"
 bones/33/parent = 32

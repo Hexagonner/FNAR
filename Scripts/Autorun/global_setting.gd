@@ -16,7 +16,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func toggle_fullscreen() -> void:
 	var current_mode: int = DisplayServer.window_get_mode()
-	if current_mode == DisplayServer.WINDOW_MODE_WINDOWED:
+	
+	if current_mode == DisplayServer.WINDOW_MODE_WINDOWED or current_mode == DisplayServer.WINDOW_MODE_MAXIMIZED:
 		apply_resolution(0)
 	else:
 		apply_resolution(2)
