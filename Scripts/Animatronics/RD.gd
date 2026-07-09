@@ -120,30 +120,32 @@ var event_index:=0
 var testpath #TODO DELETE ME usage is patrol
 
 
-## 네비게이션 맵이 준비되면 Left_hall_coner 로 이동을 시작한다.
+## 네비게이션 맵이 준비되면 순환 패트롤을 시작한다.
+## BACKSTAGE_FRONT ↔ LEFT_DOOR 를 계속 왕복한다.
 func _start_patrol_to_left_hall() -> void:
 	# 네비게이션 맵 동기화를 위해 2프레임 대기
 	await get_tree().physics_frame
 	await get_tree().physics_frame
+	set_next_goal(PinName.BACKSTAGE_FRONT, _on_patrol_arrived)
+	print("[%s] Agent started patrolling" % name)
 
-	var result: bool = set_goal_by_pin_name(PinName.BACKSTAGE_FRONT)
-	if result:
-		print("[%s] Agent started patrolling to Left_hall_coner" % name)
-	else:
-		push_warning("[%s] Failed to start patrol to Left_hall_coner" % name)
-
+## 패트롤 도착 시 호출된다. 현재 위치에 따라 다음 행동을 결정한다.
+func _on_patrol_arrived(_pin: Movepoint, pin_name: PinName) -> void:
+	if pin_name == PinName.BACKSTAGE_FRONT:
+		set_next_goal(PinName.LEFT_DOOR, _on_patrol_arrived)
+	elif pin_name == PinName.LEFT_DOOR:
+		set_next_goal(PinName.BACKSTAGE_FRONT, _on_patrol_arrived)
 
 func _ready() -> void:
 	super._ready()
-	
+
 	right_pupil_mat = right_pupil.get_active_material(0)
 	left_pupil_mat = left_pupil.get_active_material(0)
-	
+
 	gui_node.battery_over.connect(black_out_song)
-	
+
 	# 네비게이션 초기화 후 Left_hall_coner 로 이동 시작
 	call_deferred("_start_patrol_to_left_hall")
-	
 #region pupil_light_toggle
 
 func pupil_light_toggle()->void:
@@ -175,3 +177,12 @@ func _process(delta: float) -> void: # FOR black out pupil only rando
 			event_index +=1
 			pupil_light_toggle()
 		
+## 다음 행동을 외부에서 지정한다. (예: "LEFT_DOOR에 도착하면 공격")
+## 이미 이동 중이라도 즉시 새 경로로 재계획된다.
+## on_arrived가 유효한 Callable이면 도착 시그널에 등록된다(기존 핸들러 교체).
+func set_next_goal(pin_name: PinName, on_arrived: Callable = Callable()) -> void:
+	if on_arrived.is_valid():
+		set_arrival_handler(on_arrived)
+	var result: bool = set_goal_by_pin_name(pin_name)
+	if not result:
+		push_warning("[%s] Failed to set next goal to %s" % [name, pin_name])

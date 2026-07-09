@@ -146,7 +146,8 @@ var _next_pin: Movepoint = null
 var _physics_delta: float = 0.0
 var _navigation_initialized: bool = false
 
-
+## 최종 목표 핀에 도착했을 때 발생한다. 도착한 핀과 enum 정보를 함께 전달한다.
+signal arrived_at_goal(pin: Movepoint, pin_name: PinName)
 func _ready() -> void:
 	add_to_group("animatronics")
 
@@ -278,14 +279,17 @@ func _start_moving_to_next_pin() -> void:
 
 ## 최종 목표 핀에 도착했을 때 호출된다.
 func _arrived_at_goal() -> void:
+	var arrived_pin: Movepoint = _current_pin
+	arrived_at_goal.emit(arrived_pin, _main_goal_pin)
 	is_walking = false
 	_current_anim_state = &"idle"
 	_play_anim(&"idle")
 	_temporary_pin = null
 	_next_pin = null
 	_planned_path.clear()
+	_main_goal_pin = PinName.NONE
 	print("[%s] Arrived at goal" % name)
-
+	
 
 ## NavigationAgent3D가 현재 목표 위치(하나의 핀)에 도착했을 때 호출된다.
 ## 우리는 _physics_process에서 직접 거리 기반으로 advance하므로 이 콜백은 사용하지 않는다.
@@ -306,6 +310,8 @@ func _on_velocity_computed(safe_velocity: Vector3) -> void:
 	# 도착 직전 (0.1m 이내)에는 정확히 target에 맞춰 정지
 	if dist_to_target <= 0.1:
 		global_position = target_pos
+		_previous_pin = _current_pin
+		_current_pin = target_pin
 		_face_movement_direction(Vector3.ZERO)
 		return
 	global_position = global_position.move_toward(
@@ -341,6 +347,9 @@ func _physics_process(delta):
 	var dist_to_target: float = global_position.distance_to(target_pos)
 	# target_desired_distance보다 가까우면 다음 waypoint로 advance
 	if dist_to_target <= 0.1:
+		# 도달한 핀을 _current_pin에 기록 → 다음 경로 계획의 시작점이 된다.
+		_previous_pin = _current_pin
+		_current_pin = target_pin
 		# 다음 waypoint로 진행
 		_path_index += 1
 		if _path_index >= _planned_path.size():
@@ -395,7 +404,25 @@ func _resolve_pin(pin_name: PinName) -> Movepoint:
 
 func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
-	
+
+## 도착 시그널에 Callable 1개를 연결한다. 이미 연결된 핸들러가 있으면 교체한다.
+## 또한 도달 시 추가로 다른 핸들러를 등록하고 싶다면 set_arrival_handler를 여러 번 호출하기보다
+## arrived_at_goal.connect(...)를 직접 사용하면 된다.
+func set_arrival_handler(callable: Callable) -> void:
+	if not callable.is_valid():
+		push_warning("[%s] set_arrival_handler called with invalid Callable" % name)
+		return
+	for c: Dictionary in arrived_at_goal.get_connections():
+		var existing: Callable = c["callable"]
+		arrived_at_goal.disconnect(existing)
+	arrived_at_goal.connect(callable)
+
+## 도착 시그널에 연결된 모든 핸들러를 해제한다.
+func clear_arrival_handlers() -> void:
+	for c: Dictionary in arrived_at_goal.get_connections():
+		var existing: Callable = c["callable"]
+		arrived_at_goal.disconnect(existing)
+
 ## 씬에서 MovePoint 루트 노드를 찾는다.
 func _get_movepoint_root() -> Node3D:
 	# 먼저 부모의 자식 중 "MovePoint" 이름을 가진 노드를 찾는다.
