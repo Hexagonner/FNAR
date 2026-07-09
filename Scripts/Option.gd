@@ -39,6 +39,7 @@ func _ready() -> void:
 
 	# 해상도 옵션 채우기 (순서 보존을 위해 GlobalSetting._resolution_sizes에 인덱스 매핑)
 	var current_resolution: Vector2i = get_window().size
+	@warning_ignore("unused_variable")
 	var resolution_select_index: int = 0
 	GlobalSetting._resolution_sizes.clear()
 	for key in resolution.keys():

@@ -20,6 +20,8 @@ func _on_timer_timeout() -> void:
 		return
 	if current_time == 5:
 		#anitronics 정지 필요,
+		#current_time += 1
+		#_update_time_label()
 		print("win!")
 		game_timer.stop()
 		win_screen.game_win()

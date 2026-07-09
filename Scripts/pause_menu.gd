@@ -18,6 +18,7 @@ var i:int =0
 var count:int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	GameManager.is_6am = false
 	ResourceLoader.load_threaded_request(start_menu_scene,"PackedScene",true)
 	self.visible = false
 	tips.shuffle()
@@ -26,7 +27,7 @@ func _ready() -> void:
 
 
 func _input(_event: InputEvent) -> void:
-	if Input.is_action_just_pressed("exit_main_menu"):
+	if Input.is_action_just_pressed("exit_main_menu") and not GameManager.is_6am:
 		if visible:
 			self.visible = false
 			get_tree().paused = false

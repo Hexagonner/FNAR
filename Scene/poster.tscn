@@ -8,7 +8,6 @@ albedo_texture = ExtResource("1_325e3")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_nwclc"]
 material = SubResource("StandardMaterial3D_hm4yt")
-flip_faces = true
 size = Vector2(1, 1)
 subdivide_width = 10
 subdivide_depth = 10
@@ -63,6 +62,3 @@ shape = SubResource("SphereShape3D_hm4yt")
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1828914407]
 transform = Transform3D(0.95102113, 0.25751504, 0.17101009, 0.17298743, 0.015134446, -0.9848076, -0.25619102, 0.96615547, -0.030153697, 0.12442977, -0.76765364, 0.70920503)
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1514074123]
-transform = Transform3D(0.12212929, 0.078528, -0.98940265, 0.99251425, -0.009663034, 0.12174642, -1.2844058e-07, -0.99686486, -0.079120286, -1.5063394, 0.37617958, -1.6443325e-08)

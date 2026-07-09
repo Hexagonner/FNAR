@@ -20,6 +20,7 @@ func _ready() -> void:
 func game_win()  -> void:
 	get_tree().paused = true
 	SaveManager.saveData(data)
+	GameManager.is_6am = true
 	visible = true
 	# ColorRect 초기 설정 (검은색, 완전히 불투명)
 	self.modulate = Color(1, 1, 1, 0)  # R, G, B, A (A=1)

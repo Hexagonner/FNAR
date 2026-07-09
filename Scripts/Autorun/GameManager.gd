@@ -3,6 +3,7 @@ extends Node
 
 var inf_bat:bool = false
 var Selected_Night:int = 1
+var is_6am:bool = false
 #난이도 및 ai 같은거 여기 넣어서, 게임에 불러오기.
 #
 
