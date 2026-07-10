@@ -33,10 +33,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton and event.pressed) or (event is InputEventScreenTouch and event.pressed):
 		_skip_triggered = true
 
-func change_scene(scene) -> void:
-	# _ready()에서 load_threaded_request를 제거했으므로 load_threaded_get을
-	# 더 이상 사용할 수 없다. 동기 load()로 안전하게 전환한다.
-	get_tree().change_scene_to_packed(ResourceLoader.load(scene, "PackedScene", ResourceLoader.CACHE_MODE_REUSE))
+func change_scene(scene: String) -> void:
+	# change_scene_to_packed는 PackedScene을 기대하므로 String 경로를
+	# PackedScene으로 로드한 뒤 전달한다. waring에서 미리 캐싱된 리소스는
+	# CACHE_MODE_REUSE로 즉시 반환되므로 빠르게 전환된다.
+	var packed: PackedScene = ResourceLoader.load(scene, "PackedScene", ResourceLoader.CACHE_MODE_REUSE) as PackedScene
+	if packed != null:
+		get_tree().change_scene_to_packed(packed)
 func _on_new_pressed() -> void:
 	$bgm.stop()
 	
