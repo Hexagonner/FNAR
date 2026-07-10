@@ -3,10 +3,21 @@ extends Node
 ## apply_resolution 호출 시 mode/size 변경 직후 emit 된다.
 ## Option.gd 가 이 시그널을 받아 resolution_option.selected 를 갱신한다.
 signal resolution_applied(index: int)
+## low_spec_mode 값이 바뀔 때 발생. night_game이 이 시그널을 받아
+## 풀스크린 셰이더를 끄거나 단순화한다.
+signal low_spec_changed(enabled: bool)
 
 var is_show_fps: bool = false
 var is_motion_blur: bool = true
 var low_spec_mode: bool = false
+
+## low_spec_mode을 안전하게 변경한다. 값이 실제로 바뀐 경우에만 시그널을
+## 발생시켜 불필요한 리렌더링을 막는다.
+func set_low_spec(enabled: bool) -> void:
+	if low_spec_mode == enabled:
+		return
+	low_spec_mode = enabled
+	low_spec_changed.emit(enabled)
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 func _unhandled_input(event: InputEvent) -> void:

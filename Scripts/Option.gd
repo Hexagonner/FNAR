@@ -22,12 +22,30 @@ func _ready() -> void:
 	# FPS 체크박스 초기화
 	FPS_checkbox.button_pressed = GlobalSetting.is_show_fps
 
+	# 저사양 모드 체크박스 초기화
+	if low_spec_button is CheckBox:
+		(low_spec_button as CheckBox).button_pressed = GlobalSetting.low_spec_mode
+
 	# GlobalSetting.apply_resolution (예: Alt+Enter / F11 토글) 으로
 	# mode/size 가 바뀐 경우 OptionButton.selected 도 같이 맞춰준다.
 	# 패널이 닫혀 있어도 signal 만 연결해 두면, 다음에 열렸을 때 dropdown 의
 	# 텍스트가 현재 mode 와 일치한다.
 	GlobalSetting.resolution_applied.connect(_on_global_resolution_applied)
+	# low_spec_mode가 시작 메뉴에서 토글된 경우, 이미 로드된 night_game에
+	# 알려 셰이더 비용을 즉시 낮출 수 있도록 한다. (low_spec_button 자체
+	# 스크립트가 GlobalSetting을 업데이트하므로 여기서 신호만 연결한다.)
+	GlobalSetting.low_spec_changed.connect(_on_low_spec_changed)
+	_initialize_resolution_options()
 
+
+func _on_low_spec_changed(_enabled: bool) -> void:
+	# 옵션 패널이 열려 있는 동안 사용자 토글이 가능. low_spec_button 체크박스
+	# 상태는 자기 자신의 스크립트가 처리하므로 여기서는 별도 작업 없음.
+	# (필요 시 현재 씬의 알려진 셰이더 노드들의 visible/material 토글)
+	pass
+
+
+func _initialize_resolution_options() -> void:
 	# 모바일 플랫폼 처리
 	var platform: String = OS.get_name()
 	match platform:

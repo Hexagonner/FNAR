@@ -9,13 +9,17 @@ class_name TemporaryPinPathVisualizer
 @export var previous_pin_radius: float = 0.15
 @export var next_pin_radius: float = 0.15
 @export var line_width: float = 0.05
+## 성능 보호용 마스터 스위치. false면 _process 자체를 멈춘다.
+@export var enable: bool = false
 
 var agents: Array[Node] = []
 var meshes: Dictionary = {}
 
 func _ready() -> void:
 	_find_all_agents()
-	print("[PathVisualizer] Found %d agents" % agents.size())
+	if enable:
+		print("[PathVisualizer] Found %d agents" % agents.size())
+	set_process(enable)
 
 func _find_all_agents() -> void:
 	for node in get_tree().get_nodes_in_group("animatronics"):
@@ -33,15 +37,15 @@ func _find_agents_recursive(node: Node) -> void:
 		_find_agents_recursive(child)
 
 func _process(_delta: float) -> void:
-	if not show_temp_pins:
+	if not enable or not show_temp_pins:
 		return
-	
+
 	_clear_old_meshes()
-	
+
 	for agent: animatronics in agents:
 		if agent._temporary_pin == null:
 			continue
-		
+
 		_draw_temp_pin(agent)
 		_draw_pin_connections(agent)
 

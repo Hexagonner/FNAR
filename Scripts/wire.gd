@@ -42,6 +42,8 @@ var door_area: Area3D = null
 var last_valid_mouse_pos: Vector3 = Vector3.ZERO
 var electric_box: CSGBox3D = null
 var wire_light: OmniLight3D
+# spark 재발사 타이머 (코루틴 누수 방지용 카운트다운)
+var _spark_respawn_remaining: float = 0.0
 func _ready():
 	rubber_mesh.visible = true
 	if connected_material:
@@ -177,7 +179,7 @@ func _unhandled_input(event):
 				
 				get_viewport().set_input_as_handled()
 
-func _process(_delta):
+func _process(_delta: float) -> void:
 	if not fixed_in_pin: return
 	
 	wire_light.visible = false
@@ -213,8 +215,12 @@ func _process(_delta):
 			update_rubber_band(fixed_in_pin.global_position, t_pos)
 	elif !is_dragging and !is_connected and !spark.emitting:
 		spark.transform = spark_original_transform
-		await get_tree().create_timer(randf_range(1.0,4.0)).timeout
-		spark.emitting = true
+		# 기존: 매 프레임마다 await create_timer를 새로 생성 → 코루틴 누수로 인한 프레임 드랍.
+		# 변경: 남은 시간 카운트다운 방식으로 코루틴 누적 방지.
+		_spark_respawn_remaining -= _delta
+		if _spark_respawn_remaining <= 0.0:
+			_spark_respawn_remaining = randf_range(1.0, 4.0)
+			spark.emitting = true
 func _set_connection_state(value: bool) -> void:
 	if is_connected != value:
 		is_connected = value

@@ -359,4 +359,34 @@ func blink_button() -> void:
 
 func white_glitch_play() -> void:
 	$CamUi/Noise_ani.play("noise_no_sound")
-	
+
+
+## low_spec_mode 토글. 풀스크린 셰이더(CRT_shader, Glitch, CRT_noise)의
+## low_spec_mode 파라미터를 켜고, 값이 비싸지만 화면 전체에 깔리는
+## colorrect 자체를 끄는 방식으로 비용을 크게 줄인다.
+## night_game.gd에서 호출된다.
+func apply_low_spec_mode(enabled: bool) -> void:
+	# 카메라 매니저는 set_shader_parameter로 셰이더에 직접 접근한다.
+	# 노드는 _ready 시점에 존재하므로 안전한 get_node_or_null 사용.
+	var crt_shader_rect: CanvasItem = get_node_or_null("CanvasLayer/CamUi/CRT_shader") as CanvasItem
+	var glitch_rect: CanvasItem = get_node_or_null("CanvasLayer/CamUi/Glitch") as CanvasItem
+	var crt_noise_rect: CanvasItem = get_node_or_null("CanvasLayer/CamUi/CRT_noise") as CanvasItem
+	var white_noise_rect: CanvasItem = get_node_or_null("CanvasLayer/CamUi/White_noise") as CanvasItem
+
+	# low_spec이 켜져 있으면 가장 비싼 CRT_shader 풀스크린 셰이더는 완전히 끈다.
+	# (이 ColorRect는 화면 전체에 한 번 더 풀스크린 셰이더를 적용한다.)
+	if crt_shader_rect != null:
+		crt_shader_rect.visible = not enabled
+		if crt_shader_rect.material is ShaderMaterial:
+			(crt_shader_rect.material as ShaderMaterial).set_shader_parameter("low_spec_mode", enabled)
+	if glitch_rect != null:
+		glitch_rect.visible = glitch_rect.visible and not enabled
+		if glitch_rect.material is ShaderMaterial:
+			(glitch_rect.material as ShaderMaterial).set_shader_parameter("low_spec_mode", enabled)
+	if crt_noise_rect != null:
+		crt_noise_rect.visible = not enabled
+		if crt_noise_rect.material is ShaderMaterial:
+			(crt_noise_rect.material as ShaderMaterial).set_shader_parameter("low_spec_mode", enabled)
+	# White_noise는 살짝 비싼 CRT 효과만 적용되므로 끄지 않고 셰이더 cost만 줄임.
+	if white_noise_rect != null and white_noise_rect.material is ShaderMaterial:
+		(white_noise_rect.material as ShaderMaterial).set_shader_parameter("low_spec_mode", enabled)

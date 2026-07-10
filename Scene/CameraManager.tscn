@@ -204,6 +204,7 @@ shader_parameter/noiseQuality = 250.0
 shader_parameter/noiseIntensity = 0.001
 shader_parameter/offsetIntensity = 0.009999999747
 shader_parameter/colorOffsetIntensity = 0.30000001099011997
+shader_parameter/low_spec_mode = false
 
 [sub_resource type="Animation" id="Animation_y2vu2"]
 length = 0.001
@@ -682,6 +683,7 @@ shader_parameter/shake_strength = 0.0
 shader_parameter/glitch_strength = 0.02
 shader_parameter/glitch_speed = 8.0
 shader_parameter/flicker_strength = 0.0
+shader_parameter/low_spec_mode = false
 
 [node name="CameraManager" type="Node" unique_id=826170809 node_paths=PackedStringArray("cam_buttons_parent", "Cam_ui", "noise_ani", "map_label", "Warning_msg", "blink_ani", "white_noise", "white_bg", "selected_button")]
 script = ExtResource("1_stw4l")
@@ -855,7 +857,6 @@ shortcut_in_tooltip = false
 text = "CAM5
 "
 script = ExtResource("2_f7e7f")
-metadata/_edit_use_anchors_ = true
 
 [node name="CAM6" type="Button" parent="CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton" unique_id=1953342652]
 z_index = 1

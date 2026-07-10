@@ -109,7 +109,7 @@ const PIN_NODE_ALIASES: Dictionary = {
 #region Exports
 @export var is_walking: bool = false
 @export var gui_node: Node
-@export var path_follow: PathFollow3D
+#@export var path_follow: PathFollow3D
 @export var ani_tree: AnimationTree
 #@export var move_speed: float = 1.0
 @export var turn_speed: float = 8.0
@@ -151,6 +151,10 @@ var _navigation_initialized: bool = false
 const _ADVANCE_COOLDOWN: float = 0.2
 var _advance_cooldown_remaining: float = 0.0
 
+## 디버그용 상세 로그 출력 스위치. 핫 패스의 print 호출은 모두 이 플래그
+## 뒤에 위치시켜, 평소에는 출력하지 않는다.
+const _DEBUG_VERBOSE: bool = false
+
 ## 최종 목표 핀에 도착했을 때 발생한다. 도착한 핀과 enum 정보를 함께 전달한다.
 signal arrived_at_goal(pin: Movepoint, pin_name: PinName)
 func _ready() -> void:
@@ -173,7 +177,8 @@ func _build_pin_graph() -> void:
 		_current_pin = _find_nearest_pin(movepoint_root)
 		if _current_pin != null:
 			_previous_pin = _current_pin
-			print("[%s] Initial pin: %s" % [name, _current_pin.name])
+			if _DEBUG_VERBOSE:
+				print("[%s] Initial pin: %s" % [name, _current_pin.name])
 	else:
 		push_warning("[%s] MovePoint root not found" % name)
 
@@ -242,7 +247,8 @@ func _plan_and_start_path(target_pin: Movepoint) -> bool:
 		push_warning("[%s] No path from %s to %s" % [name, _current_pin.name, target_pin.name])
 		return false
 
-	print("[%s] Path planned: %s -> %s (hops: %d)" % [name, _current_pin.name, target_pin.name, _planned_path.size()])
+	if _DEBUG_VERBOSE:
+		print("[%s] Path planned: %s -> %s (hops: %d)" % [name, _current_pin.name, target_pin.name, _planned_path.size()])
 
 	_path_index = 0
 	if _planned_path[0] == _current_pin and _planned_path.size() > 1:
@@ -282,7 +288,8 @@ func _start_moving_to_next_pin() -> void:
 	_play_anim(&"walking_001")
 
 	navigation_agent.set_target_position(target_pin.global_position)
-	print("[%s] Moving to pin %s" % [name, target_pin.name])
+	if _DEBUG_VERBOSE:
+		print("[%s] Moving to pin %s" % [name, target_pin.name])
 
 
 ## 최종 목표 핀에 도착했을 때 호출된다.
@@ -299,7 +306,8 @@ func _arrived_at_goal() -> void:
 	_next_pin = null
 	_planned_path.clear()
 	_main_goal_pin = PinName.NONE
-	print("[%s] Arrived at goal" % name)
+	if _DEBUG_VERBOSE:
+		print("[%s] Arrived at goal" % name)
 	# 콜백 안에서 set_next_goal이 새 경로를 채울 수 있다.
 	arrived_at_goal.emit(arrived_pin, arrived_goal)
 
