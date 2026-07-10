@@ -596,28 +596,31 @@ ani = NodePath("AnimationPlayer")
 metadata/_edit_lock_ = true
 
 [node name="5" type="Label" parent="CanvasLayer/win_screen" unique_id=934493334]
+visible = false
 layout_mode = 0
 offset_left = 838.0
-offset_top = 467.57065
+offset_top = 487.0
 offset_right = 898.0
-offset_bottom = 572.5707
+offset_bottom = 592.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("5_6ybcf")
 theme_override_font_sizes/font_size = 90
 text = "5"
 
 [node name="6" type="Label" parent="CanvasLayer/win_screen" unique_id=388395601]
+visible = false
 layout_mode = 0
 offset_left = 838.0
-offset_top = 666.23553
+offset_top = 1500.0
 offset_right = 898.0
-offset_bottom = 771.23553
+offset_bottom = 1605.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("5_6ybcf")
 theme_override_font_sizes/font_size = 90
 text = "6"
 
 [node name="AM" type="Label" parent="CanvasLayer/win_screen" unique_id=1791356760]
+visible = false
 layout_mode = 0
 offset_left = 902.0
 offset_top = 487.0

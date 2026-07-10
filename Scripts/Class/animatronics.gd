@@ -146,6 +146,11 @@ var _next_pin: Movepoint = null
 var _physics_delta: float = 0.0
 var _navigation_initialized: bool = false
 
+## waypoint advance 쿨다운(초). 도착 직후 같은 프레임에 다음 waypoint가
+## 즉시 도착 판정되는 것을 막아 도착-재계획 루프를 방지한다.
+const _ADVANCE_COOLDOWN: float = 0.2
+var _advance_cooldown_remaining: float = 0.0
+
 ## 최종 목표 핀에 도착했을 때 발생한다. 도착한 핀과 enum 정보를 함께 전달한다.
 signal arrived_at_goal(pin: Movepoint, pin_name: PinName)
 func _ready() -> void:
@@ -243,6 +248,9 @@ func _plan_and_start_path(target_pin: Movepoint) -> bool:
 	if _planned_path[0] == _current_pin and _planned_path.size() > 1:
 		_path_index = 1
 
+	# 새 경로 시작 시 첫 waypoint에 대한 도착 판정을 잠시 보류하여
+	# 도착-재계획-즉시도착 루프를 방지한다.
+	_advance_cooldown_remaining = _ADVANCE_COOLDOWN
 	_start_moving_to_next_pin()
 	return true
 
@@ -278,9 +286,12 @@ func _start_moving_to_next_pin() -> void:
 
 
 ## 최종 목표 핀에 도착했을 때 호출된다.
+## emit의 동기 콜백이 새 경로를 채울 수 있으므로, 도착 상태의 reset은 emit 이전에
+## 끝내고 emit은 가장 마지막에 호출한다. 그래야 emit 콜백 안에서 채운 새 경로가
+## 즉시 clear되어 무효화되는 일을 막을 수 있다.
 func _arrived_at_goal() -> void:
 	var arrived_pin: Movepoint = _current_pin
-	arrived_at_goal.emit(arrived_pin, _main_goal_pin)
+	var arrived_goal: PinName = _main_goal_pin
 	is_walking = false
 	_current_anim_state = &"idle"
 	_play_anim(&"idle")
@@ -289,7 +300,9 @@ func _arrived_at_goal() -> void:
 	_planned_path.clear()
 	_main_goal_pin = PinName.NONE
 	print("[%s] Arrived at goal" % name)
-	
+	# 콜백 안에서 set_next_goal이 새 경로를 채울 수 있다.
+	arrived_at_goal.emit(arrived_pin, arrived_goal)
+
 
 ## NavigationAgent3D가 현재 목표 위치(하나의 핀)에 도착했을 때 호출된다.
 ## 우리는 _physics_process에서 직접 거리 기반으로 advance하므로 이 콜백은 사용하지 않는다.
@@ -307,8 +320,8 @@ func _on_velocity_computed(safe_velocity: Vector3) -> void:
 	var target_pin: Movepoint = _planned_path[_path_index]
 	var target_pos: Vector3 = target_pin.global_position
 	var dist_to_target: float = global_position.distance_to(target_pos)
-	# 도착 직전 (0.1m 이내)에는 정확히 target에 맞춰 정지
-	if dist_to_target <= 0.1:
+	# 도착 직전 (0.3m 이내)에는 정확히 target에 맞춰 정지
+	if dist_to_target <= 0.3:
 		global_position = target_pos
 		_previous_pin = _current_pin
 		_current_pin = target_pin
@@ -341,17 +354,23 @@ func _physics_process(delta):
 	if _planned_path.is_empty() or _path_index >= _planned_path.size():
 		return
 
+	# advance 쿨다운 중에는 도착 판정을 건너뛴다 (도착-재계획-즉시도착 루프 방지).
+	if _advance_cooldown_remaining > 0.0:
+		_advance_cooldown_remaining = max(0.0, _advance_cooldown_remaining - delta)
+		return
+
 	# 다음 waypoint 도달 판정 (NavigationAgent3D의 자동 advance를 신뢰하지 않고 직접 처리)
 	var target_pin: Movepoint = _planned_path[_path_index]
 	var target_pos: Vector3 = target_pin.global_position
 	var dist_to_target: float = global_position.distance_to(target_pos)
 	# target_desired_distance보다 가까우면 다음 waypoint로 advance
-	if dist_to_target <= 0.1:
+	if dist_to_target <= 0.3:
 		# 도달한 핀을 _current_pin에 기록 → 다음 경로 계획의 시작점이 된다.
 		_previous_pin = _current_pin
 		_current_pin = target_pin
 		# 다음 waypoint로 진행
 		_path_index += 1
+		_advance_cooldown_remaining = _ADVANCE_COOLDOWN
 		if _path_index >= _planned_path.size():
 			_arrived_at_goal()
 			return
@@ -404,6 +423,26 @@ func _resolve_pin(pin_name: PinName) -> Movepoint:
 
 func set_movement_target(movement_target: Vector3):
 	navigation_agent.set_target_position(movement_target)
+
+## 목표 핀으로 이동을 시작한다. 이미 이동 중이면 즉시 새 경로로 재계획된다.
+## on_arrived가 유효한 Callable이면 도착 시그널에 등록된다(다음 프레임에 등록됨).
+## emit 진행 중 disconnect/connect로 인한 시그널 emit 깨짐(콜백 누락/중복)을
+## 피하기 위해 핸들러 등록은 call_deferred로 다음 프레임에 실행한다.
+func set_next_goal(target_pin_name: PinName, on_arrived: Callable = Callable()) -> void:
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	if on_arrived.is_valid():
+		_defer_set_arrival_handler(on_arrived)
+	var result: bool = set_goal_by_pin_name(target_pin_name)
+	if not result:
+		push_warning("[%s] Failed to set next goal to %s" % [name, target_pin_name])
+
+## 도착 핸들러 등록을 다음 프레임으로 미룬다.
+func _defer_set_arrival_handler(callable: Callable) -> void:
+	call_deferred("_apply_deferred_arrival_handler", callable)
+
+func _apply_deferred_arrival_handler(callable: Callable) -> void:
+	set_arrival_handler(callable)
 
 ## 도착 시그널에 Callable 1개를 연결한다. 이미 연결된 핸들러가 있으면 교체한다.
 ## 또한 도달 시 추가로 다른 핸들러를 등록하고 싶다면 set_arrival_handler를 여러 번 호출하기보다
