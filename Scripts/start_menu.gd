@@ -20,7 +20,11 @@ func _ready() -> void:
 	news.visible =false
 	skip_label.visible =false
 	RenderingServer.set_default_clear_color("black")
-	ResourceLoader.load_threaded_request(night_scene,"PackedScene",true)
+	# Night_game.tscn 미리 로드를 제거: start_menu에 머무는 동안
+	# RD.tscn 등 무거운 자식 리소스(RD.gd, animatronics.gd, PinPathfinder.gd)가
+	# 백그라운드 스레드에서 캐싱/컴파일되며 일부 환경에서 충돌/크래시를 일으킴.
+	# start_menu에서는 미리 로드하지 않고, show_loading_screen() → change_scene()
+	# 시점에 자연스럽게 로드되도록 둔다.
 	$Start_loading.visible =false
 	skip_label.modulate.a = 0
 func _unhandled_input(event: InputEvent) -> void:
@@ -30,8 +34,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		_skip_triggered = true
 
 func change_scene(scene) -> void:
-	get_tree().change_scene_to_packed(ResourceLoader.load_threaded_get(scene))
-	#get_tree().change_scene_to_file(scene_path)
+	# _ready()에서 load_threaded_request를 제거했으므로 load_threaded_get을
+	# 더 이상 사용할 수 없다. 동기 load()로 안전하게 전환한다.
+	get_tree().change_scene_to_packed(ResourceLoader.load(scene, "PackedScene", ResourceLoader.CACHE_MODE_REUSE))
 func _on_new_pressed() -> void:
 	$bgm.stop()
 	
