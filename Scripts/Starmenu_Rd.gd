@@ -3,8 +3,8 @@ extends Node3D
 @export var move_speed: float = 1.5
 @onready var anim_tree = $AnimationTree
 @onready var playback = anim_tree.get("parameters/playback")
-var left_eye
-var right_eye
+#var left_eye
+#var right_eye
  
 
 var start_pos: Vector3
@@ -13,12 +13,12 @@ var is_moving: bool = true
 
 
 func _ready() -> void:
-	left_eye = $Armature/GeneralSkeleton/Left_eye.get_surface_override_material(0)
-	right_eye = $Armature/GeneralSkeleton/Right_eye.get_surface_override_material(0)
+	#left_eye = $Armature/GeneralSkeleton/Left_eye.get_surface_override_material(0)
+	#right_eye = $Armature/GeneralSkeleton/Right_eye.get_surface_override_material(0)
 	start_pos = global_position
 	print("startMOve")
 	playback.travel("walking_001") # 이동 시작
-
+	
 func _process(delta) -> void:
 
 	if not is_moving:
@@ -28,9 +28,9 @@ func _process(delta) -> void:
 	var moved_dist = global_position.distance_to(start_pos)
 	# 매 프레임 albedo alpha를 lerp로 갱신하던 부분을 1회성으로 변경.
 	# (이전: 양 눈의 material.albedo_color.a를 60fps로 30+ 프레임씩 변경 → 셰이더 재컴파일 위험 + 불필요)
-	var target_alpha: float = clamp(target_distance - moved_dist - 4.5, 0.0, 1.0)
-	right_eye.albedo_color.a = target_alpha
-	left_eye.albedo_color.a = target_alpha
+	#var target_alpha: float = clamp(target_distance - moved_dist - 4.5, 0.0, 1.0)
+	#right_eye.albedo_color.a = target_alpha
+	#left_eye.albedo_color.a = target_alpha
 	# 2. 목표 거리 도달 판정 [[5](https://steamcommunity.com/app/404790/discussions/0/601903308219614819/?l=tchinese)]
 	if moved_dist >= target_distance-0.5:
 

@@ -1,11 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://dicfisfnphp5"]
+[gd_scene format=3 uid="uid://dicfisfnphp5"]
 
 [ext_resource type="Script" uid="uid://n43mgtsgebfd" path="res://Scripts/waring.gd" id="1_a2lg4"]
 [ext_resource type="FontFile" uid="uid://b64buxvqw4x0o" path="res://Font/Galmuri14.ttf" id="2_0ful5"]
+[ext_resource type="Theme" uid="uid://b8ir2cd0df1tp" path="res://Theme/text_button.tres" id="2_8fthq"]
 [ext_resource type="FontFile" uid="uid://jgelr8unukd" path="res://Font/Galmuri11-Bold.ttf" id="3_8fthq"]
 [ext_resource type="AudioStream" uid="uid://op2gm0f7753" path="res://Sounds/웃음1_@.ogg" id="4_7k5jd"]
 
-[node name="WARING" type="Control"]
+[node name="WARING" type="Control" unique_id=696923133 node_paths=PackedStringArray("loading_label")]
 z_index = 2
 layout_mode = 3
 anchors_preset = 15
@@ -14,24 +15,67 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_a2lg4")
+loading_label = NodePath("LoadingLabel")
+fadeTime = 1.0
 metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2067393743]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="Label" type="Label" parent="." unique_id=1114159168]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.375
+anchor_top = 0.75555557
+anchor_right = 0.60729164
+anchor_bottom = 0.8111111
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+theme = ExtResource("2_8fthq")
+theme_override_font_sizes/font_size = 50
+horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="RichTextLabel2" type="RichTextLabel" parent="CenterContainer"]
-clip_contents = false
+[node name="LoadingLabel" type="Label" parent="." unique_id=2000000001]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -180.0
+offset_right = 200.0
+offset_bottom = -120.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_8fthq")
+theme_override_font_sizes/font_size = 36
+text = "로딩 중... 0%"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1055650266]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="CenterContainer" unique_id=1830863769]
 custom_minimum_size = Vector2(1300, 500)
+clip_contents = false
 layout_mode = 2
 mouse_filter = 1
 theme_override_constants/shadow_outline_size = 10
@@ -45,9 +89,9 @@ text = "[shake rate=30.0 level=15 connected=-][center][font_size=120][b][color=o
 scroll_active = false
 shortcut_keys_enabled = false
 
-[node name="RichTextLabel3" type="RichTextLabel" parent="CenterContainer"]
-clip_contents = false
+[node name="RichTextLabel3" type="RichTextLabel" parent="CenterContainer" unique_id=268046944]
 custom_minimum_size = Vector2(1300, 300)
+clip_contents = false
 layout_mode = 2
 mouse_filter = 1
 theme_override_constants/shadow_outline_size = 10
@@ -65,8 +109,6 @@ shortcut_keys_enabled = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1315432241]
 stream = ExtResource("4_7k5jd")
 autoplay = true
-
-[connection signal="gui_input" from="." to="." method="_on_gui_input"]

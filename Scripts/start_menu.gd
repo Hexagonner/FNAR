@@ -6,6 +6,7 @@ extends Control
 @export var news:Sprite2D
 @export var fadeout:ColorRect
 @export var news_sound:AudioStreamPlayer
+@export var skip_label :Label
 const night_scene = "res://Scene/Night_game.tscn"
 
 var selected_day:int =1
@@ -17,10 +18,11 @@ var _skip_triggered: bool = false
 func _ready() -> void:
 	get_tree().paused = false
 	news.visible =false
+	skip_label.visible =false
 	RenderingServer.set_default_clear_color("black")
 	ResourceLoader.load_threaded_request(night_scene,"PackedScene",true)
 	$Start_loading.visible =false
-
+	skip_label.modulate.a = 0
 func _unhandled_input(event: InputEvent) -> void:
 	if not _can_skip:
 		return
@@ -58,12 +60,14 @@ func _on_new_pressed() -> void:
 		news_sound.play()
 		tween1.stop()
 		tween1.set_parallel(true)
+		tween1.tween_property(skip_label,"modulate:a",1,2)
 		tween1.tween_property(news, "position:y", 500.0, 2.0).from(600.0).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 		tween1.tween_property(news, "self_modulate:a", 1.0, 1.0).from(0.0).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 		tween1.tween_property(news, "rotation_degrees", 5.0, 2.0).from(0.0).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 		tween1.tween_property(news, "scale", Vector2(1.0, 1.0), 1.0).from(Vector2(0.9, 0.9)).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 		tween1.play()
 		news.visible = true
+		skip_label.visible =true
 		await _wait_tween_or_skip(tween1)
 	if not _skip_triggered:
 		await _wait_seconds_or_skip(7.0)
@@ -72,6 +76,7 @@ func _on_new_pressed() -> void:
 		var tween2: Tween = create_tween()
 		tween2.stop()
 		tween2.set_parallel(true)
+		tween2.tween_property(skip_label,"modulate:a",0,2)
 		tween2.tween_property(news, "position:y", 400.0, 2.0).from(500.0).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 		tween2.tween_property(news, "rotation_degrees", 7.5, 2.0).from(5.0).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 		tween2.tween_property(news, "scale", Vector2(0.85, 0.85), 1.0).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
@@ -85,6 +90,7 @@ func _on_new_pressed() -> void:
 	_can_skip = false
 	_skip_triggered = false
 	news.visible = false
+	skip_label.visible =false
 	show_loading_screen()
 
 
