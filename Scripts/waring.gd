@@ -65,7 +65,7 @@ func _process(_delta: float) -> void:
 func _on_load_completed() -> void:
 	_is_loaded = true
 	if loading_label != null:
-		loading_label.text = "로딩 완료"
+		loading_label.text = "로딩 완료 100%"
 	# "로딩 완료" 라벨이 잠시 보이도록 짧게 대기 후 페이드 아웃
 	await get_tree().create_timer(0.5).timeout
 	_fade_out_and_change()

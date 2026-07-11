@@ -4,7 +4,7 @@
 [ext_resource type="FontFile" uid="uid://b64buxvqw4x0o" path="res://Font/Galmuri14.ttf" id="2_0ful5"]
 [ext_resource type="Theme" uid="uid://b8ir2cd0df1tp" path="res://Theme/text_button.tres" id="2_8fthq"]
 [ext_resource type="FontFile" uid="uid://jgelr8unukd" path="res://Font/Galmuri11-Bold.ttf" id="3_8fthq"]
-[ext_resource type="AudioStream" uid="uid://op2gm0f7753" path="res://Sounds/웃음1_@.ogg" id="4_7k5jd"]
+[ext_resource type="AudioStream" uid="uid://ddlbvsgfyhovd" path="res://Sounds/windows-8-1-notification-sound.mp3" id="5_0ful5"]
 
 [node name="WARING" type="Control" unique_id=696923133 node_paths=PackedStringArray("loading_label")]
 z_index = 2
@@ -37,7 +37,6 @@ anchor_right = 0.60729164
 anchor_bottom = 0.8111111
 grow_horizontal = 2
 grow_vertical = 2
-offset_transform_enabled = true
 theme = ExtResource("2_8fthq")
 theme_override_font_sizes/font_size = 50
 horizontal_alignment = 1
@@ -74,8 +73,8 @@ metadata/_edit_use_anchors_ = true
 metadata/_edit_lock_ = true
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="CenterContainer" unique_id=1830863769]
-custom_minimum_size = Vector2(1300, 500)
 clip_contents = false
+custom_minimum_size = Vector2(1300, 500)
 layout_mode = 2
 mouse_filter = 1
 theme_override_constants/shadow_outline_size = 10
@@ -90,8 +89,8 @@ scroll_active = false
 shortcut_keys_enabled = false
 
 [node name="RichTextLabel3" type="RichTextLabel" parent="CenterContainer" unique_id=268046944]
-custom_minimum_size = Vector2(1300, 300)
 clip_contents = false
+custom_minimum_size = Vector2(1300, 300)
 layout_mode = 2
 mouse_filter = 1
 theme_override_constants/shadow_outline_size = 10
@@ -110,5 +109,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1315432241]
-stream = ExtResource("4_7k5jd")
+stream = ExtResource("5_0ful5")
+volume_db = 10.0
 autoplay = true
