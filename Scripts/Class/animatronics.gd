@@ -113,6 +113,9 @@ const PIN_NODE_ALIASES: Dictionary = {
 @export var ani_tree: AnimationTree
 #@export var move_speed: float = 1.0
 @export var turn_speed: float = 8.0
+@export var cam_manager :Node
+@export var test:Node
+@export var look_node: LookAtModifier3D
 var movepoint: Node3D
 #endregion
 

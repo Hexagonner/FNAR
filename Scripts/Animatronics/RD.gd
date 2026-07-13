@@ -123,9 +123,10 @@ func _ready() -> void:
 
 	right_pupil_mat = right_pupil.get_active_material(0)
 	left_pupil_mat = left_pupil.get_active_material(0)
-
+	if test != null:
+		look_node.target_node = test.get_path()
 	gui_node.battery_over.connect(black_out_song)
-	set_next_goal(PinName.LEFT_DOOR)
+	#set_next_goal(PinName.LEFT_DOOR)
 #region pupil_light_toggle
 
 func pupil_light_toggle()->void:
