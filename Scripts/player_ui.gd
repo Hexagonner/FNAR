@@ -37,11 +37,11 @@ func _ready() -> void:
 func battery_usage_change(is_using) -> void:
 	
 	if is_using:
-		print("bat change + ")
+		#print("bat change + ")
 		battery_usage +=1
 	else:
 		battery_usage -=1
-		print("bat change - ")
+		#print("bat change - ")
 	clamp(battery_usage, 1,4)
 	emit_signal("battery_usage_change_signal", battery_usage)
 	

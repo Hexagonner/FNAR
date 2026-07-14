@@ -113,7 +113,7 @@ func _ready():
 	wire_light.omni_attenuation = 1.0
 	wire_light.visible = false
 	add_child(wire_light)
-
+	#print(init_height, "wire height")
 func _unhandled_input(event):
 	if not fixed_in_pin: return
 	
@@ -192,34 +192,39 @@ func _process(_delta: float) -> void:
 		wire_light.omni_range = clamp_to_box(mid, wire_half)
 		wire_light.visible = true
 	elif is_dragging and current_dragging_wire == self:
-			var mouse_3d = get_mouse_3d_position()
-			var closest = get_closest_out_pin(mouse_3d)
-			var t_pos: Vector3 = mouse_3d
-			if closest:
-				var mid: Vector3 = (fixed_in_pin.global_position + closest.global_position) * 0.5
-				var wire_half: float = fixed_in_pin.global_position.distance_to(closest.global_position) * 0.5
-				wire_light.visible = true
-				wire_light.global_position = mid
-				wire_light.omni_range = clamp_to_box(mid, wire_half)
-				t_pos = closest.global_position
-				if !has_played_snap_sound and !sound.playing:
-					sound.play()
-					has_played_snap_sound = true
-				update_material_and_priority(true, 127, float(top_sort_index + 1000))
-			else:
-				has_played_snap_sound = false
-				update_material_and_priority(false, 127, float(top_sort_index + 1000))
-			spark.global_position = mouse_3d
-			spark.emitting = true
-			update_rubber_band(fixed_in_pin.global_position, t_pos)
-	elif !is_dragging and !is_connected and !spark.emitting:
-		spark.transform = spark_original_transform
-		# 기존: 매 프레임마다 await create_timer를 새로 생성 → 코루틴 누수로 인한 프레임 드랍.
-		# 변경: 남은 시간 카운트다운 방식으로 코루틴 누적 방지.
-		_spark_respawn_remaining -= _delta
-		if _spark_respawn_remaining <= 0.0:
-			_spark_respawn_remaining = randf_range(1.0, 4.0)
-			spark.emitting = true
+		var mouse_3d = get_mouse_3d_position()
+		var closest = get_closest_out_pin(mouse_3d)
+		var t_pos: Vector3 = mouse_3d
+		if closest:
+			var mid: Vector3 = (fixed_in_pin.global_position + closest.global_position) * 0.5
+			var wire_half: float = fixed_in_pin.global_position.distance_to(closest.global_position) * 0.5
+			wire_light.visible = true
+			wire_light.global_position = mid
+			wire_light.omni_range = clamp_to_box(mid, wire_half)
+			t_pos = closest.global_position
+			if !has_played_snap_sound and !sound.playing:
+				sound.play()
+				has_played_snap_sound = true
+			update_material_and_priority(true, 127, float(top_sort_index + 1000))
+		else:
+			has_played_snap_sound = false
+			update_material_and_priority(false, 127, float(top_sort_index + 1000))
+		spark.global_position = mouse_3d
+		spark.emitting = true
+		update_rubber_band(fixed_in_pin.global_position, t_pos)
+	else:
+		# [수정된 안전장치] 드래그도 아니고 연결도 아니라면 무조건 홈 비주얼 유지!
+		if rubber_mesh.transform != init_transform:
+			rubber_mesh.transform = init_transform
+			if rubber_mesh.mesh is CylinderMesh:
+				rubber_mesh.mesh.height = init_height
+		
+		if !spark.emitting:
+			spark.transform = spark_original_transform
+			_spark_respawn_remaining -= _delta
+			if _spark_respawn_remaining <= 0.0:
+				_spark_respawn_remaining = randf_range(1.0, 4.0)
+				spark.emitting = true
 func _set_connection_state(value: bool) -> void:
 	if is_connected != value:
 		is_connected = value
@@ -249,6 +254,12 @@ func force_connect_to_out_pin(p_out: Marker3D):
 
 ##disconnect wire 
 func reset_to_home():
+	#print(init_height, "wire height")
+	# 1. 드래그 관련 상태를 확실히 종료
+	if current_dragging_wire == self:
+		current_dragging_wire = null
+	is_dragging = false
+	
 	if current_out_pin and current_out_pin.get("connected_wire") == self:
 		current_out_pin.set("connected_wire", null)
 		
@@ -256,11 +267,11 @@ func reset_to_home():
 	_set_connection_state(false)
 	update_material_and_priority(false, base_priority, float(base_priority))
 	
-	# 초기 메쉬 상태로 명시적 복원 (update_rubber_band는 distance=0에서 return만 하므로 init 복원 생략됨)
+	# 2. 초기 메쉬 상태로 명시적 복원
 	rubber_mesh.visible = true
 	rubber_mesh.transform = init_transform
 	if rubber_mesh.mesh is CylinderMesh:
-		rubber_mesh.mesh.height = init_height
+		rubber_mesh.mesh.height = 0.1 #TODO 
 	
 	# spark 원위치 복구
 	spark.transform = spark_original_transform
