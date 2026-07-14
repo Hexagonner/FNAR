@@ -2148,7 +2148,7 @@ func _process(delta: float) -> void:
 		self.disabled = true
 		progress.value = 0
 		self.text = \"초기화 완료\"
-		SaveManager.saveData(SaveManager.reset_file)
+		SaveManager.reset_save_data()
 		timer.stop()
 		get_tree().reload_current_scene()
 

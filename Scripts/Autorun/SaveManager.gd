@@ -60,6 +60,12 @@ func save_current_data() -> void:
 	file.close()
 	print("[SaveManager] 데이터가 안전하게 저장되었습니다: ", current_data)
 
+## 세이브 데이터 초기화
+func reset_save_data():
+	print("[SaveManager] 세이브 파일 초기화합니다.")
+	current_data = RESET_DATA.duplicate() # 얕은 복사로 기본값 세팅
+	save_current_data()
+
 # 새 키가 추가되었을 때 기존 세이브파일과의 호환성을 위한 헬퍼 함수
 func _verify_data_keys() -> void:
 	for key in RESET_DATA.keys():

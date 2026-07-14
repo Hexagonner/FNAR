@@ -10,7 +10,7 @@ extends Control
 const night_scene = "res://Scene/Night_game.tscn"
 
 var selected_day:int =1
-#var data: Dictionary = SaveManager.loadData()
+
 var _can_skip: bool = false
 var _skip_triggered: bool = false
 
