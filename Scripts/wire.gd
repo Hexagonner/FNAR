@@ -419,7 +419,7 @@ func print_all_connections():
 			var out_idx = wire.out_pins.find(wire.current_out_pin)
 			out_str = "OUT %d번 (%s)" % [out_idx, wire.current_out_pin.name]
 		elif wire.is_dragging:
-			out_str = "🖱️ 마우스로 드래그 중..."
+			out_str = "🖱️ 마우스로 드래그 중...."
 			
 		print("[%s] %s ──▶ %s" % [wire.name, in_str, out_str])
 	print("================================\n")
