@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cfssute5knucl"
 path.s3tc="res://.godot/imported/DirtyMetalWeave02_1K_Metallic.png-c693a82e800e14e97a3951309b44a67e.s3tc.ctex"
+path.etc2="res://.godot/imported/DirtyMetalWeave02_1K_Metallic.png-c693a82e800e14e97a3951309b44a67e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Texture/DirtyMetalWeave02_MR_1K/DirtyMetalWeave02_1K_Metallic.png"
-dest_files=["res://.godot/imported/DirtyMetalWeave02_1K_Metallic.png-c693a82e800e14e97a3951309b44a67e.s3tc.ctex"]
+dest_files=["res://.godot/imported/DirtyMetalWeave02_1K_Metallic.png-c693a82e800e14e97a3951309b44a67e.s3tc.ctex", "res://.godot/imported/DirtyMetalWeave02_1K_Metallic.png-c693a82e800e14e97a3951309b44a67e.etc2.ctex"]
 
 [params]
 

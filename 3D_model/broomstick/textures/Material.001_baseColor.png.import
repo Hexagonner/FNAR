@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bdd5fa431263"
 path.s3tc="res://.godot/imported/Material.001_baseColor.png-4e9bf5f6256fb23ec1b4bcbdda1a70a8.s3tc.ctex"
+path.etc2="res://.godot/imported/Material.001_baseColor.png-4e9bf5f6256fb23ec1b4bcbdda1a70a8.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/broomstick/textures/Material.001_baseColor.png"
-dest_files=["res://.godot/imported/Material.001_baseColor.png-4e9bf5f6256fb23ec1b4bcbdda1a70a8.s3tc.ctex"]
+dest_files=["res://.godot/imported/Material.001_baseColor.png-4e9bf5f6256fb23ec1b4bcbdda1a70a8.s3tc.ctex", "res://.godot/imported/Material.001_baseColor.png-4e9bf5f6256fb23ec1b4bcbdda1a70a8.etc2.ctex"]
 
 [params]
 

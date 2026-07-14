@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://elkt3khkjm01"
 path.s3tc="res://.godot/imported/Wood2_metallicRoughness.png-8ab288f94ab4f055d96900e83f98d072.s3tc.ctex"
+path.etc2="res://.godot/imported/Wood2_metallicRoughness.png-8ab288f94ab4f055d96900e83f98d072.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/fnaf_table_new/textures/Wood2_metallicRoughness.png"
-dest_files=["res://.godot/imported/Wood2_metallicRoughness.png-8ab288f94ab4f055d96900e83f98d072.s3tc.ctex"]
+dest_files=["res://.godot/imported/Wood2_metallicRoughness.png-8ab288f94ab4f055d96900e83f98d072.s3tc.ctex", "res://.godot/imported/Wood2_metallicRoughness.png-8ab288f94ab4f055d96900e83f98d072.etc2.ctex"]
 
 [params]
 

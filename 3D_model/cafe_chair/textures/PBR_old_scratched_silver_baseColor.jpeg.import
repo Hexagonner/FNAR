@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://6ndnp8g2kigt"
 path.s3tc="res://.godot/imported/PBR_old_scratched_silver_baseColor.jpeg-3d38f645716508ab09c21e440ffcb126.s3tc.ctex"
+path.etc2="res://.godot/imported/PBR_old_scratched_silver_baseColor.jpeg-3d38f645716508ab09c21e440ffcb126.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/cafe_chair/textures/PBR_old_scratched_silver_baseColor.jpeg"
-dest_files=["res://.godot/imported/PBR_old_scratched_silver_baseColor.jpeg-3d38f645716508ab09c21e440ffcb126.s3tc.ctex"]
+dest_files=["res://.godot/imported/PBR_old_scratched_silver_baseColor.jpeg-3d38f645716508ab09c21e440ffcb126.s3tc.ctex", "res://.godot/imported/PBR_old_scratched_silver_baseColor.jpeg-3d38f645716508ab09c21e440ffcb126.etc2.ctex"]
 
 [params]
 

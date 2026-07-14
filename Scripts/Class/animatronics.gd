@@ -489,3 +489,10 @@ func _get_movepoint_root() -> Node3D:
 				return node as Node3D
 			node = node.get_parent()
 	return null
+
+
+func look_at_node(target=null):
+	if target != null:
+		look_node.target_node = target.get_path()
+	else:
+		look_node.target_node 

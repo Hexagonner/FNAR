@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ciydjikelxye8"
 path.s3tc="res://.godot/imported/DirtyMetalWeave02_1K_BaseColor.png-a95c27a31357cab7fab5a5d77adc4dc7.s3tc.ctex"
+path.etc2="res://.godot/imported/DirtyMetalWeave02_1K_BaseColor.png-a95c27a31357cab7fab5a5d77adc4dc7.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Texture/DirtyMetalWeave02_MR_1K/DirtyMetalWeave02_1K_BaseColor.png"
-dest_files=["res://.godot/imported/DirtyMetalWeave02_1K_BaseColor.png-a95c27a31357cab7fab5a5d77adc4dc7.s3tc.ctex"]
+dest_files=["res://.godot/imported/DirtyMetalWeave02_1K_BaseColor.png-a95c27a31357cab7fab5a5d77adc4dc7.s3tc.ctex", "res://.godot/imported/DirtyMetalWeave02_1K_BaseColor.png-a95c27a31357cab7fab5a5d77adc4dc7.etc2.ctex"]
 
 [params]
 

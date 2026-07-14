@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://nhshtv051ote"
 path.s3tc="res://.godot/imported/Base2_baseColor.png-763b40bc6fc38ddfc48faf9a7fd0bc61.s3tc.ctex"
+path.etc2="res://.godot/imported/Base2_baseColor.png-763b40bc6fc38ddfc48faf9a7fd0bc61.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/new_party_hat__fnaf/textures/Base2_baseColor.png"
-dest_files=["res://.godot/imported/Base2_baseColor.png-763b40bc6fc38ddfc48faf9a7fd0bc61.s3tc.ctex"]
+dest_files=["res://.godot/imported/Base2_baseColor.png-763b40bc6fc38ddfc48faf9a7fd0bc61.s3tc.ctex", "res://.godot/imported/Base2_baseColor.png-763b40bc6fc38ddfc48faf9a7fd0bc61.etc2.ctex"]
 
 [params]
 

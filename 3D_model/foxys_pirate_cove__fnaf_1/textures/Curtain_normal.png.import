@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cc41xklyg1em0"
 path.s3tc="res://.godot/imported/Curtain_normal.png-694ad29d1398ab8703ed558b4719e17f.s3tc.ctex"
+path.etc2="res://.godot/imported/Curtain_normal.png-694ad29d1398ab8703ed558b4719e17f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/foxys_pirate_cove__fnaf_1/textures/Curtain_normal.png"
-dest_files=["res://.godot/imported/Curtain_normal.png-694ad29d1398ab8703ed558b4719e17f.s3tc.ctex"]
+dest_files=["res://.godot/imported/Curtain_normal.png-694ad29d1398ab8703ed558b4719e17f.s3tc.ctex", "res://.godot/imported/Curtain_normal.png-694ad29d1398ab8703ed558b4719e17f.etc2.ctex"]
 
 [params]
 

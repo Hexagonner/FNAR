@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://u11x7h41jovp"
 path.s3tc="res://.godot/imported/free_-_chipboard_shelf_1.png-158b0120286d5b8f45123e135132ba02.s3tc.ctex"
+path.etc2="res://.godot/imported/free_-_chipboard_shelf_1.png-158b0120286d5b8f45123e135132ba02.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://3D_model/shelf/free_-_chipboard_shelf_1.png"
-dest_files=["res://.godot/imported/free_-_chipboard_shelf_1.png-158b0120286d5b8f45123e135132ba02.s3tc.ctex"]
+dest_files=["res://.godot/imported/free_-_chipboard_shelf_1.png-158b0120286d5b8f45123e135132ba02.s3tc.ctex", "res://.godot/imported/free_-_chipboard_shelf_1.png-158b0120286d5b8f45123e135132ba02.etc2.ctex"]
 
 [params]
 

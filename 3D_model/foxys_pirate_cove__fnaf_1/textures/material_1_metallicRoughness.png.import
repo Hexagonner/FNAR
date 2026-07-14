@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bwxw6l0uxfnnc"
 path.s3tc="res://.godot/imported/material_1_metallicRoughness.png-e923785ad204540b7391f5a18b39fe66.s3tc.ctex"
+path.etc2="res://.godot/imported/material_1_metallicRoughness.png-e923785ad204540b7391f5a18b39fe66.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/foxys_pirate_cove__fnaf_1/textures/material_1_metallicRoughness.png"
-dest_files=["res://.godot/imported/material_1_metallicRoughness.png-e923785ad204540b7391f5a18b39fe66.s3tc.ctex"]
+dest_files=["res://.godot/imported/material_1_metallicRoughness.png-e923785ad204540b7391f5a18b39fe66.s3tc.ctex", "res://.godot/imported/material_1_metallicRoughness.png-e923785ad204540b7391f5a18b39fe66.etc2.ctex"]
 
 [params]
 

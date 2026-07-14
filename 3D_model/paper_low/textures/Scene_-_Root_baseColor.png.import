@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://l7b63vxt651w"
 path.s3tc="res://.godot/imported/Scene_-_Root_baseColor.png-4b679b801a5de2088d67780e8be9916d.s3tc.ctex"
+path.etc2="res://.godot/imported/Scene_-_Root_baseColor.png-4b679b801a5de2088d67780e8be9916d.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/paper_low/textures/Scene_-_Root_baseColor.png"
-dest_files=["res://.godot/imported/Scene_-_Root_baseColor.png-4b679b801a5de2088d67780e8be9916d.s3tc.ctex"]
+dest_files=["res://.godot/imported/Scene_-_Root_baseColor.png-4b679b801a5de2088d67780e8be9916d.s3tc.ctex", "res://.godot/imported/Scene_-_Root_baseColor.png-4b679b801a5de2088d67780e8be9916d.etc2.ctex"]
 
 [params]
 

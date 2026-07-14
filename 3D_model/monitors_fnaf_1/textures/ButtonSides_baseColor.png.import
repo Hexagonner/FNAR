@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ccsmeitoqwwhw"
 path.s3tc="res://.godot/imported/ButtonSides_baseColor.png-66886abb18287954d629f56b1c329373.s3tc.ctex"
+path.etc2="res://.godot/imported/ButtonSides_baseColor.png-66886abb18287954d629f56b1c329373.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/monitors_fnaf_1/textures/ButtonSides_baseColor.png"
-dest_files=["res://.godot/imported/ButtonSides_baseColor.png-66886abb18287954d629f56b1c329373.s3tc.ctex"]
+dest_files=["res://.godot/imported/ButtonSides_baseColor.png-66886abb18287954d629f56b1c329373.s3tc.ctex", "res://.godot/imported/ButtonSides_baseColor.png-66886abb18287954d629f56b1c329373.etc2.ctex"]
 
 [params]
 

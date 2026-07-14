@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dleqyjbmsbspn"
 path.s3tc="res://.godot/imported/clouds_metallicRoughness.png-319a1bcdfd7d4e9ad319e0eb23caa92e.s3tc.ctex"
+path.etc2="res://.godot/imported/clouds_metallicRoughness.png-319a1bcdfd7d4e9ad319e0eb23caa92e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/fnaf_1_-_stage_clouds_deco/textures/clouds_metallicRoughness.png"
-dest_files=["res://.godot/imported/clouds_metallicRoughness.png-319a1bcdfd7d4e9ad319e0eb23caa92e.s3tc.ctex"]
+dest_files=["res://.godot/imported/clouds_metallicRoughness.png-319a1bcdfd7d4e9ad319e0eb23caa92e.s3tc.ctex", "res://.godot/imported/clouds_metallicRoughness.png-319a1bcdfd7d4e9ad319e0eb23caa92e.etc2.ctex"]
 
 [params]
 

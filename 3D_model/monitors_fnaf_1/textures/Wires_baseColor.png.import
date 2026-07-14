@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bn217pkc0fwop"
 path.s3tc="res://.godot/imported/Wires_baseColor.png-84b035e4e686a5311365a8d3f17b3b0a.s3tc.ctex"
+path.etc2="res://.godot/imported/Wires_baseColor.png-84b035e4e686a5311365a8d3f17b3b0a.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/monitors_fnaf_1/textures/Wires_baseColor.png"
-dest_files=["res://.godot/imported/Wires_baseColor.png-84b035e4e686a5311365a8d3f17b3b0a.s3tc.ctex"]
+dest_files=["res://.godot/imported/Wires_baseColor.png-84b035e4e686a5311365a8d3f17b3b0a.s3tc.ctex", "res://.godot/imported/Wires_baseColor.png-84b035e4e686a5311365a8d3f17b3b0a.etc2.ctex"]
 
 [params]
 

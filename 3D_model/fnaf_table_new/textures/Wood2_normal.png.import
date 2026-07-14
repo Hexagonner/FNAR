@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ce11oc1trhd1h"
 path.s3tc="res://.godot/imported/Wood2_normal.png-e7faf356bd8e378b2c6bfd5ebf8413cc.s3tc.ctex"
+path.etc2="res://.godot/imported/Wood2_normal.png-e7faf356bd8e378b2c6bfd5ebf8413cc.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/fnaf_table_new/textures/Wood2_normal.png"
-dest_files=["res://.godot/imported/Wood2_normal.png-e7faf356bd8e378b2c6bfd5ebf8413cc.s3tc.ctex"]
+dest_files=["res://.godot/imported/Wood2_normal.png-e7faf356bd8e378b2c6bfd5ebf8413cc.s3tc.ctex", "res://.godot/imported/Wood2_normal.png-e7faf356bd8e378b2c6bfd5ebf8413cc.etc2.ctex"]
 
 [params]
 

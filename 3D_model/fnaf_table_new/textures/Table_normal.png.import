@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dv0tylgtvq0ay"
 path.s3tc="res://.godot/imported/Table_normal.png-4adfc7a2d05ce1aac7dd3efe7f8930c2.s3tc.ctex"
+path.etc2="res://.godot/imported/Table_normal.png-4adfc7a2d05ce1aac7dd3efe7f8930c2.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/fnaf_table_new/textures/Table_normal.png"
-dest_files=["res://.godot/imported/Table_normal.png-4adfc7a2d05ce1aac7dd3efe7f8930c2.s3tc.ctex"]
+dest_files=["res://.godot/imported/Table_normal.png-4adfc7a2d05ce1aac7dd3efe7f8930c2.s3tc.ctex", "res://.godot/imported/Table_normal.png-4adfc7a2d05ce1aac7dd3efe7f8930c2.etc2.ctex"]
 
 [params]
 

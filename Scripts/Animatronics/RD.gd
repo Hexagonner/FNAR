@@ -120,13 +120,22 @@ var event_index:=0
 
 func _ready() -> void:
 	super._ready()
-
+	#print(cam_manager.all_cams)
 	right_pupil_mat = right_pupil.get_active_material(0)
 	left_pupil_mat = left_pupil.get_active_material(0)
-	if test != null:
-		look_node.target_node = test.get_path()
+	
 	gui_node.battery_over.connect(black_out_song)
-	#set_next_goal(PinName.LEFT_DOOR)
+	await get_tree().create_timer(3).timeout
+	print(cam_manager.get_nearest_tracking_camera(self.global_position), " near cam")
+	set_next_goal(PinName.TOILET_CORNER)
+	look_at_node(cam_manager.all_cams["cam0"])
+	#look_at_node() 
+	await get_tree().create_timer(15).timeout
+	
+	look_at_node(cam_manager.all_cams["cam9"])
+	await get_tree().create_timer(25).timeout
+	print(cam_manager.get_nearest_tracking_camera(self.global_position), " near cam")
+	print(global_position, "self_pos")
 #region pupil_light_toggle
 
 func pupil_light_toggle()->void:

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://itjl6hb7ymyx"
 path.s3tc="res://.godot/imported/celling.png-676816699ee34c8cc41ec0fdbdb63180.s3tc.ctex"
+path.etc2="res://.godot/imported/celling.png-676816699ee34c8cc41ec0fdbdb63180.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Texture/celling.png"
-dest_files=["res://.godot/imported/celling.png-676816699ee34c8cc41ec0fdbdb63180.s3tc.ctex"]
+dest_files=["res://.godot/imported/celling.png-676816699ee34c8cc41ec0fdbdb63180.s3tc.ctex", "res://.godot/imported/celling.png-676816699ee34c8cc41ec0fdbdb63180.etc2.ctex"]
 
 [params]
 

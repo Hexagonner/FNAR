@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b4u55tbfn2xj3"
 path.s3tc="res://.godot/imported/RD_Image_24.png-ef22dc1b68d8525334e7ef6bd2a49dbe.s3tc.ctex"
+path.etc2="res://.godot/imported/RD_Image_24.png-ef22dc1b68d8525334e7ef6bd2a49dbe.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://animatronics/RD/RD_Image_24.png"
-dest_files=["res://.godot/imported/RD_Image_24.png-ef22dc1b68d8525334e7ef6bd2a49dbe.s3tc.ctex"]
+dest_files=["res://.godot/imported/RD_Image_24.png-ef22dc1b68d8525334e7ef6bd2a49dbe.s3tc.ctex", "res://.godot/imported/RD_Image_24.png-ef22dc1b68d8525334e7ef6bd2a49dbe.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b3trttpjbswnj"
 path.s3tc="res://.godot/imported/Furniture_wood_normal.jpeg-165d67d8d011ca6f65ad73a601960a12.s3tc.ctex"
+path.etc2="res://.godot/imported/Furniture_wood_normal.jpeg-165d67d8d011ca6f65ad73a601960a12.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/cafe_chair/textures/Furniture_wood_normal.jpeg"
-dest_files=["res://.godot/imported/Furniture_wood_normal.jpeg-165d67d8d011ca6f65ad73a601960a12.s3tc.ctex"]
+dest_files=["res://.godot/imported/Furniture_wood_normal.jpeg-165d67d8d011ca6f65ad73a601960a12.s3tc.ctex", "res://.godot/imported/Furniture_wood_normal.jpeg-165d67d8d011ca6f65ad73a601960a12.etc2.ctex"]
 
 [params]
 

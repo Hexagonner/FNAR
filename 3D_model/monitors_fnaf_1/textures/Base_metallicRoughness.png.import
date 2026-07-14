@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dnacrcq0xhgvm"
 path.s3tc="res://.godot/imported/Base_metallicRoughness.png-1f0da6dde938381082f7f5008ff4ba57.s3tc.ctex"
+path.etc2="res://.godot/imported/Base_metallicRoughness.png-1f0da6dde938381082f7f5008ff4ba57.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/monitors_fnaf_1/textures/Base_metallicRoughness.png"
-dest_files=["res://.godot/imported/Base_metallicRoughness.png-1f0da6dde938381082f7f5008ff4ba57.s3tc.ctex"]
+dest_files=["res://.godot/imported/Base_metallicRoughness.png-1f0da6dde938381082f7f5008ff4ba57.s3tc.ctex", "res://.godot/imported/Base_metallicRoughness.png-1f0da6dde938381082f7f5008ff4ba57.etc2.ctex"]
 
 [params]
 

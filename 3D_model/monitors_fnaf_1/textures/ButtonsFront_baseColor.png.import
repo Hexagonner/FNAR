@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://y8kwdwyisvtf"
 path.s3tc="res://.godot/imported/ButtonsFront_baseColor.png-89f5496c83043758b25520ad62ccfb16.s3tc.ctex"
+path.etc2="res://.godot/imported/ButtonsFront_baseColor.png-89f5496c83043758b25520ad62ccfb16.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/monitors_fnaf_1/textures/ButtonsFront_baseColor.png"
-dest_files=["res://.godot/imported/ButtonsFront_baseColor.png-89f5496c83043758b25520ad62ccfb16.s3tc.ctex"]
+dest_files=["res://.godot/imported/ButtonsFront_baseColor.png-89f5496c83043758b25520ad62ccfb16.s3tc.ctex", "res://.godot/imported/ButtonsFront_baseColor.png-89f5496c83043758b25520ad62ccfb16.etc2.ctex"]
 
 [params]
 

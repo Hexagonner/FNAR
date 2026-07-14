@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ch6x8e0dl03qu"
 path.s3tc="res://.godot/imported/rd12_25.png-0f19fd18a40d1ef9f421b20b19b4a04d.s3tc.ctex"
+path.etc2="res://.godot/imported/rd12_25.png-0f19fd18a40d1ef9f421b20b19b4a04d.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://animatronics/RD/Model_roughe/rd12_25.png"
-dest_files=["res://.godot/imported/rd12_25.png-0f19fd18a40d1ef9f421b20b19b4a04d.s3tc.ctex"]
+dest_files=["res://.godot/imported/rd12_25.png-0f19fd18a40d1ef9f421b20b19b4a04d.s3tc.ctex", "res://.godot/imported/rd12_25.png-0f19fd18a40d1ef9f421b20b19b4a04d.etc2.ctex"]
 
 [params]
 

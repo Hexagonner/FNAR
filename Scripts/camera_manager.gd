@@ -390,3 +390,30 @@ func apply_low_spec_mode(enabled: bool) -> void:
 	# White_noise는 살짝 비싼 CRT 효과만 적용되므로 끄지 않고 셰이더 cost만 줄임.
 	if white_noise_rect != null and white_noise_rect.material is ShaderMaterial:
 		(white_noise_rect.material as ShaderMaterial).set_shader_parameter("low_spec_mode", enabled)
+		
+		
+##
+##유효한 카메라를 찾는 함수 
+##
+func get_tracking_cameras() -> Array[Camera3D]:
+	var cameras: Array[Camera3D] = []
+	for cam_name: String in all_cams:
+		if cam_name == "cam+" or cam_name == "cam-":
+			continue
+		var camera: Camera3D = all_cams[cam_name] as Camera3D
+		if camera != null and is_instance_valid(camera):
+			cameras.append(camera)
+	return cameras
+
+##가장 가까운 카메라 리턴 
+func get_nearest_tracking_camera(world_position: Vector3) -> Camera3D:
+	var nearest_camera: Camera3D = null
+	var nearest_distance: float = INF
+	for camera: Camera3D in get_tracking_cameras():
+		var distance: float = world_position.distance_squared_to(camera.global_position)
+		print(camera.global_position, camera.name, " cam pos")
+		if distance < nearest_distance:
+			nearest_distance = distance
+			nearest_camera = camera
+	#print(name, " pos ", self_pos)
+	return nearest_camera

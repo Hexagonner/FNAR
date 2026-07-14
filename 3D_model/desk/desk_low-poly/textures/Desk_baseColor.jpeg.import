@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bbvp4ny16k23x"
 path.s3tc="res://.godot/imported/Desk_baseColor.jpeg-993e443fe2d45503112c18a2666b2f0d.s3tc.ctex"
+path.etc2="res://.godot/imported/Desk_baseColor.jpeg-993e443fe2d45503112c18a2666b2f0d.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/desk/desk_low-poly/textures/Desk_baseColor.jpeg"
-dest_files=["res://.godot/imported/Desk_baseColor.jpeg-993e443fe2d45503112c18a2666b2f0d.s3tc.ctex"]
+dest_files=["res://.godot/imported/Desk_baseColor.jpeg-993e443fe2d45503112c18a2666b2f0d.s3tc.ctex", "res://.godot/imported/Desk_baseColor.jpeg-993e443fe2d45503112c18a2666b2f0d.etc2.ctex"]
 
 [params]
 

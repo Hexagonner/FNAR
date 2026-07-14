@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c7m5cfhq0du11"
 path.s3tc="res://.godot/imported/White_metallicRoughness.png-56a6eed952a5b83ad55000f150cda81d.s3tc.ctex"
+path.etc2="res://.godot/imported/White_metallicRoughness.png-56a6eed952a5b83ad55000f150cda81d.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/fnaf_-_ceiling_stars_deco/textures/White_metallicRoughness.png"
-dest_files=["res://.godot/imported/White_metallicRoughness.png-56a6eed952a5b83ad55000f150cda81d.s3tc.ctex"]
+dest_files=["res://.godot/imported/White_metallicRoughness.png-56a6eed952a5b83ad55000f150cda81d.s3tc.ctex", "res://.godot/imported/White_metallicRoughness.png-56a6eed952a5b83ad55000f150cda81d.etc2.ctex"]
 
 [params]
 

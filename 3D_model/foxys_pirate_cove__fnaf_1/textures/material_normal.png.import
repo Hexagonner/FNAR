@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://roqrq65ykin2"
 path.s3tc="res://.godot/imported/material_normal.png-8aeaac27cf11c000df0017bb8ececd97.s3tc.ctex"
+path.etc2="res://.godot/imported/material_normal.png-8aeaac27cf11c000df0017bb8ececd97.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://3D_model/foxys_pirate_cove__fnaf_1/textures/material_normal.png"
-dest_files=["res://.godot/imported/material_normal.png-8aeaac27cf11c000df0017bb8ececd97.s3tc.ctex"]
+dest_files=["res://.godot/imported/material_normal.png-8aeaac27cf11c000df0017bb8ececd97.s3tc.ctex", "res://.godot/imported/material_normal.png-8aeaac27cf11c000df0017bb8ececd97.etc2.ctex"]
 
 [params]
 
