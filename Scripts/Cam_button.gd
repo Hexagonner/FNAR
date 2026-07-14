@@ -10,7 +10,7 @@ var self_pos:Vector2
 
 func _ready() -> void:
 	self_pos = self.global_position
-	print(name, " pos ", self_pos)
+	#print(name, " pos ", self_pos)
 func _pressed() -> void:
 	emit_signal("cam_button_pressed")
 	

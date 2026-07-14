@@ -490,9 +490,30 @@ func _get_movepoint_root() -> Node3D:
 			node = node.get_parent()
 	return null
 
-
+##lookmodifier3d 타겟세팅을 위한 함수.
+##
 func look_at_node(target=null):
 	if target != null:
 		look_node.target_node = target.get_path()
-	else:
-		look_node.target_node 
+
+
+
+## 특정 와이어(0~3)의 연결을 강제로 끊는다.
+##		0 wire1: ["cam1", "cam2", "cam5"],
+## 		1 wire2: ["cam3", "cam4"],
+## 		2 wire3: ["cam6", "cam7", "cam8"],
+## 		3 wire4: ["cam0", "cam9", "cam-"],
+func disconnect_wire(wire_index: int) -> void:
+	if cam_manager == null:
+		push_warning("[%s] cam_manager가 설정되지 않았습니다." % name)
+		return
+	if cam_manager.has_method("disconnect_wire"):
+		cam_manager.disconnect_wire(wire_index)
+
+## wire_a_index와 wire_b_index(0~3)의 연결을 서로 교환한다.
+func swap_wires(wire_a_index: int, wire_b_index: int) -> void:
+	if cam_manager == null:
+		push_warning("[%s] cam_manager가 없습니다." % name)
+		return
+	if cam_manager.has_method("swap_wire_connections"):
+		cam_manager.swap_wire_connections(wire_a_index, wire_b_index)

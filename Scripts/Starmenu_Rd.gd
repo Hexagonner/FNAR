@@ -1,11 +1,13 @@
 extends Node3D
 
+@warning_ignore("shadowed_variable_base_class")
+@export var look_at:Node3D
 @export var move_speed: float = 1.5
-@onready var anim_tree = $AnimationTree
+@onready var anim_tree = $RD/AnimationTree
 @onready var playback = anim_tree.get("parameters/playback")
 #var left_eye
 #var right_eye
- 
+@export var look_modify:LookAtModifier3D
 
 var start_pos: Vector3
 var target_distance: float = 5.3
@@ -13,6 +15,7 @@ var is_moving: bool = true
 
 
 func _ready() -> void:
+	look_modify.target_node = look_at.get_path()
 	#left_eye = $Armature/GeneralSkeleton/Left_eye.get_surface_override_material(0)
 	#right_eye = $Armature/GeneralSkeleton/Right_eye.get_surface_override_material(0)
 	start_pos = global_position

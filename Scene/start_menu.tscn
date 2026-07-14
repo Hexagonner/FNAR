@@ -25,6 +25,33 @@
 [ext_resource type="AudioStream" uid="uid://5nendu2oevn" path="res://Sounds/흐어어_3초.wav" id="18_y0wal"]
 [ext_resource type="PackedScene" uid="uid://82g4hfujd3uw" path="res://Scene/start_menu_Rd.tscn" id="24_nq4yi"]
 
+[sub_resource type="GDScript" id="GDScript_864kv"]
+resource_name = "startmenu_cam"
+script/source = "extends Camera3D
+@export var target:Node3D
+@export var depth:float = 1.0
+func _process(_delta):
+	# 1. 뷰포트에서 마우스의 2D 절대 좌표를 가져옵니다.
+	var mouse_pos_2d = get_viewport().get_mouse_position()
+	
+	# 2. 깊이(Depth) 지정하기
+	# 화면 바로 앞(렌더링이 시작되는 최소 거리)의 3D 좌표를 원하시면 'near'를 사용합니다.
+	# 카메라 앞 1미터 지점을 원하시면 1.0을 넣으시면 됩니다.
+	
+	
+	# 3. 2D 좌표를 3D 월드 좌표로 변환 (project_position)
+	var mouse_world_pos_3d = project_position(mouse_pos_2d, depth)
+	
+	# 4. [선택] 만약 '월드' 기준이 아니라 정말 '카메라 노드' 기준의 상대 좌표가 필요하다면:
+	#var mouse_local_pos_3d = to_local(mouse_world_pos_3d)
+	
+	# 디버깅 출력
+	#print(\"월드 3D 좌표: \", mouse_world_pos_3d)
+	#print(\"카메라 기준 상대 3D 좌표: \", mouse_local_pos_3d)
+	target.global_position = mouse_world_pos_3d
+	#print(target.global_position)
+"
+
 [sub_resource type="GDScript" id="GDScript_30wc8"]
 resource_name = "mainost"
 script/source = "extends AudioStreamPlayer
@@ -41,16 +68,15 @@ func _on_finished() -> void:
 resource_name = "Left_button_container"
 script/source = "extends HBoxContainer
 
-var data = SaveManager.loadData()
+#var data = SaveManager.loadData()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	if data[\"clear_night\"] >= 5:
+	if SaveManager.get_value(\"clear_night\") >= 5:
 		$VBoxContainer/Night6.visible = true
 		$VBoxContainer/Custom.visible = true
 	else:
 		$VBoxContainer/Night6.visible = false
 		$VBoxContainer/Custom.visible = false
-		
 "
 
 [sub_resource type="DPITexture" id="DPITexture_7ow4v"]
@@ -99,11 +125,15 @@ SpinBox/icons/updown = ExtResource("7_2633x")
 [sub_resource type="GDScript" id="GDScript_y4icf"]
 script/source = "extends SpinBox
 
-var data = SaveManager.loadData()
+#var data = SaveManager.loadData()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	self.max_value = clamp(data[\"clear_night\"]+1, 1, 5)
-	value = clamp(data[\"clear_night\"]+1, 1, 5)
+	self.max_value = clamp(SaveManager.get_value(\"clear_night\")+1, 1, 5)
+	value =clamp(SaveManager.get_value(\"clear_night\")+1, 1, 5)
+	var line_edit = get_line_edit()
+	
+	# 우클릭 컨텍스트 메뉴를 비활성화합니다.
+	line_edit.context_menu_enabled = false
 "
 
 [sub_resource type="GDScript" id="GDScript_8v8wu"]
@@ -2075,12 +2105,13 @@ script/source = "extends CheckBox
 
 
 func _ready() -> void:
-	self.button_pressed = GlobalSetting.low_spec_mode
+	self.button_pressed = SaveManager.get_value(\"low_spec_mode\")
 	
 
 
 func _on_toggled(toggled_on: bool) -> void:
 	GlobalSetting.low_spec_mode = toggled_on
+	SaveManager.set_value(\"low_spec_mode\", toggled_on)
 	if toggled_on:
 		ProjectSettings.set_setting(\"rendering/scaling/3d_scale\", 0.2)
 		ProjectSettings.set_setting(\"rendering/lights_and_shadows/directional_shadow/soft_shadow_filter_quality\",1)
@@ -2170,9 +2201,13 @@ border_color = Color(1, 1, 1, 1)
 [node name="Start_menu" type="Node3D" unique_id=1077721184]
 metadata/_edit_vertical_guides_ = [2440.0]
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1180450034]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1180450034 node_paths=PackedStringArray("target")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8230109, 1.5082507)
 near = 0.001
+script = SubResource("GDScript_864kv")
+target = NodePath("target")
+
+[node name="target" type="Node3D" parent="Camera3D" unique_id=1476613884]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=563329335]
 environment = ExtResource("2_iw6yw")
@@ -2730,8 +2765,9 @@ mouse_filter = 2
 color = Color(0, 0, 0, 0)
 metadata/_edit_lock_ = true
 
-[node name="RD" parent="." unique_id=1361040546 instance=ExtResource("24_nq4yi")]
+[node name="RD" parent="." unique_id=1361040546 node_paths=PackedStringArray("look_at") instance=ExtResource("24_nq4yi")]
 transform = Transform3D(0.9985704, 0, -0.0534514, 0, 1, 0, 0.0534514, 0, 0.9985704, 1.0177493, 0, -5.6094484)
+look_at = NodePath("../Camera3D/target")
 
 [connection signal="finished" from="Start_menu/bgm" to="Start_menu/bgm" method="_on_finished"]
 [connection signal="button_up" from="Start_menu/LEFT_button_containor/VBoxContainer/New" to="Start_menu" method="_on_new_pressed"]

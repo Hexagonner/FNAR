@@ -126,16 +126,17 @@ func _ready() -> void:
 	
 	gui_node.battery_over.connect(black_out_song)
 	await get_tree().create_timer(3).timeout
-	print(cam_manager.get_nearest_tracking_camera(self.global_position), " near cam")
+	#print(cam_manager.get_nearest_tracking_camera(self.global_position), " near cam")
 	set_next_goal(PinName.TOILET_CORNER)
 	look_at_node(cam_manager.all_cams["cam0"])
 	#look_at_node() 
+	disconnect_wire(3)
 	await get_tree().create_timer(15).timeout
-	
+	swap_wires(0,2)
 	look_at_node(cam_manager.all_cams["cam9"])
-	await get_tree().create_timer(25).timeout
-	print(cam_manager.get_nearest_tracking_camera(self.global_position), " near cam")
-	print(global_position, "self_pos")
+	#await get_tree().create_timer(25).timeout
+	#print(cam_manager.get_nearest_tracking_camera(self.global_position), " near cam")
+	#print(global_position, "self_pos")
 #region pupil_light_toggle
 
 func pupil_light_toggle()->void:

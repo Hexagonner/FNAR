@@ -23,8 +23,8 @@ func _ready() -> void:
 	FPS_checkbox.button_pressed = GlobalSetting.is_show_fps
 
 	# 저사양 모드 체크박스 초기화
-	if low_spec_button is CheckBox:
-		(low_spec_button as CheckBox).button_pressed = GlobalSetting.low_spec_mode
+	#if low_spec_button is CheckBox:
+		#(low_spec_button as CheckBox).button_pressed = SaveManager.get_value("low_spec_mode") #GlobalSetting.low_spec_mode
 
 	# GlobalSetting.apply_resolution (예: Alt+Enter / F11 토글) 으로
 	# mode/size 가 바뀐 경우 OptionButton.selected 도 같이 맞춰준다.

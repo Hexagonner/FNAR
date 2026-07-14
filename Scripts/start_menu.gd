@@ -10,7 +10,7 @@ extends Control
 const night_scene = "res://Scene/Night_game.tscn"
 
 var selected_day:int =1
-var data: Dictionary = SaveManager.loadData()
+#var data: Dictionary = SaveManager.loadData()
 var _can_skip: bool = false
 var _skip_triggered: bool = false
 
@@ -44,7 +44,7 @@ func _on_new_pressed() -> void:
 	$bgm.stop()
 	
 	GameManager.Selected_Night = 1
-	print(data.get("clear_night", 0), "night")
+	#print(data.get("clear_night", 0), "night")
 	
 	#if data.get("clear_night", 0) >= 2:
 	_can_skip = true

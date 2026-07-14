@@ -248,6 +248,7 @@ func force_connect_to_out_pin(p_out: Marker3D):
 	update_material_and_priority(true, base_priority, float(base_priority))
 	update_rubber_band(fixed_in_pin.global_position, current_out_pin.global_position)
 
+##disconnect wire 
 func reset_to_home():
 	if current_out_pin and current_out_pin.get("connected_wire") == self:
 		current_out_pin.set("connected_wire", null)

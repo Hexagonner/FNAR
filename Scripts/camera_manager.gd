@@ -140,6 +140,54 @@ func set_current_cam(cam) -> void:
 		#for kitchen sound only alart
 
 # ---- Wire-Camera Bridge Functions ----
+
+## 두 와이어의 OUT 핀 연결을 서로 교환한다.
+## wire_a_index, wire_b_index: 0~3 (wire1=0, wire2=1, wire3=2, wire4=3)
+func swap_wire_connections(wire_a_index: int, wire_b_index: int) -> void:
+	var wires: Array[Node] = [wire1, wire2, wire3, wire4]
+	
+	var wire_a: Node = wires[wire_a_index]
+	var wire_b: Node = wires[wire_b_index]
+	if wire_a == null or wire_b == null:
+		push_warning("[CameraManager] swap: wire가 null입니다.")
+		return
+	if wire_a == wire_b:
+		return  # 같은 와이어끼리 스왑 불가
+	
+	# 각 와이어가 현재 연결된 OUT 핀을 저장
+	var pin_a: Marker3D = wire_a.get("current_out_pin") if wire_a.get("is_connected") else null
+	var pin_b: Marker3D = wire_b.get("current_out_pin") if wire_b.get("is_connected") else null
+	
+	# Step 1: 둘 다 연결 해제 (connected_wire 참조 정리)
+	if wire_a.has_method("reset_to_home"):
+		wire_a.reset_to_home()
+	if wire_b.has_method("reset_to_home"):
+		wire_b.reset_to_home()
+	
+	# Step 2: 서로의 OUT 핀에 재연결
+	if pin_b != null and wire_a.has_method("force_connect_to_out_pin"):
+		wire_a.force_connect_to_out_pin(pin_b)
+	if pin_a != null and wire_b.has_method("force_connect_to_out_pin"):
+		wire_b.force_connect_to_out_pin(pin_a)
+
+
+## 와이어 번호(1~4)로 해당 와이어의 연결을 강제로 끊는다.
+# #			wire1: ["cam1", "cam2", "cam5"],
+# # 		wire2: ["cam3", "cam4"],
+# # 		wire3: ["cam6", "cam7", "cam8"],
+# # 		wire4: ["cam0", "cam9", "cam-"],
+func disconnect_wire(wire_index: int) -> void:
+	var wires: Array[Node] = [wire1, wire2, wire3, wire4]
+	if wire_index < 0 or wire_index >= wires.size():
+		push_warning("[CameraManager] 잘못된 wire_index: %d" % wire_index)
+		return
+	var target: Node = wires[wire_index]
+	if target == null:
+		push_warning("[CameraManager] wire%d가 null입니다." % (wire_index + 1))
+		return
+	if target.has_method("reset_to_home"):
+		target.reset_to_home()
+
 func _setup_wire_cam_bridge() -> void:
 	# wire → 담당 cam 목록 매핑 (기본 할당)
 	_wire_cam_map = {
@@ -411,7 +459,7 @@ func get_nearest_tracking_camera(world_position: Vector3) -> Camera3D:
 	var nearest_distance: float = INF
 	for camera: Camera3D in get_tracking_cameras():
 		var distance: float = world_position.distance_squared_to(camera.global_position)
-		print(camera.global_position, camera.name, " cam pos")
+		#print(camera.global_position, camera.name, " cam pos")
 		if distance < nearest_distance:
 			nearest_distance = distance
 			nearest_camera = camera

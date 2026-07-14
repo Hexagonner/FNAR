@@ -2,24 +2,25 @@ extends Control
 
 const start_menu_scene = "res://Scene/start_menu.tscn"
 @export var ani:AnimationPlayer
-var data = SaveManager.loadData()
+#var data = SaveManager.loadData()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	self.visible = false
 	$ColorRect/black_bar.visible = false
 	ResourceLoader.load_threaded_request(start_menu_scene,"PackedScene",true)
-	if GameManager.Selected_Night == 5 and data["star"]==0:
-		data["star"] = 1
-	elif GameManager.Selected_Night == 6 and data["star"]==1:
-		data["star"] = 2
+	if GameManager.Selected_Night == 5 and SaveManager.get_value("star")==0:
+		
+		SaveManager.set_value("star",1)
+	elif GameManager.Selected_Night == 6 and SaveManager.get_value("star")==1:
+		SaveManager.set_value("star",2)
 	elif GameManager.Selected_Night == 7 and 1 == 1 : #TODO 20/20/20/20 조건 추가 하기 
-		data["star"] = 3
-	if data["clear_night"] < GameManager.Selected_Night:
-		data["clear_night"] = GameManager.Selected_Night
+		SaveManager.set_value("star",3)
+	if SaveManager.get_value("clear_night") < GameManager.Selected_Night:
+		SaveManager.set_value("clear_night",GameManager.Selected_Night)
 	
 func game_win()  -> void:
 	get_tree().paused = true
-	SaveManager.saveData(data)
+	#SaveManager.saveData(data)
 	GameManager.is_6am = true
 	visible = true
 	# ColorRect 초기 설정 (검은색, 완전히 불투명)

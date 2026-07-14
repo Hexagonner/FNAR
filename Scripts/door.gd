@@ -7,10 +7,10 @@ var is_opened:bool  = true
 func toggle() -> void:
 	if is_opened:
 		anim.play("Door_close")
-		print("close")
+		#print("close")
 	else:
 		anim.play("Door_Open")
-		print("open!")
+		#print("open!")
 	is_opened = !is_opened
 
 
