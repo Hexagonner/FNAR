@@ -55,10 +55,9 @@ func _ready():
 		local_disconn_mat = disconnected_material.duplicate()
 		if local_disconn_mat is StandardMaterial3D:
 			local_disconn_mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	
+
 	if rubber_mesh.mesh is CylinderMesh:
-		init_height = rubber_mesh.mesh.height
-			
+		init_height = rubber_mesh.mesh.height 
 	var my_index = get_index()
 	base_priority = my_index
 	if my_index >= top_sort_index:

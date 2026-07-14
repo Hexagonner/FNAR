@@ -6792,17 +6792,7 @@ func _ready():
 	# ColorRect 초기 설정 (검은색, 완전히 불투명)
 	color_rect.modulate = Color(0, 0, 0, 1)  # R, G, B, A (A=1)
 
-	# SceneTreeTween 생성
-	var tween = create_tween()
-	tween.tween_property(color_rect,\"modulate:a\",0.0,1.5).set_trans(Tween.TRANS_SINE)
 	
-	# 트윈 완료 시 ColorRect 삭제
-	tween.finished.connect(_on_tween_finished)
-
-
-func _on_tween_finished():
-	if is_instance_valid(color_rect):
-		queue_free()  # ColorRect 삭제
 "
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dc6go"]
@@ -9269,12 +9259,13 @@ shader_parameter/tint_strength = 0.098000004655
 shader_parameter/viewport_size_override = Vector2(0, 0)
 shader_parameter/low_spec_mode = false
 
-[node name="Night_game" type="Node" unique_id=55958764 node_paths=PackedStringArray("pause_menu", "old_shader_rect", "camera_manager")]
+[node name="Night_game" type="Node" unique_id=55958764 node_paths=PackedStringArray("pause_menu", "old_shader_rect", "camera_manager", "init_fadeout")]
 process_mode = 1
 script = ExtResource("1_nwclc")
 pause_menu = NodePath("CanvasLayer/pauseMenu")
 old_shader_rect = NodePath("old_shader")
 camera_manager = NodePath("CameraManager")
+init_fadeout = NodePath("FadeOut")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1125180895]
 environment = ExtResource("2_gvxxr")
@@ -9481,11 +9472,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.858511, 0, -21.659174)
 script = ExtResource("3_dy14h")
 neighbors = [NodePath("../backstage_front"), NodePath("../main_hall_mid_left"), NodePath("../Left_door/Solo_stage_front")]
 
-[node name="RD1" parent="animatronics" unique_id=1675944184 node_paths=PackedStringArray("gui_node", "cam_manager", "test") instance=ExtResource("4_hm4yt")]
+[node name="RD1" parent="animatronics" unique_id=1675944184 node_paths=PackedStringArray("gui_node", "cam_manager") instance=ExtResource("4_hm4yt")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, -33.72)
 gui_node = NodePath("../../PlayerUi")
 cam_manager = NodePath("../../CameraManager")
-test = NodePath("")
 movement_speed = 1.0
 
 [node name="RD2" type="Node3D" parent="animatronics" unique_id=1732879998 node_paths=PackedStringArray("gui_node", "ani_tree")]
@@ -9514,43 +9504,43 @@ bones/1/name = "Hips"
 bones/1/parent = 0
 bones/1/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.357829e-09, 1.3925887, 0.0051944274)
 bones/1/enabled = true
-bones/1/position = Vector3(0.003350704, 1.3814442, 0.009474767)
-bones/1/rotation = Quaternion(-0.029860182, -0.050289426, -0.026388664, 0.99793947)
+bones/1/position = Vector3(-0.0038364436, 1.3810613, 0.013908067)
+bones/1/rotation = Quaternion(-0.03734483, -0.04207942, -0.02207289, 0.99817216)
 bones/1/scale = Vector3(1, 1, 1)
 bones/2/name = "Spine"
 bones/2/parent = 1
 bones/2/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13910247, -0.0013590595)
 bones/2/enabled = true
 bones/2/position = Vector3(0, 0.13910247, -0.0013590595)
-bones/2/rotation = Quaternion(0.03009566, 0.014659921, 0.019629743, 0.9992467)
+bones/2/rotation = Quaternion(0.029425655, 0.015496368, 0.022660673, 0.99919)
 bones/2/scale = Vector3(1, 1.0000001, 1.0000002)
 bones/3/name = "Chest"
 bones/3/parent = 2
 bones/3/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.684342e-16, 0.16228609, -0.001585568)
 bones/3/enabled = true
 bones/3/position = Vector3(-5.684342e-16, 0.16228609, -0.001585568)
-bones/3/rotation = Quaternion(0.010337888, 0.0037756956, 0.013683919, 0.99984586)
+bones/3/rotation = Quaternion(0.009396668, 0.0038707901, 0.014229934, 0.9998471)
 bones/3/scale = Vector3(0.99999994, 1, 1.0000001)
 bones/4/name = "UpperChest"
 bones/4/parent = 3
 bones/4/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.684342e-16, 0.18546996, -0.0018120812)
 bones/4/enabled = true
 bones/4/position = Vector3(-5.684342e-16, 0.18546996, -0.0018120812)
-bones/4/rotation = Quaternion(0.01015682, 0.004014866, 0.013736988, 0.9998461)
+bones/4/rotation = Quaternion(0.009775871, 0.004138829, 0.014457252, 0.99983925)
 bones/4/scale = Vector3(0.99999994, 0.99999994, 1)
 bones/5/name = "Neck"
 bones/5/parent = 4
 bones/5/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.684342e-16, 0.20865358, -0.002038591)
 bones/5/enabled = true
 bones/5/position = Vector3(-5.684342e-16, 0.20865358, -0.002038591)
-bones/5/rotation = Quaternion(0.048787173, -0.0016789904, 0.004411574, 0.99879813)
+bones/5/rotation = Quaternion(0.049367186, -0.0022989637, 0.005217492, 0.99876446)
 bones/5/scale = Vector3(1, 1.0000001, 1.0000001)
 bones/6/name = "Head"
 bones/6/parent = 5
 bones/6/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.078572534, -0.0010998739)
 bones/6/enabled = true
 bones/6/position = Vector3(0, 0.078572534, -0.0010998739)
-bones/6/rotation = Quaternion(-0.06998081, 0.009767365, -0.0016911355, 0.9974991)
+bones/6/rotation = Quaternion(-0.06923373, 0.008228392, -0.00081073877, 0.9975663)
 bones/6/scale = Vector3(1, 0.99999994, 1)
 bones/7/name = "mixamorig_HeadTop_End"
 bones/7/parent = 6
@@ -9564,28 +9554,28 @@ bones/8/parent = 4
 bones/8/rest = Transform3D(0, 1, 0, 0, 0, 1, 1, 0, 0, 0.10201691, 0.20129879, -0.0014371156)
 bones/8/enabled = true
 bones/8/position = Vector3(0.10201691, 0.20129879, -0.0014371156)
-bones/8/rotation = Quaternion(0.39737952, 0.5873709, 0.55026233, -0.44079068)
+bones/8/rotation = Quaternion(0.39616525, 0.58847666, 0.5476751, -0.44362193)
 bones/8/scale = Vector3(0.99999994, 0.9999998, 0.99999976)
 bones/9/name = "LeftUpperArm"
 bones/9/parent = 8
 bones/9/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.0012029408, 0.2111235, -0.013717312)
 bones/9/enabled = true
 bones/9/position = Vector3(0.0012029408, 0.2111235, -0.013717312)
-bones/9/rotation = Quaternion(0.17513753, 0.9824531, -0.062298443, 0.015218778)
+bones/9/rotation = Quaternion(0.17634343, 0.98175627, -0.06960352, 0.014593473)
 bones/9/scale = Vector3(0.9999998, 0.99999976, 1)
 bones/10/name = "LeftLowerArm"
 bones/10/parent = 9
 bones/10/rest = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0.0019872542, 0.07435267, 0.43950602)
 bones/10/enabled = true
 bones/10/position = Vector3(0.0019872542, 0.07435267, 0.43950602)
-bones/10/rotation = Quaternion(-0.061770353, -0.71080464, 0.06288398, 0.69784445)
+bones/10/rotation = Quaternion(-0.06174319, -0.7111381, 0.062910505, 0.6975045)
 bones/10/scale = Vector3(0.9999999, 0.9999997, 0.9999999)
 bones/11/name = "LeftHand"
 bones/11/parent = 10
 bones/11/rest = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.44658387, -0.0039933524, 0.0013970615)
 bones/11/enabled = true
 bones/11/position = Vector3(0.44658387, -0.0039933524, 0.0013970615)
-bones/11/rotation = Quaternion(-0.153874, 0.65784544, -0.24517435, 0.69530696)
+bones/11/rotation = Quaternion(-0.15113908, 0.6573775, -0.24782155, 0.69541085)
 bones/11/scale = Vector3(1.0000001, 1.0000001, 0.9999999)
 bones/12/name = "mixamorig_LeftHandIndex1"
 bones/12/parent = 11
@@ -9620,28 +9610,28 @@ bones/16/parent = 4
 bones/16/rest = Transform3D(0, -1, 0, 0, 0, 1, -1, 0, 0, -0.102016926, 0.2012988, -0.0026962068)
 bones/16/enabled = true
 bones/16/position = Vector3(-0.102016926, 0.2012988, -0.0026962068)
-bones/16/rotation = Quaternion(0.4161247, -0.56705093, -0.55793417, -0.44045776)
+bones/16/rotation = Quaternion(0.41462457, -0.56871474, -0.5580864, -0.43953347)
 bones/16/scale = Vector3(1, 0.9999997, 1)
 bones/17/name = "RightUpperArm"
 bones/17/parent = 16
 bones/17/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.0013152182, 0.21112354, -0.013717383)
 bones/17/enabled = true
 bones/17/position = Vector3(0.0013152182, 0.21112354, -0.013717383)
-bones/17/rotation = Quaternion(-0.25782198, 0.9657106, 0.009824093, 0.02888763)
+bones/17/rotation = Quaternion(-0.2588324, 0.96536916, 0.01270032, 0.0301156)
 bones/17/scale = Vector3(0.9999999, 0.99999994, 1.0000001)
 bones/18/name = "RightLowerArm"
 bones/18/parent = 17
 bones/18/rest = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.0006579526, 0.074352376, 0.43950623)
 bones/18/enabled = true
 bones/18/position = Vector3(0.0006579526, 0.074352376, 0.43950623)
-bones/18/rotation = Quaternion(-0.05966988, 0.7406275, -0.064771436, 0.66611946)
+bones/18/rotation = Quaternion(-0.05972619, 0.73999745, -0.06472192, 0.6668189)
 bones/18/scale = Vector3(1, 1.0000002, 1)
 bones/19/name = "RightHand"
 bones/19/parent = 18
 bones/19/rest = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -0.44658422, -0.0039934823, 0.0051945895)
 bones/19/enabled = true
 bones/19/position = Vector3(-0.44658422, -0.0039934823, 0.0051945895)
-bones/19/rotation = Quaternion(-0.06407959, -0.725767, 0.17829256, 0.661338)
+bones/19/rotation = Quaternion(-0.066611394, -0.726291, 0.17507677, 0.66137177)
 bones/19/scale = Vector3(1, 0.9999998, 1.0000001)
 bones/20/name = "mixamorig_RightHandIndex1"
 bones/20/parent = 19
@@ -9676,21 +9666,21 @@ bones/24/parent = 1
 bones/24/rest = Transform3D(-1, 0, 0, 0, -1, 0, 0, 0, 1, 0.17436378, -0.077564545, -0.006878901)
 bones/24/enabled = true
 bones/24/position = Vector3(0.17436378, -0.077564545, -0.006878901)
-bones/24/rotation = Quaternion(0.13933456, 0.066668816, 0.98517084, -0.07469778)
+bones/24/rotation = Quaternion(0.13821474, 0.055274088, 0.98621655, -0.07223863)
 bones/24/scale = Vector3(1, 0.99999994, 1)
 bones/25/name = "LeftLowerLeg"
 bones/25/parent = 24
 bones/25/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -0.0056293346, 0.6460688, 0.0019094556)
 bones/25/enabled = true
 bones/25/position = Vector3(-0.0056293346, 0.6460688, 0.0019094556)
-bones/25/rotation = Quaternion(-0.038422503, 0.9898159, -0.13640183, 0.013522386)
+bones/25/rotation = Quaternion(-0.038630195, 0.99099356, -0.128046, 0.006624673)
 bones/25/scale = Vector3(1.0000001, 1.0000001, 1.0000001)
 bones/26/name = "LeftFoot"
 bones/26/parent = 25
 bones/26/rest = Transform3D(-1, 0, 0, 0, 0, -1, 0, -1, 0, -0.00065337226, 0.5118264, 0.0005618681)
 bones/26/enabled = true
 bones/26/position = Vector3(-0.00065337226, 0.5118264, 0.0005618681)
-bones/26/rotation = Quaternion(-0.043694537, 0.6819987, -0.7282164, 0.051665276)
+bones/26/rotation = Quaternion(-0.044323474, 0.68438196, -0.7258868, 0.052395135)
 bones/26/scale = Vector3(1, 0.99999994, 0.9999999)
 bones/27/name = "LeftToes"
 bones/27/parent = 26
@@ -9711,28 +9701,28 @@ bones/29/parent = 1
 bones/29/rest = Transform3D(-1, 0, 0, 0, -1, 0, 0, 0, 1, -0.17436378, -0.077564545, -0.001503438)
 bones/29/enabled = true
 bones/29/position = Vector3(-0.17436378, -0.077564545, -0.001503438)
-bones/29/rotation = Quaternion(-0.08998008, -0.05026764, 0.9941927, -0.030947812)
+bones/29/rotation = Quaternion(-0.09311709, -0.049851686, 0.9940139, -0.027935848)
 bones/29/scale = Vector3(0.99999994, 1.0000001, 1.0000002)
 bones/30/name = "RightLowerLeg"
 bones/30/parent = 29
 bones/30/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.0056293444, 0.6460688, -0.0034817515)
 bones/30/enabled = true
 bones/30/position = Vector3(0.0056293444, 0.6460688, -0.0034817515)
-bones/30/rotation = Quaternion(0.030571392, 0.99560475, -0.027361905, -0.08418944)
+bones/30/rotation = Quaternion(0.033364486, 0.9945152, -0.052729916, -0.08394086)
 bones/30/scale = Vector3(1, 0.99999994, 1)
 bones/31/name = "RightFoot"
 bones/31/parent = 30
 bones/31/rest = Transform3D(-1, 0, 0, 0, 0, -1, 0, -1, 0, 0.0006533562, 0.51182634, -0.0032615948)
 bones/31/enabled = true
 bones/31/position = Vector3(0.0006533562, 0.51182634, -0.0032615948)
-bones/31/rotation = Quaternion(0.013864034, 0.67610955, -0.7361834, -0.026790448)
+bones/31/rotation = Quaternion(0.010440835, 0.6616346, -0.7490477, -0.032533392)
 bones/31/scale = Vector3(0.99999976, 1, 0.99999994)
 bones/32/name = "RightToes"
 bones/32/parent = 31
 bones/32/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -0.00247917, 0.20521699, -0.1418358)
 bones/32/enabled = true
 bones/32/position = Vector3(-0.00247917, 0.20521699, -0.1418358)
-bones/32/rotation = Quaternion(-2.0107011e-07, 0.9980562, 0.062321506, 1.961818e-08)
+bones/32/rotation = Quaternion(-9.9183195e-09, 0.99810266, 0.061572544, 1.6299145e-08)
 bones/32/scale = Vector3(1.0000001, 1, 1)
 bones/33/name = "mixamorig_RightToe_End"
 bones/33/parent = 32
@@ -10263,7 +10253,11 @@ avoidance_priority = 0.6
 debug_enabled = true
 debug_path_custom_point_size = 10.0
 
-[node name="PlayerUi" parent="." unique_id=1418439094 instance=ExtResource("16_4scd4")]
+[node name="PlayerUi" parent="." unique_id=1418439094 node_paths=PackedStringArray("Left_light_button", "Right_light_button", "Left_door_button", "Right_door_button") instance=ExtResource("16_4scd4")]
+Left_light_button = NodePath("../Map/Buttons/LightButtonLeft")
+Right_light_button = NodePath("../Map/Buttons/LightButtonRight")
+Left_door_button = NodePath("../Map/Buttons/DoorButtonLeft")
+Right_door_button = NodePath("../Map/Buttons/DoorButtonRight")
 
 [node name="CameraManager" parent="." unique_id=554643071 node_paths=PackedStringArray("map_light", "selected_cam", "wire1", "wire2", "wire3", "wire4") instance=ExtResource("17_kkm1h")]
 map_light = NodePath("../Map/Celling/Lights")
@@ -10303,7 +10297,7 @@ script = ExtResource("19_5xxkr")
 libraries/ = SubResource("AnimationLibrary_oewrs")
 
 [node name="CAM0" type="Camera3D" parent="CameraManager" unique_id=1003935292]
-transform = Transform3D(0.747798, 0.12782046, -0.6515058, 1.4422939e-08, 0.981291, 0.19252239, 0.6639262, -0.14396766, 0.7338087, -2.8625, 3.20413, -31.0414)
+transform = Transform3D(0.747798, 0.12782046, -0.6515058, 1.4422938e-08, 0.981291, 0.19252238, 0.6639262, -0.14396766, 0.7338087, -2.8625, 3.20413, -31.0414)
 fov = 40.0
 far = 10.0
 script = ExtResource("19_5xxkr")
@@ -10453,7 +10447,7 @@ light_color = Color(0, 9.62615e-08, 0.423247, 1)
 omni_range = 4.7
 omni_attenuation = 1.2
 
-[node name="Leftlight" type="SpotLight3D" parent="Map/Celling/Lights" unique_id=2129099914]
+[node name="Leftlight" type="SpotLight3D" parent="Map/Celling/Lights" unique_id=2129099914 node_paths=PackedStringArray("light_button")]
 transform = Transform3D(0.2518217, 0.6499506, 0.71704257, -0.87011766, -0.17228852, 0.46174878, 0.4236521, -0.74018973, 0.5221475, -3.2446117, 3.001, 0.427)
 visible = false
 light_color = Color(0.8560673, 0.8560673, 0.85606724, 1)
@@ -10461,16 +10455,18 @@ shadow_enabled = true
 shadow_opacity = 0.55
 spot_range = 7.1760345
 script = ExtResource("9_ir75i")
+light_button = NodePath("../../../Buttons/LightButtonLeft")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Map/Celling/Lights/Leftlight" unique_id=1714127547]
 libraries/ = SubResource("AnimationLibrary_q422n")
 
-[node name="RightLight" type="SpotLight3D" parent="Map/Celling/Lights" unique_id=226547238]
+[node name="RightLight" type="SpotLight3D" parent="Map/Celling/Lights" unique_id=226547238 node_paths=PackedStringArray("light_button")]
 transform = Transform3D(-0.48042506, 0.50550854, -0.7166957, -0.8701179, -0.172288, 0.46174854, 0.109939784, 0.8454453, 0.5226235, 3.245, 3.001, 0.427)
 shadow_enabled = true
 shadow_opacity = 0.5
 spot_range = 7.176
 script = ExtResource("9_ir75i")
+light_button = NodePath("../../../Buttons/LightButtonRight")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Map/Celling/Lights/RightLight" unique_id=1265815860]
 libraries/ = SubResource("AnimationLibrary_q422n")
@@ -10746,11 +10742,13 @@ spot_angle = 39.1671
 [node name="Doors" type="Node3D" parent="Map" unique_id=546545053]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7328505, 0.106313)
 
-[node name="DoorLeft" parent="Map/Doors" unique_id=844720662 instance=ExtResource("6_efpsq")]
+[node name="DoorLeft" parent="Map/Doors" unique_id=844720662 node_paths=PackedStringArray("door_button") instance=ExtResource("6_efpsq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 4.5, 0)
+door_button = NodePath("../../Buttons/DoorButtonLeft")
 
-[node name="DoorRight" parent="Map/Doors" unique_id=413555622 instance=ExtResource("6_efpsq")]
+[node name="DoorRight" parent="Map/Doors" unique_id=413555622 node_paths=PackedStringArray("door_button") instance=ExtResource("6_efpsq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 4.5, 0)
+door_button = NodePath("../../Buttons/DoorButtonRight")
 
 [node name="Buttons" type="Node3D" parent="Map" unique_id=1325993784]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0951264, 0.290141)
@@ -11508,7 +11506,3 @@ stream = ExtResource("71_kssgd")
 
 [connection signal="finished" from="animatronics/RD2/RD/Music" to="animatronics/RD2" method="_on_music_finished"]
 [connection signal="animation_finished" from="animatronics/RD2/RD/AnimationTree" to="animatronics/RD2" method="_on_animation_tree_animation_finished"]
-[connection signal="Door_button_press" from="Map/Buttons/DoorButtonLeft" to="Map/Doors/DoorLeft" method="_on_door_button_left_door_button_press"]
-[connection signal="Light_button_press" from="Map/Buttons/LightButtonLeft" to="Map/Celling/Lights/Leftlight" method="_on_light_button_left_light_button_press"]
-[connection signal="Door_button_press" from="Map/Buttons/DoorButtonRight" to="Map/Doors/DoorRight" method="_on_door_button_right_door_button_press"]
-[connection signal="Light_button_press" from="Map/Buttons/LightButtonRight" to="Map/Celling/Lights/RightLight" method="_on_light_button_right_light_button_press"]

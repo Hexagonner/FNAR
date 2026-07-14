@@ -78,22 +78,23 @@ func _on_new_pressed() -> void:
 		skip_label.visible =true
 		await _wait_tween_or_skip(tween1)
 	if not _skip_triggered:
-		await _wait_seconds_or_skip(7.0)
+		await _wait_seconds_or_skip(1.0)
 	# 뉴스 2차 애니메이션 (병렬 실행)
 	if not _skip_triggered:
-		var tween2: Tween = create_tween()
+		var tween2: Tween = create_tween().set_loops()
 		tween2.stop()
-		tween2.set_parallel(true)
-		tween2.tween_property(skip_label,"modulate:a",0,2)
-		tween2.tween_property(news, "position:y", 400.0, 2.0).from(500.0).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
-		tween2.tween_property(news, "rotation_degrees", 7.5, 2.0).from(5.0).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
-		tween2.tween_property(news, "scale", Vector2(0.85, 0.85), 1.0).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
-		tween2.tween_property(news, "self_modulate:a", 0.0, 1).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+		#tween2.set_parallel(true)
+		tween2.tween_property(skip_label,"modulate:a",0,1)
+		tween2.tween_property(skip_label,"modulate:a",1,1)
+		#tween2.tween_property(news, "position:y", 400.0, 2.0).from(500.0).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+		#tween2.tween_property(news, "rotation_degrees", 7.5, 2.0).from(5.0).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+		#tween2.tween_property(news, "scale", Vector2(0.85, 0.85), 1.0).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+		#tween2.tween_property(news, "self_modulate:a", 0.0, 1).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 		tween2.play()
 		await _wait_tween_or_skip(tween2)
 	
-	if not _skip_triggered:
-		await _wait_seconds_or_skip(0.5)
+	#if not _skip_triggered:
+		#await _wait_seconds_or_skip(0.5)
 	
 	_can_skip = false
 	_skip_triggered = false

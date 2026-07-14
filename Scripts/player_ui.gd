@@ -1,5 +1,9 @@
 extends Control
 
+@export var Left_light_button:Node
+@export var Right_light_button:Node
+@export var Left_door_button:Node
+@export var Right_door_button:Node
 
 @onready var battery_usage = 1
 @onready var Left_door_using = false
@@ -22,37 +26,47 @@ signal battery_over
 	#Left_light_using = false
 	#Right_light_using = false
 
-
+func _ready() -> void:
+	Left_door_button.Door_button_press.connect(_left_door_button_press)
+	Left_light_button.Light_button_press.connect(_left_light_button_press)
+	Right_door_button.Door_button_press.connect(_left_door_button_press)
+	Right_light_button.Light_button_press.connect(_left_light_button_press)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 @warning_ignore("unused_parameter")
 
 func battery_usage_change(is_using) -> void:
+	
 	if is_using:
+		print("bat change + ")
 		battery_usage +=1
 	else:
 		battery_usage -=1
-	emit_signal("battery_usage_change_signal", clamp(battery_usage, 1,4))
+		print("bat change - ")
+	clamp(battery_usage, 1,4)
+	emit_signal("battery_usage_change_signal", battery_usage)
 	
 #region 버튼 배터리 사용 시그널 블럭 and Cam_on button signal
 
-func _on_door_button_left_door_button_press() -> void:
-	Left_door_using = !Left_door_using
-	battery_usage_change(Left_door_using)
+func _left_door_button_press(is_press) -> void:
+	#Left_door_using = !Left_door_using
+	battery_usage_change(is_press)
 
 
-func _on_light_button_left_light_button_press() -> void:
-	Left_light_using = !Left_light_using
-	battery_usage_change(Left_light_using)
+func _left_light_button_press(is_press) -> void:
+	#Left_light_using = !Left_light_using
+	#print(Left_light_button.pressed)
+	battery_usage_change(is_press)
 
 
-func _on_door_button_right_door_button_press() -> void:
-	Right_door_using = !Right_door_using
-	battery_usage_change(Right_door_using)
+func _right_door_button_press(is_press) -> void:
+	#Right_door_using = !Right_door_using
+	#print(Left_light_button.pressed)
+	battery_usage_change(is_press)
 
 
-func _on_light_button_right_light_button_press() -> void:
-	Right_light_using = !Right_light_using
-	battery_usage_change(Right_light_using)
+func _right_light_button_press(is_press) -> void:
+	#Right_light_using = !Right_light_using
+	battery_usage_change(is_press)
 	
 
 #endregion
