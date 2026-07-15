@@ -169,7 +169,7 @@ func swap_wire_connections(wire_a_index: int, wire_b_index: int) -> void:
 		wire_a.force_connect_to_out_pin(pin_b)
 	if pin_a != null and wire_b.has_method("force_connect_to_out_pin"):
 		wire_b.force_connect_to_out_pin(pin_a)
-
+	wire_a.splash_play()
 
 ## 와이어 번호(1~4)로 해당 와이어의 연결을 강제로 끊는다.
 # #			wire1: ["cam1", "cam2", "cam5"],
@@ -187,7 +187,7 @@ func disconnect_wire(wire_index: int) -> void:
 		return
 	if target.has_method("reset_to_home"):
 		target.reset_to_home()
-
+		target.splash_play()
 func _setup_wire_cam_bridge() -> void:
 	# wire → 담당 cam 목록 매핑 (기본 할당)
 	_wire_cam_map = {

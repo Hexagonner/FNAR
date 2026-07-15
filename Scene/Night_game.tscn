@@ -9504,43 +9504,43 @@ bones/1/name = "Hips"
 bones/1/parent = 0
 bones/1/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.357829e-09, 1.3925887, 0.0051944274)
 bones/1/enabled = true
-bones/1/position = Vector3(-0.0013861895, 1.3807309, 0.010009817)
-bones/1/rotation = Quaternion(-0.0355296, -0.045401417, -0.02426229, 0.998042)
+bones/1/position = Vector3(-0.003995395, 1.3810194, 0.013988937)
+bones/1/rotation = Quaternion(-0.03744858, -0.0420106, -0.02212132, 0.99817)
 bones/1/scale = Vector3(1, 1, 1)
 bones/2/name = "Spine"
 bones/2/parent = 1
 bones/2/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13910247, -0.0013590595)
 bones/2/enabled = true
 bones/2/position = Vector3(0, 0.13910247, -0.0013590595)
-bones/2/rotation = Quaternion(0.03711239, 0.016504703, 0.023863804, 0.99888986)
+bones/2/rotation = Quaternion(0.029585522, 0.015548041, 0.022666039, 0.99918437)
 bones/2/scale = Vector3(1, 1.0000001, 1.0000002)
 bones/3/name = "Chest"
 bones/3/parent = 2
 bones/3/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.684342e-16, 0.16228609, -0.001585568)
 bones/3/enabled = true
 bones/3/position = Vector3(-5.684342e-16, 0.16228609, -0.001585568)
-bones/3/rotation = Quaternion(0.012084549, 0.004204171, 0.01467593, 0.99981046)
+bones/3/rotation = Quaternion(0.009416632, 0.0038795874, 0.014227911, 0.999847)
 bones/3/scale = Vector3(0.99999994, 1, 1.0000001)
 bones/4/name = "UpperChest"
 bones/4/parent = 3
 bones/4/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.684342e-16, 0.18546996, -0.0018120812)
 bones/4/enabled = true
 bones/4/position = Vector3(-5.684342e-16, 0.18546996, -0.0018120812)
-bones/4/rotation = Quaternion(0.01186448, 0.004402092, 0.014683988, 0.9998121)
+bones/4/rotation = Quaternion(0.009789232, 0.004148213, 0.014452753, 0.9998391)
 bones/4/scale = Vector3(0.99999994, 0.99999994, 1)
 bones/5/name = "Neck"
 bones/5/parent = 4
 bones/5/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.684342e-16, 0.20865358, -0.002038591)
 bones/5/enabled = true
 bones/5/position = Vector3(-5.684342e-16, 0.20865358, -0.002038591)
-bones/5/rotation = Quaternion(0.054612514, -0.0021680365, 0.0036236227, 0.99849874)
+bones/5/rotation = Quaternion(0.049514033, -0.0022918337, 0.005138818, 0.99875766)
 bones/5/scale = Vector3(1, 1.0000001, 1.0000001)
 bones/6/name = "Head"
 bones/6/parent = 5
 bones/6/rest = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.078572534, -0.0010998739)
 bones/6/enabled = true
 bones/6/position = Vector3(0, 0.078572534, -0.0010998739)
-bones/6/rotation = Quaternion(-0.07384594, 0.0067088436, 0.0007137989, 0.9972469)
+bones/6/rotation = Quaternion(-0.069752105, 0.008220789, -0.0008531213, 0.9975302)
 bones/6/scale = Vector3(1, 0.99999994, 1)
 bones/7/name = "mixamorig_HeadTop_End"
 bones/7/parent = 6
@@ -9554,28 +9554,28 @@ bones/8/parent = 4
 bones/8/rest = Transform3D(0, 1, 0, 0, 0, 1, 1, 0, 0, 0.10201691, 0.20129879, -0.0014371156)
 bones/8/enabled = true
 bones/8/position = Vector3(0.10201691, 0.20129879, -0.0014371156)
-bones/8/rotation = Quaternion(0.39549166, 0.58961844, 0.5544383, -0.43420598)
+bones/8/rotation = Quaternion(0.39621598, 0.58843446, 0.54783374, -0.4434367)
 bones/8/scale = Vector3(0.99999994, 0.9999998, 0.99999976)
 bones/9/name = "LeftUpperArm"
 bones/9/parent = 8
 bones/9/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.0012029408, 0.2111235, -0.013717312)
 bones/9/enabled = true
 bones/9/position = Vector3(0.0012029408, 0.2111235, -0.013717312)
-bones/9/rotation = Quaternion(0.17739354, 0.9820951, -0.060365222, 0.019413795)
+bones/9/rotation = Quaternion(0.17635602, 0.98176944, -0.06936446, 0.014696312)
 bones/9/scale = Vector3(0.9999998, 0.99999976, 1)
 bones/10/name = "LeftLowerArm"
 bones/10/parent = 9
 bones/10/rest = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0.0019872542, 0.07435267, 0.43950602)
 bones/10/enabled = true
 bones/10/position = Vector3(0.0019872542, 0.07435267, 0.43950602)
-bones/10/rotation = Quaternion(-0.06172106, -0.71140975, 0.062931836, 0.69722766)
+bones/10/rotation = Quaternion(-0.061743457, -0.7111349, 0.06291024, 0.69750786)
 bones/10/scale = Vector3(0.9999999, 0.9999997, 0.9999999)
 bones/11/name = "LeftHand"
 bones/11/parent = 10
 bones/11/rest = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.44658387, -0.0039933524, 0.0013970615)
 bones/11/enabled = true
 bones/11/position = Vector3(0.44658387, -0.0039933524, 0.0013970615)
-bones/11/rotation = Quaternion(-0.16315752, 0.65115887, -0.24718167, 0.69876534)
+bones/11/rotation = Quaternion(-0.1513932, 0.65737814, -0.24779245, 0.6953655)
 bones/11/scale = Vector3(1.0000001, 1.0000001, 0.9999999)
 bones/12/name = "mixamorig_LeftHandIndex1"
 bones/12/parent = 11
@@ -9610,28 +9610,28 @@ bones/16/parent = 4
 bones/16/rest = Transform3D(0, -1, 0, 0, 0, 1, -1, 0, 0, -0.102016926, 0.2012988, -0.0026962068)
 bones/16/enabled = true
 bones/16/position = Vector3(-0.102016926, 0.2012988, -0.0026962068)
-bones/16/rotation = Quaternion(0.4127286, -0.5709098, -0.55967313, -0.43644387)
+bones/16/rotation = Quaternion(0.41454622, -0.5688069, -0.5581867, -0.4393608)
 bones/16/scale = Vector3(1, 0.9999997, 1)
 bones/17/name = "RightUpperArm"
 bones/17/parent = 16
 bones/17/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.0013152182, 0.21112354, -0.013717383)
 bones/17/enabled = true
 bones/17/position = Vector3(0.0013152182, 0.21112354, -0.013717383)
-bones/17/rotation = Quaternion(-0.25521198, 0.96635187, 0.011509974, 0.029973434)
+bones/17/rotation = Quaternion(-0.25867462, 0.9654064, 0.012555867, 0.030335128)
 bones/17/scale = Vector3(0.9999999, 0.99999994, 1.0000001)
 bones/18/name = "RightLowerArm"
 bones/18/parent = 17
 bones/18/rest = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.0006579526, 0.074352376, 0.43950623)
 bones/18/enabled = true
 bones/18/position = Vector3(0.0006579526, 0.074352376, 0.43950623)
-bones/18/rotation = Quaternion(-0.05964836, 0.7408688, -0.06479035, 0.66585124)
+bones/18/rotation = Quaternion(-0.05972565, 0.74000376, -0.06472241, 0.6668121)
 bones/18/scale = Vector3(1, 1.0000002, 1)
 bones/19/name = "RightHand"
 bones/19/parent = 18
 bones/19/rest = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -0.44658422, -0.0039934823, 0.0051945895)
 bones/19/enabled = true
 bones/19/position = Vector3(-0.44658422, -0.0039934823, 0.0051945895)
-bones/19/rotation = Quaternion(-0.068431064, -0.72625315, 0.17457116, 0.6613612)
+bones/19/rotation = Quaternion(-0.066655315, -0.7262651, 0.17523535, 0.6613538)
 bones/19/scale = Vector3(1, 0.9999998, 1.0000001)
 bones/20/name = "mixamorig_RightHandIndex1"
 bones/20/parent = 19
@@ -9666,21 +9666,21 @@ bones/24/parent = 1
 bones/24/rest = Transform3D(-1, 0, 0, 0, -1, 0, 0, 0, 1, 0.17436378, -0.077564545, -0.006878901)
 bones/24/enabled = true
 bones/24/position = Vector3(0.17436378, -0.077564545, -0.006878901)
-bones/24/rotation = Quaternion(0.14049524, 0.06058777, 0.9854576, -0.07391598)
+bones/24/rotation = Quaternion(0.13834177, 0.055243522, 0.98619145, -0.0723622)
 bones/24/scale = Vector3(1, 0.99999994, 1)
 bones/25/name = "LeftLowerLeg"
 bones/25/parent = 24
 bones/25/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -0.0056293346, 0.6460688, 0.0019094556)
 bones/25/enabled = true
 bones/25/position = Vector3(-0.0056293346, 0.6460688, 0.0019094556)
-bones/25/rotation = Quaternion(-0.038809203, 0.99028295, -0.13335684, 0.0070398776)
+bones/25/rotation = Quaternion(-0.03860701, 0.9909475, -0.128421, 0.006374517)
 bones/25/scale = Vector3(1.0000001, 1.0000001, 1.0000001)
 bones/26/name = "LeftFoot"
 bones/26/parent = 25
 bones/26/rest = Transform3D(-1, 0, 0, 0, 0, -1, 0, -1, 0, -0.00065337226, 0.5118264, 0.0005618681)
 bones/26/enabled = true
 bones/26/position = Vector3(-0.00065337226, 0.5118264, 0.0005618681)
-bones/26/rotation = Quaternion(-0.0440058, 0.6825433, -0.7276522, 0.052159738)
+bones/26/rotation = Quaternion(-0.044323184, 0.68422097, -0.7260378, 0.05240551)
 bones/26/scale = Vector3(1, 0.99999994, 0.9999999)
 bones/27/name = "LeftToes"
 bones/27/parent = 26
@@ -9701,28 +9701,28 @@ bones/29/parent = 1
 bones/29/rest = Transform3D(-1, 0, 0, 0, -1, 0, 0, 0, 1, -0.17436378, -0.077564545, -0.001503438)
 bones/29/enabled = true
 bones/29/position = Vector3(-0.17436378, -0.077564545, -0.001503438)
-bones/29/rotation = Quaternion(-0.09206398, -0.04568759, 0.9942681, -0.029458582)
+bones/29/rotation = Quaternion(-0.09316643, -0.049984083, 0.99400127, -0.027983509)
 bones/29/scale = Vector3(0.99999994, 1.0000001, 1.0000002)
 bones/30/name = "RightLowerLeg"
 bones/30/parent = 29
 bones/30/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0.0056293444, 0.6460688, -0.0034817515)
 bones/30/enabled = true
 bones/30/position = Vector3(0.0056293444, 0.6460688, -0.0034817515)
-bones/30/rotation = Quaternion(0.033346463, 0.99450874, -0.05312214, -0.083775766)
+bones/30/rotation = Quaternion(0.033384565, 0.9945067, -0.05287226, -0.083943404)
 bones/30/scale = Vector3(1, 0.99999994, 1)
 bones/31/name = "RightFoot"
 bones/31/parent = 30
 bones/31/rest = Transform3D(-1, 0, 0, 0, 0, -1, 0, -1, 0, 0.0006533562, 0.51182634, -0.0032615948)
 bones/31/enabled = true
 bones/31/position = Vector3(0.0006533562, 0.51182634, -0.0032615948)
-bones/31/rotation = Quaternion(0.012402945, 0.6635286, -0.7474356, -0.030263316)
+bones/31/rotation = Quaternion(0.010401004, 0.66147995, -0.7491827, -0.032578483)
 bones/31/scale = Vector3(0.99999976, 1, 0.99999994)
 bones/32/name = "RightToes"
 bones/32/parent = 31
 bones/32/rest = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -0.00247917, 0.20521699, -0.1418358)
 bones/32/enabled = true
 bones/32/position = Vector3(-0.00247917, 0.20521699, -0.1418358)
-bones/32/rotation = Quaternion(3.908165e-08, 0.9980357, 0.062648475, 1.5815997e-08)
+bones/32/rotation = Quaternion(-1.1798759e-08, 0.99810225, 0.06157991, 1.6331796e-08)
 bones/32/scale = Vector3(1.0000001, 1, 1)
 bones/33/name = "mixamorig_RightToe_End"
 bones/33/parent = 32
@@ -10343,10 +10343,11 @@ color = Color(0, 0, 0, 1)
 script = SubResource("GDScript_qbdri")
 metadata/_edit_use_anchors_ = true
 
-[node name="Map" type="Node3D" parent="." unique_id=55443137 node_paths=PackedStringArray("furniture", "office_light")]
+[node name="Map" type="Node3D" parent="." unique_id=55443137 node_paths=PackedStringArray("furniture", "office_light", "back_light")]
 script = ExtResource("6_dkjqe")
 furniture = NodePath("NavigationRegion3D/Funiture")
 office_light = NodePath("Celling/Lights/OfficeLight")
+back_light = NodePath("NavigationRegion3D/Funiture/electricBox/backlight")
 
 [node name="Celling" type="MeshInstance3D" parent="Map" unique_id=634821720]
 transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, -0.113, 3.41, -13.126)
@@ -10477,6 +10478,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.572, 2.612, -5.817)
 [node name="Lightblub" parent="Map/Celling/Lights/CAM5" unique_id=821368590 instance=ExtResource("11_lk5v7")]
 metadata/_edit_lock_ = true
 
+[node name="ambient_light" type="OmniLight3D" parent="Map/Celling/Lights/CAM5" unique_id=209203910]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.0969157, -1.984576)
+light_color = Color(0, 9.62615e-08, 0.423247, 1)
+omni_range = 4.7
+omni_attenuation = 1.2
+
 [node name="CAM+" type="Node3D" parent="Map/Celling/Lights" unique_id=258500818]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.319, 3, -29.5)
 
@@ -10520,25 +10527,38 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00762367, -0.68143, -4.5638
 light_color = Color(0.152941, 0.156863, 0.513726, 1)
 omni_attenuation = -0.06
 
+[node name="ambient_light" type="OmniLight3D" parent="Map/Celling/Lights/CAM0" unique_id=763949567]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0338855, -0.8473933, -4.5873833)
+light_color = Color(0, 9.62615e-08, 0.423247, 1)
+omni_range = 4.7
+omni_attenuation = 1.2
+
 [node name="CAM1" type="Node3D" parent="Map/Celling/Lights" unique_id=783573921]
+
+[node name="ambient_light" type="OmniLight3D" parent="Map/Celling/Lights/CAM1" unique_id=12741458]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.11492, 1.9208686, 4.2743726)
+light_color = Color(0, 9.62615e-08, 0.423247, 1)
+omni_range = 2.5
+omni_attenuation = 1.2
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Map/Celling/Lights/CAM1" unique_id=198131356]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -5.11492, 3.0942929, 4.460189)
+light_energy = 2.0
+shadow_enabled = true
+shadow_opacity = 0.7
+spot_range = 5.7
+spot_angle = 40.0
+
+[node name="OfficeLight" type="MeshInstance3D" parent="Map/Celling/Lights/CAM1" unique_id=1621613495]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.11492, 3.2039099, 4.460189)
+mesh = SubResource("SphereMesh_fv5ji")
+skeleton = NodePath("../LeftHall2")
 
 [node name="LeftHall2" type="OmniLight3D" parent="Map/Celling/Lights/CAM1" unique_id=347053574]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.11492, 2.01542, 4.98973)
 light_color = Color(0.152941, 0.156863, 0.513726, 1)
 shadow_enabled = true
 shadow_opacity = 0.7
-
-[node name="OfficeLight" type="MeshInstance3D" parent="Map/Celling/Lights/CAM1/LeftHall2" unique_id=1621613495]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18849, -0.529541)
-mesh = SubResource("SphereMesh_fv5ji")
-
-[node name="SpotLight3D" type="SpotLight3D" parent="Map/Celling/Lights/CAM1/LeftHall2/OfficeLight" unique_id=198131356]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.109617, 0)
-light_energy = 2.0
-shadow_enabled = true
-shadow_opacity = 0.7
-spot_range = 5.7
-spot_angle = 40.0
 
 [node name="CAM2" type="Node3D" parent="Map/Celling/Lights" unique_id=779616698]
 
@@ -10570,19 +10590,26 @@ shadow_opacity = 0.7
 spot_range = 8.0
 spot_angle = 43.3211
 
+[node name="ambient_light" type="OmniLight3D" parent="Map/Celling/Lights/CAM2" unique_id=693815883]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.876564, 2.442372, -7.69432)
+light_color = Color(0, 9.62615e-08, 0.423247, 1)
+omni_range = 4.7
+omni_attenuation = 1.2
+
 [node name="CAM3" type="Node3D" parent="Map/Celling/Lights" unique_id=1274736381]
 
-[node name="RightHall2" type="OmniLight3D" parent="Map/Celling/Lights/CAM3" unique_id=287951962]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.88508, 2.01542, 4.98973)
-light_color = Color(0.152941, 0.156863, 0.513726, 1)
-shadow_enabled = true
-shadow_opacity = 0.7
+[node name="ambient_light" type="OmniLight3D" parent="Map/Celling/Lights/CAM3" unique_id=916585573]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6896563, 1.4199557, 3.6296265)
+light_color = Color(0, 9.62615e-08, 0.423247, 1)
+omni_range = 2.7
+omni_attenuation = 1.2
 
-[node name="OfficeLight" type="MeshInstance3D" parent="Map/Celling/Lights/CAM3/RightHall2" unique_id=1141086452]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.18849, -0.529541)
+[node name="OfficeLight" type="MeshInstance3D" parent="Map/Celling/Lights/CAM3" unique_id=1141086452]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.88508, 3.2039099, 4.460189)
 mesh = SubResource("SphereMesh_fv5ji")
+skeleton = NodePath("../RightHall2")
 
-[node name="SpotLight3D" type="SpotLight3D" parent="Map/Celling/Lights/CAM3/RightHall2/OfficeLight" unique_id=1587046284]
+[node name="SpotLight3D" type="SpotLight3D" parent="Map/Celling/Lights/CAM3/OfficeLight" unique_id=1587046284]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 light_energy = 2.0
 shadow_enabled = true
@@ -10590,7 +10617,19 @@ shadow_opacity = 0.7
 spot_range = 5.7
 spot_angle = 40.0
 
+[node name="RightHall2" type="OmniLight3D" parent="Map/Celling/Lights/CAM3" unique_id=287951962]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.88508, 2.01542, 4.98973)
+light_color = Color(0.152941, 0.156863, 0.513726, 1)
+shadow_enabled = true
+shadow_opacity = 0.7
+
 [node name="CAM4" type="Node3D" parent="Map/Celling/Lights" unique_id=405747750]
+
+[node name="ambient_light" type="OmniLight3D" parent="Map/Celling/Lights/CAM4" unique_id=2001462579]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.123436, 2.0362897, -7.5668077)
+light_color = Color(0, 9.62615e-08, 0.423247, 1)
+omni_range = 4.7
+omni_attenuation = 1.2
 
 [node name="RightHallway" type="MeshInstance3D" parent="Map/Celling/Lights/CAM4" unique_id=556406327]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.07736, 3.2025, -8.511805)
@@ -10622,6 +10661,12 @@ spot_angle = 43.3211
 
 [node name="CAM6" type="Node3D" parent="Map/Celling/Lights" unique_id=1720503911]
 
+[node name="ambient_light" type="OmniLight3D" parent="Map/Celling/Lights/CAM6" unique_id=1567167631]
+transform = Transform3D(0.0880925, -0.31332755, 0.94555044, -0.06147169, 0.94572157, 0.3191113, -0.99421376, -0.08623589, 0.064050205, -12.7434225, 1.2099926, -16.756218)
+light_color = Color(0, 9.62615e-08, 0.423247, 1)
+omni_range = 4.7
+omni_attenuation = 1.2
+
 [node name="Pirate" type="SpotLight3D" parent="Map/Celling/Lights/CAM6" unique_id=1441231051]
 transform = Transform3D(0.08809249, -0.31332755, 0.94555044, -0.061471686, 0.94572157, 0.3191114, -0.9942137, -0.08623589, 0.064050175, -11.2106, 2.88067, -16.7237)
 shadow_enabled = true
@@ -10642,6 +10687,12 @@ omni_attenuation = 2.0
 [node name="CAM-" type="Node3D" parent="Map/Celling/Lights" unique_id=1500915495]
 
 [node name="CAM7" type="Node3D" parent="Map/Celling/Lights" unique_id=1516859392]
+
+[node name="ambient_light" type="OmniLight3D" parent="Map/Celling/Lights/CAM7" unique_id=1718948170]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.101803, 1.8724256, -26.080667)
+light_color = Color(0, 9.62615e-08, 0.423247, 1)
+light_energy = 1.1
+omni_range = 7.0
 
 [node name="Backstage" type="OmniLight3D" parent="Map/Celling/Lights/CAM7" unique_id=559759742]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.6149, 1.8094492, -26.541285)
@@ -10670,6 +10721,12 @@ spot_angle = 51.28
 
 [node name="CAM8" type="Node3D" parent="Map/Celling/Lights" unique_id=1905560141]
 
+[node name="ambient_light" type="OmniLight3D" parent="Map/Celling/Lights/CAM8" unique_id=1366352024]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1784866, 1.3436134, -22.337471)
+light_color = Color(0, 9.62615e-08, 0.423247, 1)
+omni_range = 30.0
+omni_attenuation = 1.2
+
 [node name="Dinning_room" type="Node3D" parent="Map/Celling/Lights/CAM8" unique_id=880584213]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.657683, 3.2025, -22.9169)
 
@@ -10682,7 +10739,7 @@ shadow_opacity = 0.7
 distance_fade_enabled = true
 spot_range = 30.0
 spot_attenuation = 1.5
-spot_angle = 60.0
+spot_angle = 80.0
 spot_angle_attenuation = 0.63728034
 
 [node name="ambient_light" type="OmniLight3D" parent="Map/Celling/Lights/CAM8/Dinning_room" unique_id=903949252]
@@ -10717,6 +10774,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.128429, 4.5)
 mesh = SubResource("SphereMesh_a1isg")
 
 [node name="CAM9" type="Node3D" parent="Map/Celling/Lights" unique_id=1604716590]
+
+[node name="ambient_light" type="OmniLight3D" parent="Map/Celling/Lights/CAM9" unique_id=1971272896]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.8851, 1.4968526, -19.621319)
+light_color = Color(0, 9.62615e-08, 0.423247, 1)
+omni_range = 20.0
+omni_attenuation = 1.2
 
 [node name="Toilet" type="OmniLight3D" parent="Map/Celling/Lights/CAM9" unique_id=1732834055]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.8851, 2.01542, -19.45046)
@@ -10889,7 +10952,7 @@ metadata/_edit_lock_ = true
 [node name="electricBox" type="Node3D" parent="Map/NavigationRegion3D/Funiture" unique_id=929753890]
 
 [node name="electric_box" parent="Map/NavigationRegion3D/Funiture/electricBox" unique_id=1203521697 instance=ExtResource("32_s2hvn")]
-transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 1.5740304, 6.1654205)
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0.0026061535, 1.5740304, 5.833863)
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Map/NavigationRegion3D/Funiture/electricBox" unique_id=249726440]
 transform = Transform3D(-0.99682474, 0.07962688, -8.714519e-08, 0.07962688, 0.99682474, 6.961203e-09, 8.742278e-08, 0, -1, 1.7258705, 2.2707763, 6.1285596)

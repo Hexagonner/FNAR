@@ -13,7 +13,8 @@ var snap_threshold: float = 0.15
 @export var auto_connect_on_start: bool = true
 @export var fixed_in_index: int = 0 
 @export var target_out_index: int = 0 
-
+@export var sparkSound:AudioStreamPlayer3D 
+@export var sparkAni:AnimationPlayer
 @onready var spark:GPUParticles3D = get_node("pin1/spark")
 var spark_original_transform: Transform3D
 static var current_dragging_wire: Node3D = null
@@ -38,6 +39,7 @@ var base_priority: int = 0
 var local_conn_mat: Material
 var local_disconn_mat: Material
 var has_played_snap_sound: bool = false
+var has_played_spark_sound:bool = false
 var door_area: Area3D = null
 var last_valid_mouse_pos: Vector3 = Vector3.ZERO
 var electric_box: CSGBox3D = null
@@ -195,6 +197,10 @@ func _process(_delta: float) -> void:
 		var mouse_3d = get_mouse_3d_position()
 		var closest = get_closest_out_pin(mouse_3d)
 		var t_pos: Vector3 = mouse_3d
+		if !has_played_spark_sound and !sparkSound.playing and !closest:
+			has_played_spark_sound = true
+			sparkSound.play()
+			#sparkAni.play("white_splash")
 		if closest:
 			var mid: Vector3 = (fixed_in_pin.global_position + closest.global_position) * 0.5
 			var wire_half: float = fixed_in_pin.global_position.distance_to(closest.global_position) * 0.5
@@ -205,6 +211,9 @@ func _process(_delta: float) -> void:
 			if !has_played_snap_sound and !sound.playing:
 				sound.play()
 				has_played_snap_sound = true
+				#sparkAni.play("white_splash")
+			if has_played_spark_sound:
+				has_played_spark_sound = false
 			update_material_and_priority(true, 127, float(top_sort_index + 1000))
 		else:
 			has_played_snap_sound = false
@@ -276,7 +285,8 @@ func reset_to_home():
 	# spark 원위치 복구
 	spark.transform = spark_original_transform
 	spark.emitting = false
-
+	if !sparkSound.playing:
+		sparkSound.play()
 func get_closest_out_pin(pos: Vector3) -> Marker3D:
 	var closest: Marker3D = null
 	var min_dist: float = snap_threshold
@@ -297,7 +307,7 @@ func update_material_and_priority(connected: bool, mat_priority: int, sort_offse
 		target_mat = local_conn_mat
 	if target_mat:
 		rubber_mesh.material_override = target_mat
-		var safe_priority = clamp(mat_priority, -128, 127)
+		var safe_priority = clamp(mat_priority, -128, 126)
 		if "render_priority" in target_mat:
 			target_mat.render_priority = safe_priority
 			
@@ -429,3 +439,7 @@ func _find_wire_nodes(node: Node, array: Array):
 		array.append(node)
 	for child in node.get_children():
 		_find_wire_nodes(child, array)
+
+func splash_play():
+	if !sparkAni.is_playing():
+		sparkAni.play("white_splash")

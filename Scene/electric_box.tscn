@@ -13,6 +13,11 @@
 [ext_resource type="Script" uid="uid://vhfkycap4adj" path="res://Scripts/wire.gd" id="10_t57l7"]
 [ext_resource type="Script" uid="uid://dyn2gynyj15wh" path="res://Scene/wirepin.gd" id="11_fojde"]
 [ext_resource type="AudioStream" uid="uid://bwo23v3d3ynxl" path="res://Sounds/pantoman-flashlight-click-2-487811.mp3" id="11_t57l7"]
+[ext_resource type="AudioStream" uid="uid://bpfm04g6bls6j" path="res://Sounds/Electric_shock_1.wav" id="12_xowto"]
+[ext_resource type="Script" uid="uid://c1qmtcl67xpnu" path="res://Scripts/LIGHT_button.gd" id="15_ovwaw"]
+[ext_resource type="Texture2D" uid="uid://jrq06upk0kod" path="res://Texture/white_plaster_02_diff_1k.jpg" id="16_opt7b"]
+[ext_resource type="AudioStream" uid="uid://bw68cc8nr272g" path="res://Sounds/freesound_community-clank1-91862.mp3" id="16_ynagl"]
+[ext_resource type="Texture2D" uid="uid://b8fdn1g1mpfm6" path="res://Texture/wood_floor_diff_1k.jpg" id="18_wpodp"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nrn7b"]
 load_path = "res://.godot/imported/metal_plate_rough_1k.jpg-db0ac008095c11fb5a51b2b8091c0220.s3tc.ctex"
@@ -255,7 +260,6 @@ height = 0.1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pm4ub"]
 albedo_color = Color(0, 1, 1, 1)
-albedo_texture = ExtResource("5_pm4ub")
 
 [sub_resource type="BoxMesh" id="BoxMesh_8mxu3"]
 material = SubResource("StandardMaterial3D_pm4ub")
@@ -401,49 +405,321 @@ size = Vector2(0.01, 0.05)
 material = SubResource("StandardMaterial3D_nk1lj")
 size = Vector3(0.1, 0.2, 0.1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n021q"]
+render_priority = 127
+transparency = 1
+albedo_color = Color(1, 1, 1, 0)
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 5.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_864kv"]
+material = SubResource("StandardMaterial3D_n021q")
+size = Vector3(1.3, 1.8, 0.1)
+
+[sub_resource type="Animation" id="Animation_xowto"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_fhb8y"]
+resource_name = "white_splash"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:mesh:material:albedo_color")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 3.4822056),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n33j7"]
+_data = {
+&"RESET": SubResource("Animation_xowto"),
+&"white_splash": SubResource("Animation_fhb8y")
+}
+
+[sub_resource type="Animation" id="Animation_wbirh"]
+resource_name = "Pressed"
+length = 0.36666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("lever/Node3D:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.36666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 3.1415927, 0)]
+}
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer3D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.289774,
+"start_offset": 0.036603034,
+"stream": ExtResource("16_ynagl")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/1/use_blend = true
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("lever/Node3D/Button/MeshInstance3D:mesh:material:emission_energy_multiplier")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.36666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.5, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("lever/Node3D/Button/MeshInstance3D/OmniLight3D:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.36666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.5, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_cwm7f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("lever/Node3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("lever/Node3D/Button/MeshInstance3D:mesh:material:emission_energy_multiplier")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("lever/Node3D/Button/MeshInstance3D/OmniLight3D:light_energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+
+[sub_resource type="Animation" id="Animation_wpodp"]
+resource_name = "Unpressed"
+length = 0.36666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("lever/Node3D:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.36666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 3.1415927, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "audio"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer3D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"clips": [{
+"end_offset": 0.289774,
+"start_offset": 0.036603034,
+"stream": ExtResource("16_ynagl")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/1/use_blend = true
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("lever/Node3D/Button/MeshInstance3D:mesh:material:emission_energy_multiplier")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.36666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.5]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("lever/Node3D/Button/MeshInstance3D/OmniLight3D:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.36666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p0bfy"]
+_data = {
+&"Pressed": SubResource("Animation_wbirh"),
+&"RESET": SubResource("Animation_cwm7f"),
+&"Unpressed": SubResource("Animation_wpodp")
+}
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ynagl"]
+load_path = "res://.godot/imported/DirtyMetalWeave02_1K_Roughness.png-3a65c56454670089d2a90e61dd73715c.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_syxfq"]
+albedo_color = Color(0, 1, 1, 1)
+albedo_texture = SubResource("CompressedTexture2D_ynagl")
+uv1_scale = Vector3(1, 1.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_syxfq"]
+material = SubResource("StandardMaterial3D_syxfq")
+size = Vector3(0.01, 0.55, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2eyaj"]
+albedo_color = Color(0.21806103, 0.21806103, 0.21806103, 1)
+albedo_texture = SubResource("CompressedTexture2D_ynagl")
+uv1_scale = Vector3(1, 1.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jnk0x"]
+material = SubResource("StandardMaterial3D_2eyaj")
+size = Vector3(0.01, 0.45, 0.13)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_21sxk"]
+size = Vector3(0.1, 0.4, 0.15)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mw4un"]
+albedo_color = Color(3.465414e-06, 0.7296295, 0.91746455, 1)
+albedo_texture = ExtResource("5_pm4ub")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_n021q"]
+material = SubResource("StandardMaterial3D_mw4un")
+top_radius = 0.03
+bottom_radius = 0.03
+height = 0.08
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nvu5e"]
+albedo_texture = ExtResource("16_opt7b")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4f5au"]
+albedo_texture = ExtResource("18_wpodp")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_864kv"]
+material = SubResource("StandardMaterial3D_4f5au")
+top_radius = 0.023
+bottom_radius = 0.023
+height = 0.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n2ojg"]
+albedo_color = Color(0, 1, 1, 1)
+emission_enabled = true
+emission = Color(0.11363087, 0.35038763, 1, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_c0p3b"]
+material = SubResource("StandardMaterial3D_n2ojg")
+top_radius = 0.035
+bottom_radius = 0.035
+height = 0.07
+
 [node name="electric_box" type="CSGBox3D" unique_id=1203521697]
 transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, 0, 0)
 size = Vector3(1.5, 2, 0.5)
 material = SubResource("StandardMaterial3D_56ul5")
 script = ExtResource("1_pm4ub")
+metadata/_edit_lock_ = true
 
 [node name="subbox" type="CSGBox3D" parent="." unique_id=161565717]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.31227398)
 operation = 2
-size = Vector3(1.3, 1.8, 0.3)
+size = Vector3(1.3, 1.8, 0.7)
 material = SubResource("StandardMaterial3D_ajslg")
+metadata/_edit_lock_ = true
 
 [node name="door" type="Node3D" parent="." unique_id=723100475]
 transform = Transform3D(0.99999905, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999905, -0.752825, 0, -0.19115591)
+metadata/_edit_lock_ = true
 
 [node name="Area3D" type="Area3D" parent="door" unique_id=657789172 node_paths=PackedStringArray("ani")]
 transform = Transform3D(1.0000004, 0, 0, 0, 1, 0, 0, 0, 1.0000004, 0.7528254, 0, 0.19115639)
 collision_priority = 2.0
 script = SubResource("GDScript_e4iy4")
 ani = NodePath("../AnimationPlayer")
+metadata/_edit_lock_ = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="door/Area3D" unique_id=1867233326]
 transform = Transform3D(0.99999964, 0, -1.4210855e-14, 0, 1, 0, 1.4210855e-14, 0, 0.99999964, 0, 0, -0.21906799)
 shape = SubResource("BoxShape3D_jt7io")
 debug_color = Color(0.93865144, 1.5016794e-05, 0.6206249, 1)
+metadata/_edit_lock_ = true
 
 [node name="electric_box_door" type="MeshInstance3D" parent="door" unique_id=1614609991]
 transform = Transform3D(1.0000001, 0, -1.4210856e-14, 4.2351647e-22, 1.0000001, 3.5527137e-15, 1.4210856e-14, 0, 1.0000001, 0.7528251, -2.3841858e-07, -0.02978611)
 mesh = SubResource("BoxMesh_56ul5")
 skeleton = NodePath("../..")
+metadata/_edit_lock_ = true
 
 [node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="door/electric_box_door" unique_id=1761503868]
 transform = Transform3D(0.9999997, 0, 1.42108505e-14, -4.2351625e-22, 0.9999997, -3.552712e-15, -1.42108505e-14, 0, 0.9999997, 0, 0, 0)
 size = Vector3(2, 2, 0.21118164)
+metadata/_edit_lock_ = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="door/electric_box_door" unique_id=2115131560]
 transform = Transform3D(-0.4050001, 4.470348e-08, -2.664535e-15, 0, -1.7703112e-08, -0.405, -4.470348e-08, -0.4050001, 1.7703114e-08, 0, 0.349, -0.051)
 mesh = SubResource("PlaneMesh_kssgd")
 skeleton = NodePath("../..")
+metadata/_edit_lock_ = true
 
 [node name="menual" type="MeshInstance3D" parent="door/electric_box_door" unique_id=929101189]
 transform = Transform3D(1, 0, 3.5527137e-15, 5.04871e-29, 1, 4.2351645e-22, -3.5527137e-15, 0, 1, 0, 0, 0.057987273)
 mesh = SubResource("QuadMesh_c0p3b")
+metadata/_edit_lock_ = true
 
 [node name="Label3D" type="Label3D" parent="door/electric_box_door/menual" unique_id=908507057]
 transform = Transform3D(1, 0, -3.5527137e-15, 0, 1, -2.5300602e-29, 3.5527137e-15, 0, 1, 0, 0.021947622, 0.013000011)
@@ -457,19 +733,40 @@ font = ExtResource("7_fhb8y")
 font_size = 21
 outline_size = 8
 autowrap_trim_flags = 0
+metadata/_edit_lock_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="door" unique_id=614007250]
 libraries/ = SubResource("AnimationLibrary_pyqmc")
 
 [node name="doorsound" type="AudioStreamPlayer3D" parent="." unique_id=1701181548]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.3453393)
+metadata/_edit_lock_ = true
 
-[node name="wire1" type="Node3D" parent="." unique_id=1553439898 node_paths=PackedStringArray("rubber_mesh")]
-transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, 0.74342597, -0.19545704)
+[node name="wiresound" type="AudioStreamPlayer3D" parent="." unique_id=2028406130]
+unique_name_in_owner = true
+transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0)
+stream = ExtResource("11_t57l7")
+max_distance = 10.0
+metadata/_edit_lock_ = true
+
+[node name="sparksound" type="AudioStreamPlayer3D" parent="." unique_id=734805625]
+transform = Transform3D(0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0, 0.83333325, 0, 0, 0)
+stream = ExtResource("12_xowto")
+max_distance = 10.0
+metadata/_edit_lock_ = true
+
+[node name="debugCam" type="Camera3D" parent="." unique_id=945973590]
+transform = Transform3D(-0.83333325, 0, -7.2852316e-08, 0, 0.83333325, 0, 7.2852316e-08, 0, -0.83333325, 0, 0, -2.019927)
+
+[node name="wire1" type="Node3D" parent="." unique_id=1553439898 node_paths=PackedStringArray("rubber_mesh", "sparkSound", "sparkAni")]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, 0.7434258, -0.099010035)
 script = ExtResource("10_t57l7")
 rubber_mesh = NodePath("pin1/wire")
 connected_material = SubResource("StandardMaterial3D_fojde")
 disconnected_material = SubResource("StandardMaterial3D_t57l7")
+sparkSound = NodePath("../sparksound")
+sparkAni = NodePath("../spark_light/AnimationPlayer")
+metadata/_edit_lock_ = true
 
 [node name="pin1" type="Marker3D" parent="wire1" unique_id=1015528302 groups=["pins"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0.6026783, 0, 0)
@@ -510,22 +807,17 @@ transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000002, 0, 0,
 mesh = SubResource("BoxMesh_8mxu3")
 skeleton = NodePath("../../..")
 
-[node name="wiresound" type="AudioStreamPlayer3D" parent="." unique_id=2028406130]
-unique_name_in_owner = true
-stream = ExtResource("11_t57l7")
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=945973590]
-transform = Transform3D(-0.83333325, 0, -7.2852316e-08, 0, 0.83333325, 0, 7.2852316e-08, 0, -0.83333325, 0, 0, -2.019927)
-visible = false
-
-[node name="wire2" type="Node3D" parent="." unique_id=599092315 node_paths=PackedStringArray("rubber_mesh")]
-transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, 0.43500108, -0.19545704)
+[node name="wire2" type="Node3D" parent="." unique_id=599092315 node_paths=PackedStringArray("rubber_mesh", "sparkSound", "sparkAni")]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, 0.43500108, -0.099010035)
 script = ExtResource("10_t57l7")
 rubber_mesh = NodePath("pin1/wire")
 connected_material = SubResource("StandardMaterial3D_xowto")
 disconnected_material = SubResource("StandardMaterial3D_opt7b")
 fixed_in_index = 1
 target_out_index = 1
+sparkSound = NodePath("../sparksound")
+sparkAni = NodePath("../spark_light/AnimationPlayer")
+metadata/_edit_lock_ = true
 
 [node name="pin1" type="Marker3D" parent="wire2" unique_id=1667826713 groups=["pins"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0.6026783, 0, 0)
@@ -568,14 +860,17 @@ transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000002, 0, 0,
 mesh = SubResource("BoxMesh_38du4")
 skeleton = NodePath("../../..")
 
-[node name="wire3" type="Node3D" parent="." unique_id=1670550453 node_paths=PackedStringArray("rubber_mesh")]
-transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, 0.13426809, -0.19545704)
+[node name="wire3" type="Node3D" parent="." unique_id=1670550453 node_paths=PackedStringArray("rubber_mesh", "sparkSound", "sparkAni")]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, 0.13426806, -0.099010035)
 script = ExtResource("10_t57l7")
 rubber_mesh = NodePath("pin1/wire")
 connected_material = SubResource("StandardMaterial3D_n33j7")
 disconnected_material = SubResource("StandardMaterial3D_ynagl")
 fixed_in_index = 2
 target_out_index = 2
+sparkSound = NodePath("../sparksound")
+sparkAni = NodePath("../spark_light/AnimationPlayer")
+metadata/_edit_lock_ = true
 
 [node name="pin1" type="Marker3D" parent="wire3" unique_id=1287045428 groups=["pins"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0.6026783, 0, 0)
@@ -618,14 +913,17 @@ transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000002, 0, 0,
 mesh = SubResource("BoxMesh_2eyaj")
 skeleton = NodePath("../../..")
 
-[node name="wire4" type="Node3D" parent="." unique_id=584814276 node_paths=PackedStringArray("rubber_mesh")]
-transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, -0.16674359, -0.19545704)
+[node name="wire4" type="Node3D" parent="." unique_id=584814276 node_paths=PackedStringArray("rubber_mesh", "sparkSound", "sparkAni")]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, -0.16674356, -0.099010035)
 script = ExtResource("10_t57l7")
 rubber_mesh = NodePath("pin1/wire")
 connected_material = SubResource("StandardMaterial3D_wpodp")
 disconnected_material = SubResource("StandardMaterial3D_1xnyl")
 fixed_in_index = 3
 target_out_index = 3
+sparkSound = NodePath("../sparksound")
+sparkAni = NodePath("../spark_light/AnimationPlayer")
+metadata/_edit_lock_ = true
 
 [node name="pin1" type="Marker3D" parent="wire4" unique_id=892090298 groups=["pins"]]
 transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0.6026783, 0, 0)
@@ -671,7 +969,62 @@ skeleton = NodePath("../../..")
 [node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="." unique_id=2137672645]
 transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0.14067274)
 size = Vector3(2, 2, 0.21118164)
+metadata/_edit_lock_ = true
 
 [node name="GPUParticlesCollisionBox3D2" type="GPUParticlesCollisionBox3D" parent="." unique_id=1662824738]
 transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, 0.9509884, 0.0032826383)
 size = Vector3(2, 0.09802246, 0.4859619)
+metadata/_edit_lock_ = true
+
+[node name="spark_light" type="MeshInstance3D" parent="." unique_id=1214998359]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999976, 0, 0, -0.19741143)
+mesh = SubResource("BoxMesh_864kv")
+metadata/_edit_lock_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="spark_light" unique_id=699741340]
+libraries/ = SubResource("AnimationLibrary_n33j7")
+
+[node name="LightSwitch" type="Area3D" parent="." unique_id=2083847369]
+transform = Transform3D(-4.371138e-08, 0, 0.99999976, 0, 0.99999976, 0, -0.99999976, 0, -4.371138e-08, 0.48865193, -0.6167848, 0)
+script = ExtResource("15_ovwaw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="LightSwitch" unique_id=454650059]
+libraries/ = SubResource("AnimationLibrary_p0bfy")
+
+[node name="Layer" type="MeshInstance3D" parent="LightSwitch" unique_id=1132186500]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0201941, 0, 0)
+mesh = SubResource("BoxMesh_syxfq")
+
+[node name="Layer" type="MeshInstance3D" parent="LightSwitch/Layer" unique_id=722723690]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0.0041222144, 0, 0)
+mesh = SubResource("BoxMesh_jnk0x")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LightSwitch" unique_id=1910435115]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0206827, 0, 0)
+shape = SubResource("BoxShape3D_21sxk")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="LightSwitch" unique_id=439631736]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16403, 0, 0)
+volume_db = -10.0
+max_db = 1.0
+
+[node name="lever" type="MeshInstance3D" parent="LightSwitch" unique_id=556633319]
+transform = Transform3D(0.9999999, 4.3711374e-08, 1.9106848e-15, 0, -4.3711385e-08, 0.9999999, 4.3711374e-08, -0.9999999, -4.3711385e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_n021q")
+
+[node name="Node3D" type="Node3D" parent="LightSwitch/lever" unique_id=280089667]
+
+[node name="Button" type="MeshInstance3D" parent="LightSwitch/lever/Node3D" unique_id=1470015368]
+transform = Transform3D(1, -4.3711395e-08, 1.9106857e-15, 0, -4.371139e-08, -1, 4.3711395e-08, 1, -4.371139e-08, 0, 0, 0.11737156)
+material_override = SubResource("StandardMaterial3D_nvu5e")
+mesh = SubResource("CylinderMesh_864kv")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightSwitch/lever/Node3D/Button" unique_id=436042258]
+transform = Transform3D(1, 0, -3.5527137e-15, -2.1175824e-21, 1, 1.6469293e-22, -3.5527137e-15, -1.9528894e-21, 1, 0, 0.10256919, 0)
+mesh = SubResource("CylinderMesh_c0p3b")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="LightSwitch/lever/Node3D/Button/MeshInstance3D" unique_id=52393867]
+light_color = Color(0, 1, 1, 1)
+light_energy = 0.5
+omni_range = 0.1
