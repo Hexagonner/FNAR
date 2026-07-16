@@ -14,7 +14,7 @@
 [ext_resource type="Script" uid="uid://dyn2gynyj15wh" path="res://Scene/wirepin.gd" id="11_fojde"]
 [ext_resource type="AudioStream" uid="uid://bwo23v3d3ynxl" path="res://Sounds/pantoman-flashlight-click-2-487811.mp3" id="11_t57l7"]
 [ext_resource type="AudioStream" uid="uid://bpfm04g6bls6j" path="res://Sounds/Electric_shock_1.wav" id="12_xowto"]
-[ext_resource type="Script" uid="uid://c1qmtcl67xpnu" path="res://Scripts/LIGHT_button.gd" id="15_ovwaw"]
+[ext_resource type="Script" uid="uid://dqtp6o5qya5fc" path="res://Scene/light_switch.gd" id="15_wpodp"]
 [ext_resource type="Texture2D" uid="uid://jrq06upk0kod" path="res://Texture/white_plaster_02_diff_1k.jpg" id="16_opt7b"]
 [ext_resource type="AudioStream" uid="uid://bw68cc8nr272g" path="res://Sounds/freesound_community-clank1-91862.mp3" id="16_ynagl"]
 [ext_resource type="Texture2D" uid="uid://b8fdn1g1mpfm6" path="res://Texture/wood_floor_diff_1k.jpg" id="18_wpodp"]
@@ -632,7 +632,7 @@ material = SubResource("StandardMaterial3D_2eyaj")
 size = Vector3(0.01, 0.45, 0.13)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_21sxk"]
-size = Vector3(0.1, 0.4, 0.15)
+size = Vector3(0.1, 0.55, 0.2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mw4un"]
 albedo_color = Color(3.465414e-06, 0.7296295, 0.91746455, 1)
@@ -664,6 +664,102 @@ emission_energy_multiplier = 1.5
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_c0p3b"]
 material = SubResource("StandardMaterial3D_n2ojg")
+top_radius = 0.035
+bottom_radius = 0.035
+height = 0.07
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7v1k0"]
+albedo_color = Color(1, 1, 0, 1)
+albedo_texture = SubResource("CompressedTexture2D_ynagl")
+uv1_scale = Vector3(1, 1.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ggho2"]
+material = SubResource("StandardMaterial3D_7v1k0")
+size = Vector3(0.01, 0.55, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_60epe"]
+albedo_color = Color(1, 1, 0, 1)
+albedo_texture = ExtResource("5_pm4ub")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_60lq7"]
+material = SubResource("StandardMaterial3D_60epe")
+top_radius = 0.03
+bottom_radius = 0.03
+height = 0.08
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j81c2"]
+albedo_color = Color(1, 1, 0, 1)
+emission_enabled = true
+emission = Color(0.6745098, 0.4745098, 0, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_kdv38"]
+material = SubResource("StandardMaterial3D_j81c2")
+top_radius = 0.035
+bottom_radius = 0.035
+height = 0.07
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6l7mg"]
+albedo_color = Color(1, 0, 1, 1)
+albedo_texture = SubResource("CompressedTexture2D_ynagl")
+uv1_scale = Vector3(1, 1.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_o0rd3"]
+material = SubResource("StandardMaterial3D_6l7mg")
+size = Vector3(0.01, 0.55, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y3vm6"]
+albedo_color = Color(1, 0, 1, 1)
+albedo_texture = ExtResource("5_pm4ub")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pwtuo"]
+material = SubResource("StandardMaterial3D_y3vm6")
+top_radius = 0.03
+bottom_radius = 0.03
+height = 0.08
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_blaut"]
+albedo_color = Color(1, 0, 1, 1)
+emission_enabled = true
+emission = Color(1, 0, 1, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_v0c4e"]
+material = SubResource("StandardMaterial3D_blaut")
+top_radius = 0.035
+bottom_radius = 0.035
+height = 0.07
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n0apt"]
+albedo_color = Color(0.7254902, 0.93333334, 0.5176471, 1)
+albedo_texture = SubResource("CompressedTexture2D_ynagl")
+uv1_scale = Vector3(1, 1.5, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wst7e"]
+material = SubResource("StandardMaterial3D_n0apt")
+size = Vector3(0.01, 0.55, 0.2)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_30tiv"]
+load_path = "res://.godot/imported/DirtyMetalWeave02_1K_Roughness.png-3a65c56454670089d2a90e61dd73715c.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_564f6"]
+albedo_color = Color(0.7254902, 0.93333334, 0.5176471, 1)
+albedo_texture = SubResource("CompressedTexture2D_30tiv")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_t4i52"]
+material = SubResource("StandardMaterial3D_564f6")
+top_radius = 0.03
+bottom_radius = 0.03
+height = 0.08
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xc6l1"]
+albedo_color = Color(0.7254902, 0.93333334, 0.5176471, 1)
+emission_enabled = true
+emission = Color(0.7254902, 0.93333334, 0.5176471, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_jfqon"]
+material = SubResource("StandardMaterial3D_xc6l1")
 top_radius = 0.035
 bottom_radius = 0.035
 height = 0.07
@@ -986,7 +1082,7 @@ libraries/ = SubResource("AnimationLibrary_n33j7")
 
 [node name="LightSwitch" type="Area3D" parent="." unique_id=2083847369]
 transform = Transform3D(-4.371138e-08, 0, 0.99999976, 0, 0.99999976, 0, -0.99999976, 0, -4.371138e-08, 0.48865193, -0.6167848, 0)
-script = ExtResource("15_ovwaw")
+script = ExtResource("15_wpodp")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="LightSwitch" unique_id=454650059]
 libraries/ = SubResource("AnimationLibrary_p0bfy")
@@ -1002,6 +1098,7 @@ mesh = SubResource("BoxMesh_jnk0x")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LightSwitch" unique_id=1910435115]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0206827, 0, 0)
 shape = SubResource("BoxShape3D_21sxk")
+debug_color = Color(0.96262544, 0, 0.5006017, 1)
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="LightSwitch" unique_id=439631736]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16403, 0, 0)
@@ -1026,5 +1123,143 @@ mesh = SubResource("CylinderMesh_c0p3b")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="LightSwitch/lever/Node3D/Button/MeshInstance3D" unique_id=52393867]
 light_color = Color(0, 1, 1, 1)
+light_energy = 0.5
+omni_range = 0.1
+
+[node name="LightSwitch2" type="Area3D" parent="." unique_id=1544791283]
+transform = Transform3D(-4.371138e-08, 0, 0.99999976, 0, 0.99999976, 0, -0.99999976, 0, -4.371138e-08, 0.18765844, -0.6167848, 0)
+script = ExtResource("15_wpodp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="LightSwitch2" unique_id=1951241034]
+libraries/ = SubResource("AnimationLibrary_p0bfy")
+
+[node name="Layer" type="MeshInstance3D" parent="LightSwitch2" unique_id=963370057]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0201941, 0, 0)
+mesh = SubResource("BoxMesh_ggho2")
+
+[node name="Layer" type="MeshInstance3D" parent="LightSwitch2/Layer" unique_id=1313710339]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0.0041222144, 0, 0)
+mesh = SubResource("BoxMesh_jnk0x")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LightSwitch2" unique_id=1676663421]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0206827, 0, 0)
+shape = SubResource("BoxShape3D_21sxk")
+debug_color = Color(0.96262544, 0, 0.5006017, 1)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="LightSwitch2" unique_id=282295752]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16403, 0, 0)
+volume_db = -10.0
+max_db = 1.0
+
+[node name="lever" type="MeshInstance3D" parent="LightSwitch2" unique_id=2044750673]
+transform = Transform3D(0.9999999, 4.3711374e-08, 1.9106848e-15, 0, -4.3711385e-08, 0.9999999, 4.3711374e-08, -0.9999999, -4.3711385e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_60lq7")
+
+[node name="Node3D" type="Node3D" parent="LightSwitch2/lever" unique_id=449030256]
+
+[node name="Button" type="MeshInstance3D" parent="LightSwitch2/lever/Node3D" unique_id=1105373207]
+transform = Transform3D(1, -4.3711395e-08, 1.9106857e-15, 0, -4.371139e-08, -1, 4.3711395e-08, 1, -4.371139e-08, 0, 0, 0.11737156)
+material_override = SubResource("StandardMaterial3D_nvu5e")
+mesh = SubResource("CylinderMesh_864kv")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightSwitch2/lever/Node3D/Button" unique_id=508468007]
+transform = Transform3D(1, 0, -3.5527137e-15, -2.1175824e-21, 1, 1.6469293e-22, -3.5527137e-15, -1.9528894e-21, 1, 0, 0.10256919, 0)
+mesh = SubResource("CylinderMesh_kdv38")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="LightSwitch2/lever/Node3D/Button/MeshInstance3D" unique_id=205322901]
+light_color = Color(1, 1, 0, 1)
+light_energy = 0.5
+omni_range = 0.1
+
+[node name="LightSwitch3" type="Area3D" parent="." unique_id=1362437274]
+transform = Transform3D(-4.371138e-08, 0, 0.99999976, 0, 0.99999976, 0, -0.99999976, 0, -4.371138e-08, -0.15145127, -0.6167848, 0)
+script = ExtResource("15_wpodp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="LightSwitch3" unique_id=1057495359]
+libraries/ = SubResource("AnimationLibrary_p0bfy")
+
+[node name="Layer" type="MeshInstance3D" parent="LightSwitch3" unique_id=1794509276]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0201941, 0, 0)
+mesh = SubResource("BoxMesh_o0rd3")
+
+[node name="Layer" type="MeshInstance3D" parent="LightSwitch3/Layer" unique_id=1134279818]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0.0041222144, 0, 0)
+mesh = SubResource("BoxMesh_jnk0x")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LightSwitch3" unique_id=2138178238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0206827, 0, 0)
+shape = SubResource("BoxShape3D_21sxk")
+debug_color = Color(0.96262544, 0, 0.5006017, 1)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="LightSwitch3" unique_id=1177623367]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16403, 0, 0)
+volume_db = -10.0
+max_db = 1.0
+
+[node name="lever" type="MeshInstance3D" parent="LightSwitch3" unique_id=1570845949]
+transform = Transform3D(0.9999999, 4.3711374e-08, 1.9106848e-15, 0, -4.3711385e-08, 0.9999999, 4.3711374e-08, -0.9999999, -4.3711385e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_pwtuo")
+
+[node name="Node3D" type="Node3D" parent="LightSwitch3/lever" unique_id=1298199288]
+
+[node name="Button" type="MeshInstance3D" parent="LightSwitch3/lever/Node3D" unique_id=154960268]
+transform = Transform3D(1, -4.3711395e-08, 1.9106857e-15, 0, -4.371139e-08, -1, 4.3711395e-08, 1, -4.371139e-08, 0, 0, 0.11737156)
+material_override = SubResource("StandardMaterial3D_nvu5e")
+mesh = SubResource("CylinderMesh_864kv")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightSwitch3/lever/Node3D/Button" unique_id=376039349]
+transform = Transform3D(1, 0, -3.5527137e-15, -2.1175824e-21, 1, 1.6469293e-22, -3.5527137e-15, -1.9528894e-21, 1, 0, 0.10256919, 0)
+mesh = SubResource("CylinderMesh_v0c4e")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="LightSwitch3/lever/Node3D/Button/MeshInstance3D" unique_id=1884436626]
+light_color = Color(1, 0, 1, 1)
+light_energy = 0.5
+omni_range = 0.1
+
+[node name="LightSwitch4" type="Area3D" parent="." unique_id=981588064]
+transform = Transform3D(-4.371138e-08, 0, 0.99999976, 0, 0.99999976, 0, -0.99999976, 0, -4.371138e-08, -0.4807111, -0.6167848, 0)
+script = ExtResource("15_wpodp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="LightSwitch4" unique_id=180213549]
+libraries/ = SubResource("AnimationLibrary_p0bfy")
+
+[node name="Layer" type="MeshInstance3D" parent="LightSwitch4" unique_id=1901681231]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0201941, 0, 0)
+mesh = SubResource("BoxMesh_wst7e")
+
+[node name="Layer" type="MeshInstance3D" parent="LightSwitch4/Layer" unique_id=1598174535]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0.0041222144, 0, 0)
+mesh = SubResource("BoxMesh_jnk0x")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LightSwitch4" unique_id=1556715019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0206827, 0, 0)
+shape = SubResource("BoxShape3D_21sxk")
+debug_color = Color(0.96262544, 0, 0.5006017, 1)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="LightSwitch4" unique_id=1779000560]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16403, 0, 0)
+volume_db = -10.0
+max_db = 1.0
+
+[node name="lever" type="MeshInstance3D" parent="LightSwitch4" unique_id=501055082]
+transform = Transform3D(0.9999999, 4.3711374e-08, 1.9106848e-15, 0, -4.3711385e-08, 0.9999999, 4.3711374e-08, -0.9999999, -4.3711385e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_t4i52")
+
+[node name="Node3D" type="Node3D" parent="LightSwitch4/lever" unique_id=132027735]
+
+[node name="Button" type="MeshInstance3D" parent="LightSwitch4/lever/Node3D" unique_id=220401208]
+transform = Transform3D(1, -4.3711395e-08, 1.9106857e-15, 0, -4.371139e-08, -1, 4.3711395e-08, 1, -4.371139e-08, 0, 0, 0.11737156)
+material_override = SubResource("StandardMaterial3D_nvu5e")
+mesh = SubResource("CylinderMesh_864kv")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LightSwitch4/lever/Node3D/Button" unique_id=594377381]
+transform = Transform3D(1, 0, -3.5527137e-15, -2.1175824e-21, 1, 1.6469293e-22, -3.5527137e-15, -1.9528894e-21, 1, 0, 0.10256919, 0)
+mesh = SubResource("CylinderMesh_jfqon")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="LightSwitch4/lever/Node3D/Button/MeshInstance3D" unique_id=1608351856]
+light_color = Color(0.7254902, 0.93333334, 0.5176471, 1)
 light_energy = 0.5
 omni_range = 0.1

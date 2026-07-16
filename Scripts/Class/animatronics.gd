@@ -496,7 +496,17 @@ func look_at_node(target=null):
 	if target != null:
 		look_node.target_node = target.get_path()
 
-
+##특정 위치의 불을 강제로 끈다. 
+##		0 : ["cam1", "cam2", "cam5"],
+## 		1 : ["cam3", "cam4"],
+## 		2 : ["cam6", "cam7", "cam8"],
+## 		3 : ["cam0", "cam9", "cam-"],
+func disconnect_light(light_index:int):
+	if cam_manager == null:
+		push_warning("[%s] cam_manager가 설정되지 않았습니다." % name)
+		return
+	if cam_manager.has_method("disconnect_light"):
+		cam_manager.disconnect_light(light_index)
 
 ## 특정 와이어(0~3)의 연결을 강제로 끊는다.
 ##		0 wire1: ["cam1", "cam2", "cam5"],

@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://bf25ug6haip0k"]
 
 [ext_resource type="Script" uid="uid://bfm1bhjwgn1td" path="res://Scripts/camera_manager.gd" id="1_stw4l"]
+[ext_resource type="Material" uid="uid://dek7luymutjp7" path="res://Material/Light.material" id="2_be216"]
 [ext_resource type="Script" uid="uid://ceqh2k2mtlabh" path="res://Scripts/Cam_button.gd" id="2_f7e7f"]
 [ext_resource type="Theme" uid="uid://ct0ddfgrgrjrt" path="res://Theme/Cam_button.tres" id="2_rydae"]
+[ext_resource type="Material" uid="uid://bqsriasdsng8c" path="res://Material/Off_light.material" id="3_be216"]
 [ext_resource type="Shader" uid="uid://bbweac1x7dtes" path="res://Shader/CameraManager.gdshader" id="4_vegls"]
 [ext_resource type="FontFile" uid="uid://jgelr8unukd" path="res://Font/Galmuri11-Bold.ttf" id="5_5o2wp"]
 [ext_resource type="Texture2D" uid="uid://bs1tjcmvu7h7u" path="res://Sprites/cam_ui/map_1.png" id="5_kfcjr"]
@@ -696,6 +698,8 @@ blink_ani = NodePath("CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamB
 white_noise = NodePath("CanvasLayer/CamUi/White_noise")
 white_bg = NodePath("CanvasLayer/CamUi/White_background")
 selected_button = NodePath("CanvasLayer/CamUi/Map/HBoxContainer/VBoxContainer/Map/CamButton/CAM0")
+light_on_mesh = ExtResource("2_be216")
+light_off_mesh = ExtResource("3_be216")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1470164439]
 layer = 2

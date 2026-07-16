@@ -22,7 +22,15 @@ var hilight = preload("res://Theme/Cam_hilight_box.stylebox")
 @export var wire2: Node
 @export var wire3: Node
 @export var wire4: Node
-
+@export_category("switch Bridge")
+@export var switch1: Node
+@export var switch2: Node
+@export var switch3: Node
+@export var switch4: Node
+@export var light_on_mesh:Material
+@export var light_off_mesh:Material
+var _light_on_material:Material
+var _light_off_material:Material
 var map_name:Dictionary = {
 	"cam1": "왼쪽 복도 구석",
 	"cam2": "왼쪽 복도",
@@ -46,6 +54,8 @@ var selected_light: Node3D
 # ---- Wire-Camera Bridge ----
 # wire 노드 → 해당 wire가 담당하는 cam 버튼 이름들 (lowercase)
 var _wire_cam_map: Dictionary = {}
+# switch 노드 → 해당 switch가 담당하는 cam light 이름들 (lowercase)
+var _light_switch_map:Dictionary ={}
 # cam 버튼 이름 (lowercase) → Button 레퍼런스
 var _cam_button_dict: Dictionary = {}
 
@@ -58,6 +68,8 @@ var _pin_to_wire_cache: Dictionary = {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	_light_on_material = light_on_mesh.duplicate()
+	_light_off_material = light_off_mesh.duplicate()
 	white_bg.visible =false
 	Warning_msg.visible = false
 	Cam_ui.visible = false
@@ -89,7 +101,7 @@ func _ready() -> void:
 
 	# ---- Wire-Camera Bridge 초기화 ----
 	_setup_wire_cam_bridge()
-
+	_setup_light_switch()
 
 func set_current_cam(cam) -> void:
 	if cam.is_disconnected:
@@ -112,6 +124,7 @@ func set_current_cam(cam) -> void:
 	selected_light = all_lights[cam.name.to_lower()]
 	selected_button = cam
 	selected_cam.visible = true
+
 	selected_light.visible = true
 	selected_cam.current = true
 
@@ -216,6 +229,45 @@ func _setup_wire_cam_bridge() -> void:
 	
 	# 초기 상태 동기화: 모든 wire의 cam 위치를 연결 상태에 따라 재할당
 	_reassign_all_cam_positions()
+func _setup_light_switch():
+	_light_switch_map = {
+		switch1: ["cam1", "cam2", "cam5"],
+		switch2: ["cam3", "cam4"],
+		switch3: ["cam6", "cam7", "cam8"],
+		switch4: ["cam0", "cam9", "cam-"],
+	}
+	#TODO change me later
+	for switch: Node in _light_switch_map.keys():
+		if switch == null:
+			push_warning("[CameraManager] switch가 null입니다. Night_game.tscn에서 export 변수를 연결했는지 확인하세요.")
+			continue
+		if not switch.has_signal("Light_button_press"):
+			push_warning("[CameraManager] %s에 Light_button_press 시그널이 없습니다." % switch.name)
+			continue
+		switch.Light_button_press.connect(_on_light_switch_pressed.bind(switch))
+func _on_light_switch_pressed(isLight:bool,switch)-> void:
+	var own_lights: Array = _light_switch_map.get(switch, [])
+	for light in own_lights:
+		#var parent_node = all_lights[light]
+		var found_light = all_lights[light].find_children("*","OmniLight3D",true)
+		for omni_light in found_light:
+			if !omni_light.name == "ambient_light":
+				omni_light.visible = isLight
+		found_light =  all_lights[light].find_children("*","SpotLight3D",true)
+		for spot_light in found_light:
+			spot_light.visible = isLight
+		if light in ["cam1","cam2","cam3","cam4","cam7","cam9"]:
+			var found_mesh: Array = all_lights[light].find_children("*","MeshInstance3D",true)
+			print("[CameraManager] light=%s, 찾은 MeshInstance3D: %d개, isLight=%s" % [light, found_mesh.size(), isLight])
+			for mesh: MeshInstance3D in found_mesh:
+				if isLight:
+					mesh.material_override = _light_on_material
+				else:
+					mesh.material_override = _light_off_material
+				
+	#pass
+		
+	#selected_light = all_lights[cam.name.to_lower()]
 
 func _build_pin_to_wire_cache() -> void:
 	_pin_to_wire_cache.clear()
@@ -465,3 +517,7 @@ func get_nearest_tracking_camera(world_position: Vector3) -> Camera3D:
 			nearest_camera = camera
 	#print(name, " pos ", self_pos)
 	return nearest_camera
+
+func disconnect_light(index:int):
+	pass
+	#TODO for animatronics

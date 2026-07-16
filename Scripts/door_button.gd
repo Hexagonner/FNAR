@@ -28,4 +28,4 @@ func open_door() -> void:
 	$OmniLight3D.visible =false
 	if pressed:
 				Button_ani.play("Unpressed")
-				Door_button_press.emit()
+				Door_button_press.emit(0)
